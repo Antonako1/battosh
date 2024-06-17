@@ -212,8 +212,11 @@ std::vector<Token>* lexical(battosh_info *args) {
                         for (size_t i = index; i < line.size(); i++) {
                             rem += std::toupper(line[i]);
                             if (rem == "@REM") {
-                                buffer = "@REM";
-                                add_token(tokens, buffer, line_num, column_num, REM);
+                                // We know it is @rem, so we can skip @.
+                                // it will turn it after this to rem comment
+                                // buffer = "@REM";
+                                // add_token(tokens, buffer, line_num, column_num, REM);
+                                buffer.clear();
                                 skip = true;
                                 break;
                             }

@@ -26,13 +26,13 @@ int main(int argc, char *argv[]) {
             message(err_msg, FL_FLAG_BATTOSH, VERSION_, true, -1, -1);
         } else if (std::string(argv[i]) == "--wsl") {
             if (info->_linux_battosh) {
-                std::string error = "WSL and _linux_battosh flags cannot be used together";
+                std::string error = "WSL and LINUX flags cannot be used together";
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -4, -4);
             }
             info->wsl = true;
         } else if (std::string(argv[i]) == "--linux") {
             if (info->wsl) {
-                std::string error = "WSL and _linux_battosh flags cannot be used together";
+                std::string error = "WSL and LINUX flags cannot be used together";
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -4, -4);
             }
             info->_linux_battosh = true;
@@ -47,7 +47,10 @@ int main(int argc, char *argv[]) {
             }
         } else if (std::string(argv[i]) == "--save-whitespace" || std::string(argv[i]) == "-sw"){
             info->savewhitespace = true;
-        } else {
+        } else if (std::string(argv[i]) == "--save-comments" || std::string(argv[i]) == "-sc"){
+            info->savecomments = true;
+        } 
+        else {
             if (i == 1) {
                 continue;
             }

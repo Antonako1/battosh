@@ -103,4 +103,28 @@ enum batch_commands{
 
     COMMENT,        // #
     ECHOOFF,        // @echo off/on
+
+    NULL__TOKEN
 };
+
+struct ECHO_FLAG{
+    std::string ECHO_COMMAND = "ECHO";
+    std::string ECHO_EXPECT_VALUE = "?ANY";
+    
+    std::string ECHO_GET_HELP = "/?";
+    std::string ECHO_GET_HELP_EXPECT_VALUE = "NONE";
+};
+
+struct EXIT_FLAG{
+    std::string EXIT_COMMAND = "ECHO";
+    std::string EXIT_EXPECT_VALUE = "?INT";
+
+    std::string EXIT_CURRENT_BATCH = "/B";
+    std::string EXIT_CURRENT_BATCH_EXPECT_VALUE = "INT";      
+    
+    std::string EXIT_GET_HELP = "/?";
+    std::string EXIT_GET_HELP_EXPECT_VALUE = "NONE";
+};
+
+
+

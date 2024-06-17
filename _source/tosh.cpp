@@ -12,12 +12,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     for(auto &parsed_token : *tokens){
         std::cout << "---Command: " << parsed_token.command << " Value: '" << parsed_token.value << "' Line: " << parsed_token.line << " Column: " << parsed_token.column << std::endl;
     }
-    // Save output to file
-    std::ofstream file(*args->OUTPUT_FILE);
-    if (!file.is_open()) {
-        std::cerr << "ERROR OPENING FILE: " << *args->OUTPUT_FILE << std::endl;
-        exit(1);
-    }
     output += "#!/bin/bash\n";
     for(const auto &parsed_token : *tokens){
         switch(parsed_token.command){
@@ -26,7 +20,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 for(const auto &value : parsed_token.values){
                     output += value + " ";
                 }
-                // output += "\n";
                 break;
             }
             case REM: {
@@ -34,7 +27,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 for(const auto &value : parsed_token.values){
                     output += value + " ";
                 }
-                // output += "\n";
                 break;
             }
             case ENDLINE: {
@@ -44,6 +36,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         }
     }
 
+
+    std::ofstream file(*args->OUTPUT_FILE);
+    if (!file.is_open()) {
+        std::cerr << "ERROR OPENING FILE: " << *args->OUTPUT_FILE << std::endl;
+        exit(1);
+    }
     file << output;
     file.close();
 }

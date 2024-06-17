@@ -26,17 +26,31 @@ Usage:
                 --wsl               Turn paths to comply with WSL, C:\temp -> /mnt/c/temp. Can not be used with --linux
                 --linux             Program tries its best to turn paths from windows to linux, C:\Users\%USERNAME%\Documents -> ~/Documents. Can not be used with --wsl
         -sw,    --save-whitespace   Program saves the original whitespace and line ends 
+        -sc,    --save-comments     Program saves the comments
 
     Example:
         battosh file.bat                -> outputs file.sh
         battosh file.bat -o test.sh     -> outputs test.sh
         battosh file.bat -sw --wsl      -> changes paths to work on wsl, saves whitespaces
 
-Can turn the following commands/statements into bash
+
+battosh can turn the following commands/statements into bash
 ECHO        ->          echo
 @REM        ->          #
 REM         ->          #
 ::          ->          #
+
+
+Known issues:
+--save-whitespace does not work properly
+
+Features to be added:
+
+
+
+%%%%%%%%%%%%%%%%%%%
+    Developing
+%%%%%%%%%%%%%%%%%%%
 
 Build and run yourself
     Windows, Visual Studio:

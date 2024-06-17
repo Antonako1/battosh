@@ -1,6 +1,6 @@
 #!/bin/bash
-#REM abc 
-#abc 
-#This is a comment 
+
 echo hello 
-echo AGA 
+
+echo AGAIN 
+echo hi 

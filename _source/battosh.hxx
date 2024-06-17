@@ -32,7 +32,9 @@ struct battosh_info {
     bool wsl;
     bool _linux_battosh;
     bool savewhitespace;
+    bool savecomments;
 };
+
 std::vector<Token>* lexical(battosh_info *args);
 
 struct ParsedToken{
