@@ -6,4 +6,5 @@ cd ..\build
 copy ..\test\test.bat .\win\test.bat
 .\win\%PROJECTNAME%.exe %*
 echo %ERRORLEVEL%
+copy .\win\*.sh ..\test
 cd ..

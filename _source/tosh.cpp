@@ -15,6 +15,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         std::cerr << "ERROR OPENING FILE: " << *args->OUTPUT_FILE << std::endl;
         exit(1);
     }
+    output += "#!/bin/bash\n";
     for(const auto &parsed_token : *tokens){
         switch(parsed_token.command){
             case ECHO: {
