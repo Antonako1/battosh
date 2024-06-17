@@ -6,10 +6,11 @@ unicode True
 !define WM_SETTINGCHANGE 0x001A
 
 !define VERSION "0.0.1"
+!define PROJECTNAME "battosh"
 
-Outfile "battosh-win-installer-v${VERSION}.exe"
-BrandingText /TRIMCENTER "Battosh Setup V${VERSION}"
-Name "Battosh Setup V${VERSION}"
+Outfile "${PROJECTNAME}-win-installer-v${VERSION}.exe"
+BrandingText /TRIMCENTER "${PROJECTNAME} Setup V${VERSION}"
+Name "${PROJECTNAME} Setup V${PROJECTNAME}"
 RequestExecutionLevel admin
 
 ManifestSupportedOS Win10
@@ -32,7 +33,7 @@ PageExEnd
 
 Function .onVerifyInstDir
     Var /GLOBAL ext
-    StrCpy $ext "battosh"
+    StrCpy $ext "${PROJECTNAME}"
     StrCpy $INSTALL_DIR "$INSTALL_DIR$ext"
     ; Checks if folder already exists
     Call CheckFolder
@@ -60,7 +61,7 @@ PageExEnd
 ; Set the default installation directory
 Function .onInit
     InitPluginsDir
-    StrCpy $INSTALL_DIR $PROGRAMFILES64\battosh
+    StrCpy $INSTALL_DIR $PROGRAMFILES64\${PROJECTNAME}
 FunctionEnd
 
 ############################## START ##############################
@@ -78,7 +79,7 @@ SetOutPath $INSTALL_DIR
 CreateDirectory $INSTALL_DIR
 
 ; Files to install
-File "battosh.exe"
+File "${PROJECTNAME}.exe"
 File "LICENSE"
 File "README.txt"
 
@@ -147,7 +148,7 @@ nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$INSTDIR\uninst
 ########################### DELETE FILES ###########################
 ; Remove installed files during uninstallation
 
-Delete "$INSTDIR\battosh.exe"
+Delete "$INSTDIR\${PROJECTNAME}.exe"
 Delete "$INSTDIR\license"
 Delete "$INSTDIR\README.txt"
 Delete "$INSTDIR\setup.ps1"

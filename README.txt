@@ -74,3 +74,6 @@ Build and run yourself
 
     clear build:
     .\<win|linux>\<batch|shell>\del.<bat|sh>
+
+Releasing:
+    In .\release_building, run win.bat and then linux.sh

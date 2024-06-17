@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=battosh
+Exec=battosh
+Icon=battosh-icon
+Type=Application
+Categories=Tool
+Terminal=true

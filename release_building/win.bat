@@ -3,6 +3,8 @@ setlocal
 cd /d %~dp0
 call ..\win\batch\globals.bat
 cd /d %~dp0
+
+REM STANDALONE BUILDING
 RMDIR /S /Q .\output
 set BUILD_DIR=.\output\win
 mkdir %BUILD_DIR%
@@ -12,6 +14,7 @@ cd /d %~dp0
 COPY /Y/B ..\build\win\%PROJECTNAME%.exe %BUILD_DIR%
 "C:\Program Files\7-Zip\7z.exe" a -tzip %BUILD_DIR%\%PROJECTNAME%-win-standalone.zip %BUILD_DIR%\%PROJECTNAME%.exe
 
+REM INSTALLER BUILDING
 if not exist %BUILD_DIR%\nsis mkdir %BUILD_DIR%\nsis
 COPY .\installer.nsi %BUILD_DIR%\nsis
 COPY ..\LICENSE %BUILD_DIR%\nsis
