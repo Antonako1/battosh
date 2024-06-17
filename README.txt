@@ -32,6 +32,12 @@ Usage:
         battosh file.bat -o test.sh     -> outputs test.sh
         battosh file.bat -sw --wsl      -> changes paths to work on wsl, saves whitespaces
 
+Can turn the following commands/statements into bash
+ECHO        ->          echo
+@REM        ->          #
+REM         ->          #
+::          ->          #
+
 Build and run yourself
     Windows, Visual Studio:
     C++ CMake tools for windows

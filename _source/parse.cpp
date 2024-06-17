@@ -14,16 +14,12 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
         switch (token.command) {
 
             case ECHO: {
-                std::cout << "Echo command" << std::endl;
                 ParsedToken parsed_token;
                 parsed_token.command = ECHO;
                 parsed_token.value = token.value;
                 parsed_token.line = token.line;
                 parsed_token.column = token.column;
-                std::cout << "Command: " << parsed_token.command << " Value: '" << parsed_token.value <<
-                 "' Line: " << parsed_token.line << " Column: " << parsed_token.column << std::endl;
                 i++; // Move to the next token after ECHO command
-                std::cout << i << " " << tokens->size() << "\n";
                 bool endline = false;
                 while (i < tokens->size()) {
                     Token next_token = tokens->at(i);
@@ -50,6 +46,49 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
                 }
                 break;
             }
+
+            case REM: {
+                ParsedToken parsed_token;
+                parsed_token.command = REM;
+                parsed_token.value = token.value;
+                parsed_token.line = token.line;
+                parsed_token.column = token.column;
+                i++; // Move to the next token after REM command
+                bool endline = false;
+                while (i < tokens->size()) {
+                    Token next_token = tokens->at(i);
+                    if (next_token.command == ENDLINE) {
+                        endline = true;
+                        std::cout << "Saved rem command" << std::endl;
+                        parsed_tokens->push_back(parsed_token);
+                        if (args->savewhitespace) {
+                            ParsedToken whitespace_token;
+                            whitespace_token.command = ENDLINE;
+                            whitespace_token.value = next_token.value;
+                            whitespace_token.line = next_token.line;
+                            whitespace_token.column = next_token.column;
+                            parsed_tokens->push_back(whitespace_token);
+                        }
+                        break;
+                    } else {
+                        parsed_token.values.push_back(next_token.value);
+                    }
+                    i++; // Move to the next token
+                }
+                if(!endline){
+                    parsed_tokens->push_back(parsed_token);
+                }
+                break;
+            }
+            case ENDLINE:
+                {
+                // ParsedToken parsed_token;
+                // parsed_token.command = ENDLINE;
+                // parsed_token.value = token.value;
+                // parsed_token.line = token.line;
+                // parsed_token.column = token.column;
+                // parsed_tokens->push_back(parsed_token);
+                }
             default:
                 // Handle other commands or tokens here if needed
                 i++; // Move to the next token

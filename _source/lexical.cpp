@@ -18,6 +18,7 @@ std::string commands[] = {
 "DIR",      std::to_string(DIR),
 "DATE",     std::to_string(DATE),
 "ECHO",     std::to_string(ECHO),
+"@ECHO",    std::to_string(ECHOOFF),
 "EXIT",     std::to_string(EXIT),
 "MD",       std::to_string(MD),
 "MKDIR",    std::to_string(MKDIR),
@@ -29,6 +30,8 @@ std::string commands[] = {
 "RMDIR",    std::to_string(RMDIR),
 "REN",      std::to_string(REN),
 "REM",      std::to_string(REM),
+"@REM",     std::to_string(REM),
+"::",       std::to_string(REM),
 "START",    std::to_string(START),
 "TIME",     std::to_string(TIME),
 "TYPE",     std::to_string(TYPE),
@@ -123,7 +126,6 @@ void add_token(std::vector<Token> *tokens, std::string &buffer, int line, int co
         std::transform(newstr.begin(), newstr.end(), newstr.begin(), ::toupper);
         _token.command = get_command(newstr);
         if (_token.command == -1) {
-            // std::cout << "\n|Invalid command: " << buffer << std::endl;
             _token.command = UNKNOWN;
         }
     } else {
@@ -153,6 +155,8 @@ std::vector<Token>* lexical(battosh_info *args) {
     int line_num = 1;
     int column_num = 1;
 
+    bool skip = false;
+
     while (std::getline(file, line)) {
         size_t index = 0;
         std::string buffer;
@@ -165,9 +169,12 @@ std::vector<Token>* lexical(battosh_info *args) {
                     // If buffer is not empty, create a token for it
                     if (!buffer.empty()) {
                         add_token(tokens, buffer, line_num, column_num, -1);
-                    } else {
-                        add_token(tokens, buffer, line_num, column_num, ENDLINE);
                     }
+
+                    // Create a token for the end of line 
+                    // consume(index, line, buffer);
+                    add_token(tokens, buffer, line_num, column_num, ENDLINE);
+
                     break;
                 case ' ':
                 case '\t':
@@ -175,13 +182,51 @@ std::vector<Token>* lexical(battosh_info *args) {
                     if (!buffer.empty()) {
                         add_token(tokens, buffer, line_num, column_num, -1);
                     }
-                    buffer.clear(); // Clear buffer after tokenizing
                     break;
                 case '%':
                     // Variable
+                    // loop to next whitespace, % or end of line
                     break;
                 case '"':
                     // String
+                    break;
+                case ':':
+                    //chck comment
+                    index++;
+                    if(look_ahead(index, line) == ":"){
+                        if (!buffer.empty()) {
+                            add_token(tokens, buffer, line_num, column_num, -1);
+                        }
+                        buffer = "::";
+                        add_token(tokens, buffer, line_num, column_num, REM);
+                        skip = true;
+                        break;
+                    }
+                    index--;
+                    break;
+                case '@':
+                    consume(index, line, buffer);
+                    index--;
+                    {
+                        std::string rem = "";
+                        for (size_t i = index; i < line.size(); i++) {
+                            rem += std::toupper(line[i]);
+                            if (rem == "@REM") {
+                                buffer = "@REM";
+                                add_token(tokens, buffer, line_num, column_num, REM);
+                                skip = true;
+                                break;
+                            }
+                        }
+                        std::string echo = "";
+                        for (size_t i = index; i < line.size(); i++) {
+                            echo += std::toupper(line[i]);
+                            if (echo == "@ECHO") {
+                                skip = true;
+                                break;
+                            }
+                        }
+                    }
                     break;
                 case '/':
                     // Argument to the previous command
@@ -190,7 +235,13 @@ std::vector<Token>* lexical(battosh_info *args) {
                     // Consume and process characters into buffer
                     consume(index, line, buffer);
                     continue; // Continue to next character in the line
+
             }
+            // if(skip){
+            //     skip = false;
+            //     break;
+            // }
+
             index++; // Move to the next character in the line
             column_num++; // Increment column number
         }

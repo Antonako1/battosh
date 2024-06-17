@@ -100,4 +100,7 @@ enum batch_commands{
 
 
     ENDLINE,        
+
+    COMMENT,        // #
+    ECHOOFF,        // @echo off/on
 };
