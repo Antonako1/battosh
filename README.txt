@@ -28,19 +28,20 @@ Usage:
         -sw,    --save-whitespace   Program saves the original whitespace and line ends 
 
     Example:
-        battosh file.bat -o test.sh
+        battosh file.bat                -> outputs file.sh
+        battosh file.bat -o test.sh     -> outputs test.sh
+        battosh file.bat -sw --wsl      -> changes paths to work on wsl, saves whitespaces
 
-Build and run
-
-    windows, visual studio:
+Build and run yourself
+    Windows, Visual Studio:
     C++ CMake tools for windows
     C++ v14.xx build tools for (processor)
     MSVC build tools
 
-    linux:
-    cmake, ninja and somekind of C/C++ compiler
+    Linux:
+    Cmake, Ninja and somekind of C++ compiler
 
-    NOTE: See .\<win|linux>\<batch|shell>\globals.<bat|sh>. Enter your paths there, or the executable programs if they are found in the PATH
+    NOTE: See .\<win|linux>\<batch|shell>\globals.<bat|sh>. Enter your paths there or the executable programs if they are found in the PATH
 
     build project:
     .\<win|linux>\build.<bat|sh>
