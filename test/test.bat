@@ -1,3 +1,3 @@
-echo hello
+ECHO hello
 
-echo hello
+ECHO hello

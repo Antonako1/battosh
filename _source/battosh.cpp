@@ -25,17 +25,17 @@ int main(int argc, char *argv[]) {
             std::string err_msg = "battosh version 0.0.1";
             std::cout << err_msg << std::endl;
         } else if (std::string(argv[i]) == "--wsl") {
-            if (info->linux) {
-                std::string error = "WSL and LINUX flags cannot be used together";
+            if (info->_linux_battosh) {
+                std::string error = "WSL and _linux_battosh flags cannot be used together";
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -4, -4);
             }
             info->wsl = true;
-        } else if (std::string(argv[i]) == "--linux") {
+        } else if (std::string(argv[i]) == "--_linux_battosh") {
             if (info->wsl) {
-                std::string error = "WSL and LINUX flags cannot be used together";
+                std::string error = "WSL and _linux_battosh flags cannot be used together";
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -4, -4);
             }
-            info->linux = true;
+            info->_linux_battosh = true;
         } else if (std::string(argv[i]) == "-o" || std::string(argv[i]) == "--out") {
             if (i + 1 < argc) {
                 info->OUTPUT_FILE = std::make_unique<std::string>(argv[i + 1]);
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Input file: " << *info->INPUT_FILE << std::endl;
     std::cout << "Output file: " << *info->OUTPUT_FILE << std::endl;
     std::cout << "WSL: " << info->wsl << std::endl;
-    std::cout << "LINUX: " << info->linux << std::endl;
+    std::cout << "_linux_battosh: " << info->_linux_battosh << std::endl;
 
     std::vector<Token> *tokens = lexical(info.get());
 

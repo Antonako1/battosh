@@ -32,7 +32,7 @@ struct battosh_info {
     std::unique_ptr<std::string> INPUT_FILE;
     std::unique_ptr<std::string> OUTPUT_FILE;
     bool wsl;
-    bool linux;
+    bool _linux_battosh;
     bool savewhitespace;
 };
 std::vector<Token>* lexical(battosh_info *args);

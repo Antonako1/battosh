@@ -1,5 +1,6 @@
+BATch TO SHell
+
 Turn batch scripts to shell scripts
-Why? shell scripts are not made for humans
 
 NOTE: Please check the shell scripts before running!
 
