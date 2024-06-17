@@ -6,15 +6,17 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-set(project_name "battish")
+set(project_name "battosh")
 
 project(${project_name})
 
 file(GLOB SOURCES 
-"./_source/*.c"
-"./_source/*.h"
-"./_source/*.cpp"
-"./_source/*.hpp"
+  "./_source/*.c"
+  "./_source/*.h"
+  "./_source/*.cpp"
+  "./_source/*.hpp"
+  "./_source/*.hxx"
+  "./_source/commands/*.hxx"
 )
 
 # Add executable
@@ -23,7 +25,6 @@ add_executable(${project_name} ${SOURCES})
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET ${project_name} PROPERTY CXX_STANDARD 20)
 endif()
-
 
 # On errors, abort build
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")

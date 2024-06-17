@@ -1,1 +1,1 @@
-cd C:\temp\
+echo hello
