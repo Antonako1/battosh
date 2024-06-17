@@ -68,8 +68,10 @@ int main(int argc, char *argv[]) {
     std::cout << "Input file: " << *info->INPUT_FILE << std::endl;
     std::cout << "Output file: " << *info->OUTPUT_FILE << std::endl;
     std::cout << "WSL: " << info->wsl << std::endl;
-    std::cout << "_linux_battosh: " << info->_linux_battosh << std::endl;
-
+    std::cout << "LINUX: " << info->_linux_battosh << std::endl;
+    std::cout << "Save Whitespace: " << info->savewhitespace << std::endl;
+    std::cout << "Save Comments: " << info->savecomments << std::endl;
+    
     std::vector<Token> *tokens = lexical(info.get());
 
     for (const auto &token : *tokens) {

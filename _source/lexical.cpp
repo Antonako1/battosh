@@ -166,19 +166,16 @@ std::vector<Token>* lexical(battosh_info *args) {
             switch (ahead[0]) {
                 case '\n':
                 case '\r':
-                    // If buffer is not empty, create a token for it
                     if (!buffer.empty()) {
                         add_token(tokens, buffer, line_num, column_num, -1);
                     }
 
                     // Create a token for the end of line 
-                    // consume(index, line, buffer);
                     add_token(tokens, buffer, line_num, column_num, ENDLINE);
 
                     break;
                 case ' ':
                 case '\t':
-                    // If buffer is not empty, create a token for it
                     if (!buffer.empty()) {
                         add_token(tokens, buffer, line_num, column_num, -1);
                     }
@@ -214,8 +211,6 @@ std::vector<Token>* lexical(battosh_info *args) {
                             if (rem == "@REM") {
                                 // We know it is @rem, so we can skip @.
                                 // it will turn it after this to rem comment
-                                // buffer = "@REM";
-                                // add_token(tokens, buffer, line_num, column_num, REM);
                                 buffer.clear();
                                 skip = true;
                                 break;
@@ -235,28 +230,21 @@ std::vector<Token>* lexical(battosh_info *args) {
                     // Argument to the previous command
                     break;
                 default:
-                    // Consume and process characters into buffer
                     consume(index, line, buffer);
-                    continue; // Continue to next character in the line
+                    continue;
 
             }
-            // if(skip){
-            //     skip = false;
-            //     break;
-            // }
 
-            index++; // Move to the next character in the line
-            column_num++; // Increment column number
+            index++;
+            column_num++;
         }
 
-        // After finishing a line, if buffer is not empty, create a token for it
         if (!buffer.empty()) {
             add_token(tokens, buffer, line_num, column_num, -1);
         }
 
-        // Reset column number for the next line
         column_num = 1;
-        line_num++; // Increment line number
+        line_num++;
     }
 
     file.close();

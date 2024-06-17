@@ -66,8 +66,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
                 parsed_tokens->push_back(parsed_token);
                 }
             default:
-                // Handle other commands or tokens here if needed
-                i++; // Move to the next token
+                i++;
                 break;
         }
     }
