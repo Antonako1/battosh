@@ -45,6 +45,8 @@ int main(int argc, char *argv[]) {
                 std::string error = "Output file not provided";
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
             }
+        } else if (std::string(argv[i]) == "--save-whitespace" || std::string(argv[i]) == "-sw"){
+            info->savewhitespace = true;
         } else {
             if (i == 1) {
                 continue;
@@ -68,8 +70,12 @@ int main(int argc, char *argv[]) {
     std::vector<Token> *tokens = lexical(info.get());
 
     for (const auto &token : *tokens) {
-        std::cout << "Command: " << token.command << " Value: " << *token.value << " Line: " << token.line << " Column: " << token.column << std::endl;
+        std::cout << "Command: " << token.command << " Value: '" << token.value << "' Line: " << token.line << " Column: " << token.column << std::endl;
     }
+
+    std::vector<ParsedToken> *parsed_tokens = parse(tokens, info.get());
+
+    tosh(parsed_tokens, info.get());
 
     delete tokens;
     return 0;

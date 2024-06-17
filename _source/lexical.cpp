@@ -88,6 +88,8 @@ std::string commands[] = {
 "FLAG",     std::to_string(FLAG),
 "VAR",      std::to_string(VAR),
 "SETX",     std::to_string(SETX),
+"(",        std::to_string(LPAREN),
+")",        std::to_string(RPAREN),
 };
 
 std::string look_ahead(size_t &index, const std::string &line) {
@@ -96,12 +98,11 @@ std::string look_ahead(size_t &index, const std::string &line) {
     }
     return "";
 }
-std::string consume(size_t &index, const std::string &line, std::string &buffer) {
+void consume(size_t &index, const std::string &line, std::string &buffer) {
     if (index < line.size()) {
         buffer += line[index];
         index++;
     }
-    return buffer;
 }
 
 
@@ -115,16 +116,32 @@ int get_command(std::string command) {
 }
 
 
+void add_token(std::vector<Token> *tokens, std::string &buffer, int line, int column, int extra = -1) {
+    Token _token;
+    if(extra == -1){
+        std::string newstr = buffer;
+        std::transform(newstr.begin(), newstr.end(), newstr.begin(), ::toupper);
+        _token.command = get_command(newstr);
+        if (_token.command == -1) {
+            // std::cout << "\n|Invalid command: " << buffer << std::endl;
+            _token.command = UNKNOWN;
+        }
+    } else {
+        _token.command = extra;
+    }
+    _token.value = std::string(buffer);
+    _token.line = line;
+    _token.column = column;
+    tokens->push_back(_token);
+    buffer.clear();
+}
 
 
-std::vector<Token>* lexical(battosh_info *args){
-    std::cout << *args->INPUT_FILE << std::endl;
+
+std::vector<Token>* lexical(battosh_info *args) {
     std::string input_file = *args->INPUT_FILE;
 
-    // Replace backslashes with forward slashes
-    std::replace(input_file.begin(), input_file.end(), '\\', '/');
-
-    std::ifstream file(input_file, std::ios::in);
+    std::ifstream file(input_file, std::ios::binary);
 
     if (!file.is_open()) {
         std::cerr << "ERROR OPENING FILE: " << input_file << std::endl;
@@ -135,58 +152,60 @@ std::vector<Token>* lexical(battosh_info *args){
     std::string line;
     int line_num = 1;
     int column_num = 1;
-    // bool breakhere = false;
-    while(std::getline(file, line)){
+
+    while (std::getline(file, line)) {
         size_t index = 0;
         std::string buffer;
+
         while (index < line.size()) {
-            std::cout << line[index] << std::endl;
             std::string ahead = look_ahead(index, line);
-            switch (ahead[0])
-            {
-            case ' ':
-            case '\t': {
-                // Create a token from the buffer
-                Token _token;
-                // Check if buffer is a command
-                _token.command = get_command(buffer);
-                if (_token.command == -1) {
-                    std::cout << "Invalid command: " << buffer << std::endl;
-                    exit(_token.command);
-                }
-                _token.value = std::make_unique<std::string>(buffer);
-                _token.line = line_num;
-                _token.column = column_num;
-                tokens->push_back(_token);
-                buffer.clear();
-                index++;
-                break;
+            switch (ahead[0]) {
+                case '\n':
+                case '\r':
+                    // If buffer is not empty, create a token for it
+                    if (!buffer.empty()) {
+                        add_token(tokens, buffer, line_num, column_num, -1);
+                    } else {
+                        add_token(tokens, buffer, line_num, column_num, ENDLINE);
+                    }
+                    break;
+                case ' ':
+                case '\t':
+                    // If buffer is not empty, create a token for it
+                    if (!buffer.empty()) {
+                        add_token(tokens, buffer, line_num, column_num, -1);
+                    }
+                    buffer.clear(); // Clear buffer after tokenizing
+                    break;
+                case '%':
+                    // Variable
+                    break;
+                case '"':
+                    // String
+                    break;
+                case '/':
+                    // Argument to the previous command
+                    break;
+                default:
+                    // Consume and process characters into buffer
+                    consume(index, line, buffer);
+                    continue; // Continue to next character in the line
             }
-            case '%':
-                // Variable
-                break;
-            case '"': {
-                // String
-                break;
-            }
-            case '/': {
-                // Argument to the previous command
-                break;
-            }
-            default:
-                // Consume and process characters into tokens
-                consume(index, line, buffer);
-                // Tokenize buffer (placeholder for actual tokenization logic)
-                // Assuming a simple token is created for each buffer
-                tokens->emplace_back(Token{ /* Initialize with buffer */ });
-                buffer.clear();
-                break;
-            }
+            index++; // Move to the next character in the line
+            column_num++; // Increment column number
         }
+
+        // After finishing a line, if buffer is not empty, create a token for it
+        if (!buffer.empty()) {
+            add_token(tokens, buffer, line_num, column_num, -1);
+        }
+
+        // Reset column number for the next line
         column_num = 1;
-        line_num++;
+        line_num++; // Increment line number
     }
+
+    file.close();
 
     return tokens;
 }
-

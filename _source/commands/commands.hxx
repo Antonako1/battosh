@@ -91,4 +91,13 @@ enum batch_commands{
     VAR,            // %var%
     SETX,           // (setx) - Set environment variables | setx
     
+    // Unknown
+    UNKNOWN,
+
+    // Separator
+    LPAREN,         // (
+    RPAREN,         // )
+
+
+    ENDLINE,        
 };

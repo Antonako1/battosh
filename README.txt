@@ -19,12 +19,12 @@ Usage:
         provide path to your batch script
 
     optional
-        -o, --out           Set the program to output the shell file with a different filename
-        -h, --help          See help message
-            --version       See version
-            --wsl           Turn paths to comply with WSL, C:\temp -> /mnt/c/temp. Can not be used with --linux
-            --linux         Program tries its best to turn paths from windows to linux, C:\Users\%USERNAME%\Documents -> ~/Documents. Can not be used with --wsl
-
+        -o,     --out               Set the program to output the shell file with a different filename
+        -h,     --help              See help message
+                --version           See version
+                --wsl               Turn paths to comply with WSL, C:\temp -> /mnt/c/temp. Can not be used with --linux
+                --linux             Program tries its best to turn paths from windows to linux, C:\Users\%USERNAME%\Documents -> ~/Documents. Can not be used with --wsl
+        -sw,    --save-whitespace   Program saves the original whitespace and line ends 
 
     Example:
         battosh file.bat -o test.sh

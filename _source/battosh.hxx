@@ -19,7 +19,7 @@ void message(std::string &msg, int flag, int command, bool error, int line, int 
 
 struct Token{
     int command;
-    std::unique_ptr<std::string> value;
+    std::string value;
     std::vector<std::string> flags;
     int line;
     int column;
@@ -33,7 +33,23 @@ struct battosh_info {
     std::unique_ptr<std::string> OUTPUT_FILE;
     bool wsl;
     bool linux;
+    bool savewhitespace;
 };
 std::vector<Token>* lexical(battosh_info *args);
+
+struct ParsedToken{
+    int command;
+    std::string value;
+
+    // inner values, example: echo "hello world"
+    std::vector<std::string> values;
+    std::vector<std::string> flags;
+    int line;
+    int column;
+};
+std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args);
+
+
+void tosh(std::vector<ParsedToken> *tokens, battosh_info *args);
 
 #endif // battosh_H
