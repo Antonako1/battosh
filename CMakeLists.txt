@@ -17,6 +17,7 @@ file(GLOB SOURCES
   "./_source/*.hpp"
   "./_source/*.hxx"
   "./_source/commands/*.hxx"
+  "./_source/*.rc"
 )
 
 # Add executable
