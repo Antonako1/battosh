@@ -81,7 +81,7 @@ CreateDirectory $INSTALL_DIR
 ; Files to install
 File "${PROJECTNAME}.exe"
 File "LICENSE"
-File "README.txt"
+File "README.md"
 
 SectionEnd
 
@@ -150,7 +150,7 @@ nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$INSTDIR\uninst
 
 Delete "$INSTDIR\${PROJECTNAME}.exe"
 Delete "$INSTDIR\license"
-Delete "$INSTDIR\README.txt"
+Delete "$INSTDIR\README.md"
 Delete "$INSTDIR\setup.ps1"
 Delete "$INSTDIR\uninstall.ps1"
 
