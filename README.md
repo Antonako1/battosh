@@ -69,7 +69,6 @@ battosh can turn the following commands/statements into bash
 
 - --save-whitespace and comment ignoring leaves empty rows there, where the comments were
 - Paths like: C:\temp turn to C : \temp. please do "C:\temp" in the meantime
-- IF statement intending does not exist
 
 
 
