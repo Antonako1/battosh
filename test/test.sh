@@ -1,5 +1,5 @@
 #!/bin/bash
-set +v
+@echo off 
 
 if [ "A" = "A" ]; then
 echo test 

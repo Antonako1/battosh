@@ -63,7 +63,7 @@ battosh can turn the following commands/statements into bash
                                         comparisons
                                         -e
                                         only works for variables... ("${var1,,}" = "${var2,,}")
-    mkdir, /?           ->              mkdir, --help (-p flag is on windows by default)
+    mkdir, /?           ->              mkdir, --help
 
 ### Known issues
 
