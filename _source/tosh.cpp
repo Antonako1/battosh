@@ -19,7 +19,7 @@ void add_end_values(const ParsedToken &parsed_token, std::string &output){
 
 bool check_comparison_in_future(std::vector<ParsedToken> *tokens, size_t i){
     size_t j = i + 1;
-    if(tokens->at(j).command == EQU || tokens->at(j).command == NEQ || tokens->at(j).command == LSS || tokens->at(j).command == LEQ || tokens->at(j).command == GTR || tokens->at(j).command == GEQ){
+    if(tokens->at(j).command == EXIST || tokens->at(j).command == EQU || tokens->at(j).command == NEQ || tokens->at(j).command == LSS || tokens->at(j).command == LEQ || tokens->at(j).command == GTR || tokens->at(j).command == GEQ){
         return true;
     }
     
@@ -102,21 +102,26 @@ void if_statement_workings(
             inside_if = true;
             break_statemnt = true;
             break;
+        case RPAREN:
+        case ELSE:
+            break;
         default:
             // breaks otherwise
-            if(next_token.command == RPAREN || next_token.command == LPAREN || next_token.command == ELSE){
-                break;
-            }
             // Check for comparison and operators in future
             // so that: if exist file.txt echo "hello world" is possible
             output += next_token.value + " ";
             bool comparison = check_comparison_in_future(tokens, index);
             bool operators = check_operators_in_future(tokens, index);
-            if(next_token.command == ENDLINE || 
-                next_token.command != UNKNOWN || 
-                !comparison && 
+            if(
+                // next_token.command == ENDLINE || 
+                next_token.command != UNKNOWN &&
+                !comparison &&
                 !operators
             ){  
+                // rough code
+                if(next_token.command != UNKNOWN){
+                    index--;
+                }
                 output += "]; then\n";
                 break_statemnt = true;
                 short_hand_if_statement = 1;
@@ -139,8 +144,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     bool inside_if = false;
     bool if_end = false;
     int short_hand_if_statement = 0; // 0 = false, 1 = true, 2 = first pass, 3 = second pass, 4 = end if statement
+    int if_statement_intend = 0;
     for(size_t i = 0; i < tokens->size(); i++){
-        ParsedToken parsed_token = tokens->at(i);        
+        ParsedToken parsed_token = tokens->at(i);
+        if(inside_if || short_hand_if_statement != 0){
+            output += std::string(if_statement_intend, ' ');
+        } 
         switch(parsed_token.command){
             case ECHO: {
                 // output += "echo ";
@@ -204,21 +213,33 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case IF: {
+                if_statement_intend += 4;
                 output += "if [ ";
-                
                 if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement);
                 break;
             }
             case RPAREN: {
                 if(tokens->size() > i + 1 && tokens->at(i + 1).command == ELSE){
                     if(tokens->size() > i + 2 && tokens->at(i + 2).command == IF){
+                        if(if_statement_intend > 4){
+                            output = output.substr(0, output.size() - 4);
+                        }
                         output += "elif [ ";
                         if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement);
                     } else {
-                        output += "\nelse";
+                        output += output[output.size() - 1] == '\n' ? "" : "\n";
+                        if_statement_intend = if_statement_intend-4<0?0:if_statement_intend-4;
+                        output += std::string(if_statement_intend, ' ');
+                        if_statement_intend += 4;
+                        output += "else";
                     }
                 } else {
-                    output += "\nfi\n";
+                    output += output[output.size() - 1] == '\n' ? "" : "\n";
+                    if_statement_intend = if_statement_intend - 4 < 0 ? 0 : if_statement_intend - 4;
+                    if(if_statement_intend != 0){
+                        output += std::string(if_statement_intend, ' ');
+                    }
+                    output += "fi\n";
                     inside_if = false;
                 }
                 break;
@@ -268,8 +289,10 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         if(short_hand_if_statement != 0){
             short_hand_if_statement++;
             if(short_hand_if_statement == 4 || short_hand_if_statement == 3 && tokens->size() == i + 1){
-                output += "\nfi\n";
+                output += output[output.size() - 1] == '\n' ? "" : "\n";
+                output += "fi\n";
                 short_hand_if_statement = 0;
+                if_statement_intend = if_statement_intend - 4 < 0 ? 0 : if_statement_intend - 4;
             }
         }
     }

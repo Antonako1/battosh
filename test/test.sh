@@ -1,42 +1,28 @@
 #!/bin/bash
-if [ -e data]; then
-if [ ! -e "ququ"]; then
-echo w 
-
-else
-echo q 
-
+if [ "A" = "A" echo ]; then
+    echo test     
 fi
 
-elif [ -e "haha"]; then
-echo Hi from the other side 
+if [ -e data]; then    
+    if [ ! -e "ququ"]; then        
+        echo w         
+    elif [ "A" = "A" ]; then        
+        echo e         
+        
+    else                        
+        echo q         
+        
+    fi
 
-else
-echo data exists 
-
+elif [ -e "haha"]; then    
+    echo Hi from the other side     
+    
+else            
+    echo data exists     
+    
 fi
 
 
-
-$SHELL --version
-clear
-call haha 
-cat test.txt 
-# TEST 
-echo Hi 
-cd "C:\temp" 
-exit 10 
-
-cmake --build . --target test 
-
-if [ ! -e data]; then
-echo data does not exist 
-
-else
-echo data exists 
-
-fi
-
-if [ "A" = "A" ]; then
-echo test 
+if [ "A" = "A" echo ]; then
+    echo test     
 fi
