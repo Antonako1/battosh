@@ -2,6 +2,7 @@
 #include <string>
 // https://tldp.org/LDP/abs/html/dosbatch.html
 /*
+@echo off
 if exist data (
     if not exist "ququ" (
         echo w
@@ -31,7 +32,7 @@ if not exist data (
 ) else (
     echo data exists
 )
-
+if "A" == "A" echo test
  */
 enum batch_commands{
     // FILE COMMANDS
@@ -149,6 +150,8 @@ enum batch_commands{
     LEQ,            // <=
     GTR,            // >
     GEQ,            // >=
+
+    // Operators
     AND,            // &&
     OR,             // ||
     NOT,            // !

@@ -107,13 +107,19 @@ void if_statement_workings(
         default:
             // Check for comparison and operators in future
             // so that: if exist file.txt echo "hello world" is possible
-            std::cout << "Token: " << next_token.command << " Value: " << next_token.value << std::endl;
+            std::cout << ".-.Token: " << next_token.command << " Value: " << next_token.value << std::endl;
+            if(next_token.command == RPAREN || next_token.command == LPAREN || next_token.command == ELSE){
+                break;
+            }
             output += next_token.value + " ";
             bool comparison = check_comparison_in_future(tokens, index);
             bool operators = check_operators_in_future(tokens, index);
-            if(next_token.command == ENDLINE || next_token.command != UNKNOWN || 
-                !comparison && !operators
-            ){
+            if(next_token.command == ENDLINE || 
+                next_token.command != UNKNOWN || 
+                !comparison && 
+                !operators
+            ){  
+                std::cout << next_token.command << " " << next_token.value << std::endl;
                 output += "]; then\n";
                 break_statemnt = true;
                 short_hand_if_statement = 1;
@@ -188,13 +194,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 add_end_values(parsed_token, output);
                 break;
             }
-            case CD: {
+            case CHDIR:
+            case CD:
                 output += "cd ";
                 // Flag /D is used to change the drive, no equivalent in linux
                 // TODO PATH CHECK
                 add_end_values(parsed_token, output);
                 break;
-            }
             case ECHOOFF: {
                 std::string temp = parsed_token.values[0];
                 std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
@@ -216,11 +222,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement);
                 break;
             }
-            // NOTE: CHECKED IN "case RPAREN"
-            // case ELSE: {
-            //     output += "else";
-            //     break;
-            // }
             case RPAREN: {
                 if(tokens->size() > i + 1 && tokens->at(i + 1).command == ELSE){
                     if(tokens->size() > i + 2 && tokens->at(i + 2).command == IF){
@@ -279,8 +280,8 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
 
         if(short_hand_if_statement != 0){
             short_hand_if_statement++;
-            if(short_hand_if_statement == 4){
-                output += "fi\n";
+            if(short_hand_if_statement == 4 || short_hand_if_statement == 3 && tokens->size() == i + 1){
+                output += "\nfi\n";
                 short_hand_if_statement = 0;
             }
         }
