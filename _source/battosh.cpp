@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
     auto info = std::make_unique<battosh_info>();
     info->INPUT_FILE = std::make_unique<std::string>(argv[1]);
     bool output_provided = false;
+    bool shell_provided = false;
     
     for (int i = 1; i < argc; i++) {
         if (std::string(argv[i]) == "-h" || std::string(argv[i]) == "--help") {
@@ -49,8 +50,18 @@ int main(int argc, char *argv[]) {
             info->savewhitespace = true;
         } else if (std::string(argv[i]) == "--save-comments" || std::string(argv[i]) == "-sc"){
             info->savecomments = true;
-        } 
-        else {
+        }else if (std::string(argv[i]) == "--set-shell"){
+            if (i + 1 < argc) {
+                info->SHELL = std::make_unique<std::string>(argv[i + 1]);
+                i++;
+                shell_provided = true;
+            } else {
+                std::string error = "Shell not provided";
+                message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
+            }
+        } else if (std::string(argv[i]) == "--set-mkdirp"){
+            info->mkdir_p = true;
+        } else {
             if (i == 1) {
                 continue;
             }
@@ -65,12 +76,17 @@ int main(int argc, char *argv[]) {
         info->OUTPUT_FILE = std::make_unique<std::string>(output_file);
     }
 
+    if (!shell_provided) {
+        info->SHELL = std::make_unique<std::string>("bash");
+    }
+
     std::cout << "Input file: " << *info->INPUT_FILE << std::endl;
     std::cout << "Output file: " << *info->OUTPUT_FILE << std::endl;
     std::cout << "WSL: " << info->wsl << std::endl;
     std::cout << "LINUX: " << info->_linux_battosh << std::endl;
     std::cout << "Save Whitespace: " << info->savewhitespace << std::endl;
     std::cout << "Save Comments: " << info->savecomments << std::endl;
+    std::cout << "Shell: " << *info->SHELL << "\n";
     
     std::vector<Token> *tokens = lexical(info.get());
 

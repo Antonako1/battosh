@@ -11,6 +11,7 @@ std::string commands[] = {
 "VER",          std::to_string(VER),
 "ASSOC",        std::to_string(ASSOC),
 "CD",           std::to_string(CD),
+"CHDIR",        std::to_string(CHDIR),
 "CLS",          std::to_string(CLS),
 "COPY",         std::to_string(COPY),
 "DEL",          std::to_string(DEL),
@@ -28,6 +29,7 @@ std::string commands[] = {
 "RD",           std::to_string(RD),
 "RMDIR",        std::to_string(RMDIR),
 "REN",          std::to_string(REN),
+"RENAME",       std::to_string(RENAME),
 "REM",          std::to_string(REM),
 "@REM",         std::to_string(REM),
 "::",           std::to_string(REM),
@@ -65,6 +67,7 @@ std::string commands[] = {
 "SET",          std::to_string(SET),
 "IF",           std::to_string(IF),
 "ELSE",         std::to_string(ELSE),
+"ELSEIF",       std::to_string(ELSEIF),
 "FOR",          std::to_string(FOR),
 "GOTO",         std::to_string(GOTO),
 "CALL",         std::to_string(CALL),
@@ -92,6 +95,31 @@ std::string commands[] = {
 "SETX",         std::to_string(SETX),
 "(",            std::to_string(LPAREN),
 ")",            std::to_string(RPAREN),
+"EQU",          std::to_string(EQU),
+"NEQ",          std::to_string(NEQ),
+"LSS",          std::to_string(LSS),
+"LEQ",          std::to_string(LEQ),
+"GTR",          std::to_string(GTR),
+"GEQ",          std::to_string(GEQ),
+"AND",          std::to_string(AND),
+"OR",           std::to_string(OR),
+"NOT",          std::to_string(NOT),
+"XOR",          std::to_string(XOR),
+"SHL",          std::to_string(SHL),
+"SHR",          std::to_string(SHR),
+"EXIST",        std::to_string(EXIST),
+"==",           std::to_string(EQU),
+"!=",           std::to_string(NEQ),
+"<",            std::to_string(LSS),
+"<=",           std::to_string(LEQ),
+">",            std::to_string(GTR),
+">=",           std::to_string(GEQ),
+"&&",           std::to_string(AND),
+"||",           std::to_string(OR),
+"!",            std::to_string(NOT),
+"^",            std::to_string(XOR),
+"<<",           std::to_string(SHL),
+">>",           std::to_string(SHR),
 };
 
 std::string look_ahead(size_t &index, const std::string &line) {
@@ -156,6 +184,11 @@ std::vector<Token>* lexical(battosh_info *args) {
 
     bool skip = false;
 
+    bool is_if_statement = false;
+    bool is_else_statement = false;
+    bool is_else_if_statement = false;
+
+
     while (std::getline(file, line)) {
         size_t index = 0;
         std::string buffer;
@@ -169,15 +202,15 @@ std::vector<Token>* lexical(battosh_info *args) {
                         add_token(tokens, buffer, line_num, column_num, -1);
                     }
 
-                    // Create a token for the end of line 
                     add_token(tokens, buffer, line_num, column_num, ENDLINE);
 
                     break;
                 case ' ':
-                case '\t':
+                case '\t':{
                     if (!buffer.empty()) {
                         add_token(tokens, buffer, line_num, column_num, -1);
                     }
+                }
                     break;
                 case '%':
                     // Variable

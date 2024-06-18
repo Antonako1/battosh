@@ -1,11 +1,6 @@
 #!/bin/bash
-$SHELL --version
-clear
-call haha 
-cat test.txt 
-# TEST 
-echo Hi 
-cd "C:\temp" 
-exit 10
+set +v
 
-cmake --build . --target test 
+if [ "A" = "A" ]; then
+echo test 
+fi

@@ -1,10 +1,3 @@
-ver
-cls
-call haha
-type test.txt
-:: TEST
-echo Hi
-cd "C:\temp"
-exit /B 10
+@echo off
 
-cmake --build . --target test
+if "A" == "A" echo test

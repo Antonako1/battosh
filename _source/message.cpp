@@ -1,7 +1,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <sstream>
 #include "battosh.hxx"
 
 void message(std::string &msg, int flag, int command, bool error, int line, int column){
@@ -13,9 +12,8 @@ void message(std::string &msg, int flag, int command, bool error, int line, int 
         break;
     case VERSION_:
         {
-            std::stringstream ss; // Create a stringstream
-            ss << "battosh version " << VERSION; // Convert VERSION to string using the stringstream
-            error_msg = ss.str(); // Get the string from the stringstream
+            const char *version = VERSION;
+            error_msg = "Version: " + std::string(version);
             break;
         }
     default:

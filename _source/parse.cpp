@@ -47,19 +47,16 @@ void add_single_token(Token &token, int command, std::vector<ParsedToken> *parse
 
 std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
     std::vector<ParsedToken> *parsed_tokens = new std::vector<ParsedToken>();
-    std::cout << "Parsing tokens... \n";
-    for(Token &token : *tokens){
+    std::cout << "\nParsing tokens... \n";
+
+    size_t i = 0;
+    while (i < tokens->size()) {
+        Token token = tokens->at(i);
         std::cout << "Command: " << token.command << " Value: '" << token.value << "' Line: " << token.line << " Column: " << token.column << std::endl;
         for(std::string &flag : token.flags){
             std::cout << "  Flag: " << flag << std::endl;
         }
-    }
-
-    size_t i = 0;
-    while (i < tokens->size()) {
-        std::cout << "Parsing token: " << i << std::endl;
-        Token token = tokens->at(i);
-        std::cout << "Command: " << token.command << " Value: '" << token.value << "' Line: " << token.line << " Column: " << token.column << std::endl;
+        
         switch (token.command) {
             case ECHO: {
                 parse_to_the_end(ECHO, tokens, i, token, parsed_tokens);
@@ -92,6 +89,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
                 parse_to_the_end(TYPE, tokens, i, token, parsed_tokens);
                 break;
             }
+            case CHDIR:
             case CD: {
                 parse_to_the_end(CD, tokens, i, token, parsed_tokens);
                 break;
@@ -100,15 +98,80 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
                 parse_to_the_end(EXIT, tokens, i, token, parsed_tokens);
                 break;
             }
-
-            case ENDLINE:
-                {
+            case ENDLINE: {
                 add_single_token(token, ENDLINE, parsed_tokens, i);
                 break;
-                }
+            }
+            case IF: {
+                add_single_token(token, IF, parsed_tokens, i);
+                break;
+            }
+            case ELSE: {
+                add_single_token(token, ELSE, parsed_tokens, i);
+                break;
+            }
+            case ELSEIF: {
+                add_single_token(token, ELSEIF, parsed_tokens, i);
+                break;
+            }
+            case LPAREN: {
+                std::cout << "LPAREN" << std::endl;
+                add_single_token(token, LPAREN, parsed_tokens, i);
+                break;
+            }
+            case RPAREN: {
+                std::cout << "RPAREN" << std::endl;
+                add_single_token(token, RPAREN, parsed_tokens, i);
+                break;
+            }
+            case EXIST: {
+                add_single_token(token, EXIST, parsed_tokens, i);
+                break;
+            }
+            case EQU:
+                add_single_token(token, EQU, parsed_tokens, i);
+                break;
+            case NEQ:
+                add_single_token(token, NEQ, parsed_tokens, i);
+                break;
+            case LSS:
+                add_single_token(token, LSS, parsed_tokens, i);
+                break;
+            case LEQ:
+                add_single_token(token, LEQ, parsed_tokens, i);
+                break;
+            case GTR:
+                add_single_token(token, GTR, parsed_tokens, i);
+                break;
+            case GEQ:
+                add_single_token(token, GEQ, parsed_tokens, i);
+                break;
+            case AND:
+                add_single_token(token, AND, parsed_tokens, i);
+                break;
+            case OR:
+                add_single_token(token, OR, parsed_tokens, i);
+                break;
+            case NOT:
+                add_single_token(token, NOT, parsed_tokens, i);
+                break;
+            case XOR:
+                add_single_token(token, XOR, parsed_tokens, i);
+                break;
+            case SHL:
+                add_single_token(token, SHL, parsed_tokens, i);
+                break;
+            case SHR:
+                add_single_token(token, SHR, parsed_tokens, i);
+                break;
+            case MKDIR:
+                parse_to_the_end(MKDIR, tokens, i, token, parsed_tokens);
+                break;
+            case ECHOOFF:
+                parse_to_the_end(ECHOOFF, tokens, i, token, parsed_tokens);
+                break;
             default:
-                parse_to_the_end(UNKNOWN, tokens, i, token, parsed_tokens);
-                i++;
+                add_single_token(token, UNKNOWN, parsed_tokens, i);
                 break;
         }
     }

@@ -33,6 +33,8 @@ struct battosh_info {
     bool _linux_battosh;
     bool savewhitespace;
     bool savecomments;
+    std::unique_ptr<std::string> SHELL;
+    bool mkdir_p;
 };
 
 std::vector<Token>* lexical(battosh_info *args);

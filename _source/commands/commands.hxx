@@ -1,11 +1,44 @@
 #pragma once
 #include <string>
 // https://tldp.org/LDP/abs/html/dosbatch.html
+/*
+if exist data (
+    if not exist "ququ" (
+        echo w
+    ) else (
+        echo q
+    )
+) else if exist "haha" (
+    echo Hi from the other side
+) else (
+    echo data exists
+)
+
+
+ver
+cls
+call haha
+type test.txt
+:: TEST
+echo Hi
+cd "C:\temp"
+exit /B 10
+
+cmake --build . --target test
+
+if not exist data (
+    echo data does not exist
+) else (
+    echo data exists
+)
+
+ */
 enum batch_commands{
     // FILE COMMANDS
     VER,            // (ver) - show version | $SHELL --version
     ASSOC,          // (assoc) - show or change file associations | chmod?
     CD,             // (cd) - change directory | cd
+    CHDIR,          // (chdir) - change directory | cd
     CLS,            // (cls) - clear the screen | clear
     COPY,           // (copy) - copy files | cp
     DEL,            // (del) - delete files | rm
@@ -22,6 +55,7 @@ enum batch_commands{
     RD,             // (rd) - remove directory | rmdir
     RMDIR,          // (rmdir) - remove directory | rmdir
     REN,            // (ren) - rename files | mv
+    RENAME,         // (rename) - rename files | mv
     REM,            // (rem|@rem) - comment | #
     START,          // (start) - start a program or command | start
     TIME,           // (time) - show or set the system time |
@@ -59,6 +93,7 @@ enum batch_commands{
     // CONTROL COMMANDS
     IF,             // (if) - perform conditional processing in batch programs | if
     ELSE,           // (else) - perform conditional processing in batch programs | else
+    ELSEIF,         // (else if) - perform conditional processing in batch programs | elseif
     FOR,            // (for) - conditionally perform a command several times | for
     GOTO,           // (goto) - direct a batch program to jump to a labelled line | goto
     GOTODEFINITION, // (:) - direct a batch program to jump to a labelled line | :
@@ -105,7 +140,24 @@ enum batch_commands{
     COMMENT,        // #
     ECHOOFF,        // @echo off/on
 
-    NULL__TOKEN
+    NULL__TOKEN,
+
+    // Comparison 
+    EQU,            // ==
+    NEQ,            // !=
+    LSS,            // <
+    LEQ,            // <=
+    GTR,            // >
+    GEQ,            // >=
+    AND,            // &&
+    OR,             // ||
+    NOT,            // !
+    XOR,            // ^
+    SHL,            // <<
+    SHR,            // >>
+
+    EXIST,          // (exist) - check if file exists | 
+
 };
 
 
@@ -126,4 +178,20 @@ struct EXIT_FLAG{
     std::string LINUX_GET_HELP = "--help";
     std::string GET_HELP = "/?";
     std::string GET_HELP_EXPECT_VALUE = "NONE";
+};
+
+struct MKDIR_FLAG{
+    std::string LINUX_GET_HELP = "--help";
+    std::string GET_HELP = "/?";
+    std::string GET_HELP_EXPECT_VALUE = "NONE";
+};
+
+struct IF_FLAG{
+    std::string LINUX_GET_HELP = "--help";
+    std::string GET_HELP = "/?";
+    std::string GET_HELP_EXPECT_VALUE = "NONE";
+
+    std::string LINUX_IGNORE_CASE = "--ignore-case";
+    std::string IGNORE_CASE = "/I";
+    std::string IGNORE_CASE_EXPECT_VALUE = "NONE";
 };
