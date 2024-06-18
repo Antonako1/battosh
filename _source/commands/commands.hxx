@@ -3,7 +3,7 @@
 enum batch_commands{
     // FILE COMMANDS
     ___,
-    VER,            // (ver) - show version |
+    VER,            // (ver) - show version | $SHELL --version
     ASSOC,          // (assoc) - show or change file associations |
     CD,             // (cd) - change directory | cd
     CLS,            // (cls) - clear the screen | clear
@@ -107,24 +107,33 @@ enum batch_commands{
     NULL__TOKEN
 };
 
+
+// Flags need to be without /
 struct ECHO_FLAG{
-    std::string ECHO_COMMAND = "ECHO";
-    std::string ECHO_EXPECT_VALUE = "?ANY";
-    
-    std::string ECHO_GET_HELP = "/?";
-    std::string ECHO_GET_HELP_EXPECT_VALUE = "NONE";
+    std::string LINUX_GET_GELP_UPDATED_PATH = "/bin/echo";
+    std::string LINUX_GET_HELP = "--help";
+    std::string LINUX_GET_HELP_EXPECT_VALUE = "NONE";
+    std::string GET_HELP = "/?";
+    std::string GET_HELP_EXPECT_VALUE = "NONE";
 };
 
 struct EXIT_FLAG{
-    std::string EXIT_COMMAND = "ECHO";
-    std::string EXIT_EXPECT_VALUE = "?INT";
-
+    std::string LINUX_EXIT_CURRENT_BATCH = "";
+    std::string LINUX_EXIT_CURRENT_BATCH_EXPECT_VALUE = "INT";
     std::string EXIT_CURRENT_BATCH = "/B";
     std::string EXIT_CURRENT_BATCH_EXPECT_VALUE = "INT";      
     
-    std::string EXIT_GET_HELP = "/?";
-    std::string EXIT_GET_HELP_EXPECT_VALUE = "NONE";
+    std::string LINUX_GET_HELP = "--help";
+    std::string GET_HELP = "/?";
+    std::string GET_HELP_EXPECT_VALUE = "NONE";
 };
 
+struct DIR_FLAG {
+    std::string LINUX_GET_HELP = "--help";
+    std::string GET_HELP = "/?";
 
+    std::string ATTRIBUTE = "/A";
+    std::string ATTRIBUTE_EXPECT_VALUE = "D,R,H,A,S,I,L,-";
+    
+};
 

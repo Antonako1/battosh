@@ -226,8 +226,29 @@ std::vector<Token>* lexical(battosh_info *args) {
                         }
                     }
                     break;
-                case '/':
-                    // Argument to the previous command
+                case '/':{
+                        std::string flag = "/";
+                        size_t flag_index = index + 1;
+                        bool flag_found = false;
+                        while (flag_index < line.size()) {
+                            ahead = look_ahead(flag_index, line);
+                            if (ahead == " " || ahead == "/" || ahead == "\n" ||
+                                ahead == "\r" || ahead == "\t") {
+                                flag_found = true;
+                                tokens->at(tokens->size() - 1).flags.push_back(flag);
+                                break;
+                            }
+                            flag += ahead;
+                            flag_index++;
+                        }
+                        flag_index--;
+
+                        if(!flag_found){
+                            tokens->at(tokens->size() - 1).flags.push_back(flag);
+                        }
+
+                        index = flag_index;
+                    }
                     break;
                 default:
                     consume(index, line, buffer);

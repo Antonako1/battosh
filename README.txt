@@ -35,11 +35,13 @@ Usage:
 
 
 battosh can turn the following commands/statements into bash
-ECHO        ->          echo
-@REM        ->          #
-REM         ->          #
-::          ->          #
-
+ECHO, /?        ->              echo, /bin/echo --help
+@REM            ->              #
+REM             ->              #
+::              ->              #
+ver             ->              $SHELL --version
+cls             ->              clear
+dir             ->              ls
 
 Known issues:
 --save-whitespace does not work properly

@@ -1,5 +1,2 @@
-
-ECHO hello
-
-ECHO AGAIN
-echo hi
+ver
+cls
