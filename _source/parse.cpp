@@ -44,7 +44,7 @@ void add_single_token(Token &token, int command, std::vector<ParsedToken> *parse
 
 std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
     std::vector<ParsedToken> *parsed_tokens = new std::vector<ParsedToken>();
-x
+
     size_t i = 0;
     while (i < tokens->size()) {
         Token token = tokens->at(i);        
