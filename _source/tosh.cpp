@@ -140,6 +140,13 @@ void if_statement_workings(
 void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     std::string output = "";
 
+    {
+        // Prevent crashing
+        ParsedToken parsed_token;
+        parsed_token.command = ENDLINE;
+        tokens->push_back(parsed_token);        
+    }
+
     output += "#!/bin/" + *args->SHELL + "\n";
     bool inside_if = false;
     bool if_end = false;

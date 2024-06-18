@@ -1,13 +1,8 @@
 #!/bin/bash
-if [ "A" = "A" echo ]; then
-    echo test     
-fi
-
+@echo off 
 if [ -e data]; then    
     if [ ! -e "ququ"]; then        
         echo w         
-    elif [ "A" = "A" ]; then        
-        echo e         
         
     else                        
         echo q         
@@ -23,6 +18,28 @@ else
 fi
 
 
+
+$SHELL --version
+clear
+call haha 
+cat test.txt 
+# TEST 
+echo Hi 
+cd "C:\temp" 
+exit 10 
+
+cmake --build . --target test 
+
+if [ ! -e data]; then    
+    echo data does not exist     
+    
+else            
+    echo data exists     
+    
+fi
+
+
 if [ "A" = "A" echo ]; then
     echo test     
 fi
+
