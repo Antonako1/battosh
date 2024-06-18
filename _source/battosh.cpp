@@ -80,19 +80,9 @@ int main(int argc, char *argv[]) {
         info->SHELL = std::make_unique<std::string>("bash");
     }
 
-    std::cout << "Input file: " << *info->INPUT_FILE << std::endl;
-    std::cout << "Output file: " << *info->OUTPUT_FILE << std::endl;
-    std::cout << "WSL: " << info->wsl << std::endl;
-    std::cout << "LINUX: " << info->_linux_battosh << std::endl;
-    std::cout << "Save Whitespace: " << info->savewhitespace << std::endl;
-    std::cout << "Save Comments: " << info->savecomments << std::endl;
-    std::cout << "Shell: " << *info->SHELL << "\n";
     
     std::vector<Token> *tokens = lexical(info.get());
 
-    for (const auto &token : *tokens) {
-        std::cout << "Command: " << token.command << " Value: '" << token.value << "' Line: " << token.line << " Column: " << token.column << std::endl;
-    }
 
     std::vector<ParsedToken> *parsed_tokens = parse(tokens, info.get());
 

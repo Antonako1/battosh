@@ -41,7 +41,6 @@ void if_statement_workings(
     bool &inside_if,
     int &short_hand_if_statement
     ){
-    std::cout << "\nIF STATEMENT WORKINGS\n";
     // statement check
     // loop until the next command or ( or endline
     bool break_statemnt = false;
@@ -50,7 +49,6 @@ void if_statement_workings(
     size_t index = 0;
     for(index = i; index < tokens->size(); index++){
         ParsedToken next_token = tokens->at(index);
-        std::cout << "Next Token: " << next_token.command << " Value: " << next_token.value << std::endl;
         switch (next_token.command) {
         case IF: break; // skip, otherwise will appear in default
         case NOT:
@@ -105,12 +103,12 @@ void if_statement_workings(
             break_statemnt = true;
             break;
         default:
-            // Check for comparison and operators in future
-            // so that: if exist file.txt echo "hello world" is possible
-            std::cout << ".-.Token: " << next_token.command << " Value: " << next_token.value << std::endl;
+            // breaks otherwise
             if(next_token.command == RPAREN || next_token.command == LPAREN || next_token.command == ELSE){
                 break;
             }
+            // Check for comparison and operators in future
+            // so that: if exist file.txt echo "hello world" is possible
             output += next_token.value + " ";
             bool comparison = check_comparison_in_future(tokens, index);
             bool operators = check_operators_in_future(tokens, index);
@@ -119,7 +117,6 @@ void if_statement_workings(
                 !comparison && 
                 !operators
             ){  
-                std::cout << next_token.command << " " << next_token.value << std::endl;
                 output += "]; then\n";
                 break_statemnt = true;
                 short_hand_if_statement = 1;
@@ -136,18 +133,8 @@ void if_statement_workings(
 
 
 void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
-    std::cout << "\n=============\nSTART OF TOSH\n";
     std::string output = "";
-    for(auto &parsed_token : *tokens){
-        std::cout << "---Command: " << parsed_token.command << " Value: '" << parsed_token.value << "' Line: " << parsed_token.line << " Column: " << parsed_token.column << std::endl;
-        for(auto &flag : parsed_token.flags){
-            std::cout << "    ---Flag: '" << flag <<"'"<<std::endl;
-        }
-        for(auto &value : parsed_token.values){
-            std::cout << "    ---Value: '" << value <<"'"<<std::endl;
-        }
-        std::cout << std::endl;
-    }
+
     output += "#!/bin/" + *args->SHELL + "\n";
     bool inside_if = false;
     bool if_end = false;
