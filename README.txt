@@ -35,19 +35,24 @@ Usage:
 
 
 battosh can turn the following commands/statements into bash
+usermade program
+cmake --build . ->              usermade program
+                                cmake --build .
 ECHO, /?        ->              echo, /bin/echo --help
 @REM            ->              #
 REM             ->              #
 ::              ->              #
 ver             ->              $SHELL --version
 cls             ->              clear
-dir             ->              ls
+call            ->              call
+type            ->              cat
+cd              ->              cd
+exit, /?, /B    ->              exit, exit [n]
+
 
 Known issues:
 --save-whitespace does not work properly
-
-Features to be added:
-
+C:\temp turns to C : \temp. please do "C:\temp" in the meantime
 
 
 %%%%%%%%%%%%%%%%%%%

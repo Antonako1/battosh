@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
+// https://tldp.org/LDP/abs/html/dosbatch.html
 enum batch_commands{
     // FILE COMMANDS
-    ___,
     VER,            // (ver) - show version | $SHELL --version
-    ASSOC,          // (assoc) - show or change file associations |
+    ASSOC,          // (assoc) - show or change file associations | chmod?
     CD,             // (cd) - change directory | cd
     CLS,            // (cls) - clear the screen | clear
     COPY,           // (copy) - copy files | cp
@@ -17,7 +17,7 @@ enum batch_commands{
     MKDIR,          // (mkdir) - make directory | mkdir
     MOVE,           // (move) - move files | mv
     PATH,           // (path) - display or set a search path for executable files | path
-    PAUSE,          // (pause) - suspend processing of a batch file and display a message | pause
+    PAUSE,          // (pause) - suspend processing of a batch file and display a message | sleep
     PROMPT,         // (prompt) - change the command prompt | prompt
     RD,             // (rd) - remove directory | rmdir
     RMDIR,          // (rmdir) - remove directory | rmdir
@@ -61,6 +61,7 @@ enum batch_commands{
     ELSE,           // (else) - perform conditional processing in batch programs | else
     FOR,            // (for) - conditionally perform a command several times | for
     GOTO,           // (goto) - direct a batch program to jump to a labelled line | goto
+    GOTODEFINITION, // (:) - direct a batch program to jump to a labelled line | :
     CALL,           // (call) - call one batch program from another | call
     SHIFT,          // (shift) - change the position of replaceable parameters in a batch program | shift
     SETLOCAL,       // (setlocal) - begin localisation of environment changes in a batch file | setlocal
@@ -108,7 +109,6 @@ enum batch_commands{
 };
 
 
-// Flags need to be without /
 struct ECHO_FLAG{
     std::string LINUX_GET_GELP_UPDATED_PATH = "/bin/echo";
     std::string LINUX_GET_HELP = "--help";
@@ -127,13 +127,3 @@ struct EXIT_FLAG{
     std::string GET_HELP = "/?";
     std::string GET_HELP_EXPECT_VALUE = "NONE";
 };
-
-struct DIR_FLAG {
-    std::string LINUX_GET_HELP = "--help";
-    std::string GET_HELP = "/?";
-
-    std::string ATTRIBUTE = "/A";
-    std::string ATTRIBUTE_EXPECT_VALUE = "D,R,H,A,S,I,L,-";
-    
-};
-

@@ -7,7 +7,7 @@
 
 // .\build_n_run.bat .\win\test.bat -sw -sc
 
-void to_the_end(int command, std::vector<Token> *tokens, size_t &i, Token &token, std::vector<ParsedToken> *parsed_tokens){
+void parse_to_the_end(int command, std::vector<Token> *tokens, size_t &i, Token &token, std::vector<ParsedToken> *parsed_tokens){
     ParsedToken parsed_token;
     parsed_token.command = command;
     parsed_token.value = token.value;
@@ -62,7 +62,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
         std::cout << "Command: " << token.command << " Value: '" << token.value << "' Line: " << token.line << " Column: " << token.column << std::endl;
         switch (token.command) {
             case ECHO: {
-                to_the_end(ECHO, tokens, i, token, parsed_tokens);
+                parse_to_the_end(ECHO, tokens, i, token, parsed_tokens);
                 break;
             }
             case VER: {
@@ -77,20 +77,37 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             }
             case REM: {
                 if(args->savecomments) {
-                    to_the_end(REM, tokens, i, token, parsed_tokens);
+                    parse_to_the_end(REM, tokens, i, token, parsed_tokens);
                 }
                 else {
                     i++;
                 }
                 break;
             }
-            
+            case CALL: {
+                parse_to_the_end(CALL, tokens, i, token, parsed_tokens);
+                break;
+            }
+            case TYPE: {
+                parse_to_the_end(TYPE, tokens, i, token, parsed_tokens);
+                break;
+            }
+            case CD: {
+                parse_to_the_end(CD, tokens, i, token, parsed_tokens);
+                break;
+            }
+            case EXIT: {
+                parse_to_the_end(EXIT, tokens, i, token, parsed_tokens);
+                break;
+            }
+
             case ENDLINE:
                 {
                 add_single_token(token, ENDLINE, parsed_tokens, i);
                 break;
                 }
             default:
+                parse_to_the_end(UNKNOWN, tokens, i, token, parsed_tokens);
                 i++;
                 break;
         }
