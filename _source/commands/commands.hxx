@@ -191,7 +191,8 @@ struct IF_FLAG{
     std::string GET_HELP = "/?";
     std::string GET_HELP_EXPECT_VALUE = "NONE";
 
-    std::string LINUX_IGNORE_CASE = "--ignore-case";
+    // TODO: do /I once variable is implemented
+    std::string LINUX_IGNORE_CASE = "\"$var,,}\"";
     std::string IGNORE_CASE = "/I";
     std::string IGNORE_CASE_EXPECT_VALUE = "NONE";
 };
