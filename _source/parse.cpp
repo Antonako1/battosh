@@ -81,15 +81,17 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             case TIMEOUT:
             case ECHOOFF:
             case MOVE:
+            case HELP:
                 parse_to_the_end(token.command, tokens, i, token, parsed_tokens);
                 break;
 
             // add single token stack
+            case PAUSE:
             case CLS:
             case VER:
             case EXIT:
             case ENDLINE:
-            case IF:
+            case IF:        // TODO, NOTE: /I will not propably work, add_single_token should add flags
             case ELSE:
             case ELSEIF:
             case LPAREN:

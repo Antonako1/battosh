@@ -15,6 +15,7 @@ std::string commands[] = {
 "CLS",          std::to_string(CLS),
 "COPY",         std::to_string(COPY),
 "DEL",          std::to_string(DEL),
+"ERASE",        std::to_string(ERASE),
 "DIR",          std::to_string(DIR),
 "DATE",         std::to_string(DATE),
 "ECHO",         std::to_string(ECHO),

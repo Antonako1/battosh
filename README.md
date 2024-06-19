@@ -68,6 +68,9 @@ battosh can turn the following commands/statements with their flags into bash
     (ren, rename), /?        ->             mv, --help
     timeout, /?, /T          ->             pause, --help, pause [number]. (/NOBREAK has no equivelant in pause)
     move, /Y, /-Y            ->             mv, --force, --interactive
+    help, /?                 ->             help, --help
+    pause                    ->             read -rsp $'Press any key to continue...\n' -n 1 key
+
 
 ### Known issues
 

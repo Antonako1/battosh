@@ -37,12 +37,13 @@ if "A" == "A" echo test
 enum batch_commands{
     // FILE COMMANDS
     VER,            // -- (ver) - show version | $SHELL --version      
-    ASSOC,          // (assoc) - show or change file associations | chmod?
+    ASSOC,          // (assoc) - show or change file associations | chmod
     CD,             // -- (cd) - change directory | cd
     CHDIR,          // -- (chdir) - change directory | cd
     CLS,            // -- (cls) - clear the screen | clear
     COPY,           // (copy) - copy files | cp
     DEL,            // (del) - delete files | rm
+    ERASE,          // (erase) - delete files | rm
     DIR,            // (dir) - list directory contents | ls
     DATE,           // (date) - show or set the date |
     ECHO,           // -- (echo) - display message on screen | echo
@@ -51,7 +52,7 @@ enum batch_commands{
     MKDIR,          // -- (mkdir) - make directory | mkdir
     MOVE,           // -- (move) - move files | mv
     PATH,           // (path) - display or set a search path for executable files | path
-    PAUSE,          // (pause) - suspend processing of a batch file and display a message | sleep
+    PAUSE,          // -- (pause) - suspend processing of a batch file and display a message | read -rsp $'Press any key to continue...\n' -n 1 key 
     PROMPT,         // (prompt) - change the command prompt | prompt
     RD,             // -- (rd) - remove directory | rmdir
     RMDIR,          // -- (rmdir) - remove directory | rmdir
@@ -60,7 +61,7 @@ enum batch_commands{
     REM,            // -- (rem|@rem) - comment | #
     START,          // (start) - start a program or command | start
     TIME,           // (time) - show or set the system time |
-    TYPE,           // (type) - display the contents of a text file | cat
+    TYPE,           // -- (type) - display the contents of a text file | cat
     VOL,            // (vol) - display a disk label | vol
     ATTRIB,         // (attrib) - display or change file attributes | chmod
     CHKDSK,         // (chkdsk) - check a disk and display a status report | fsck
@@ -72,7 +73,7 @@ enum batch_commands{
     EXPAND,         // (expand) - extract files from a compressed file | expand
     FIND,           // (find) - search for a text string in a file | grep
     FORMAT,         // (format) - format a disk for use with Windows | format
-    HELP,           // (help) - provide Help information for Windows commands | help
+    HELP,           // -- (help) - provide Help information for Windows commands | help
     IPCONFIG,       // (ipconfig) - display Windows IP configuration | ipconfig
     LABEL,          // (label) - create, change, or delete the volume label of a disk | label
     MORE,           // (more) - display output, one screen at a time | more
@@ -122,7 +123,7 @@ enum batch_commands{
     LOGMAN,         // (logman) - Manage Performance Monitor | logman
 
     // Flags
-    FLAG,           // /?, /S, /Q etc.
+    FLAG,           // -- /?, /S, /Q etc.
 
     // Variable
     VAR,            // %var%
@@ -244,4 +245,15 @@ struct MOVE_FLAG {
 
     std::string LINUX_PROMPT = "--interactive";
     std::string PROMPT = "/-Y";
+};
+
+struct HELP_FLAG {
+    std::string LINUX_GET_HELP = "--help";
+    std::string HELP = "/?";
+    std::string HELP_EXPECT_VALUE = "NONE";
+};
+
+struct PAUSE_FLAG {
+    // not my own code, copied from https://stackoverflow.com/a/17778773/22872825
+    std::string LINUX_PAUSE = "read -rsp $'Press any key to continue...\\n' -n 1 key ";
 };

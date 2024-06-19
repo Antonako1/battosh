@@ -1,3 +1,2 @@
 #!/bin/bash
-mv --interactive TEST TEST2 
-mv --force lol lol2 
+read -rsp $'Press any key to continue...\n' -n 1 key 

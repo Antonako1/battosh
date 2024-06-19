@@ -15,7 +15,8 @@ RENAME_FLAG rename_flag;
 IF_FLAG if_flag;
 TIMEOUT_FLAG timeout_flag;
 MOVE_FLAG move_flag;
-
+HELP_FLAG help_flag;
+PAUSE_FLAG pause_flag;
 
 void add_end_values(const ParsedToken &parsed_token, std::string &output){
     for(const auto &value : parsed_token.values){
@@ -232,6 +233,19 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 } else {
                     output += "set -v";
                 }
+                break;
+            }
+            case HELP:{
+                output += "help ";
+                for(const auto &flag : parsed_token.flags){
+                    if(flag == help_flag.HELP){
+                        output += help_flag.LINUX_GET_HELP + " ";
+                    }
+                }
+                break;
+            }
+            case PAUSE : {
+                output += pause_flag.LINUX_PAUSE;
                 break;
             }
             case MOVE: {
