@@ -1,11 +1,13 @@
 About:
     Displays contents of the current directory
     
-    100% features don't work hand-in-hand.
+    100% of the features don't work hand-in-hand.
     This is due to the decision on how to make the program:
-    Use only "ls" or use other commands to pass the functionalities of the different flags
+    Use only "ls" and not pass all the functionalities or 
+    use other commands to pass the functionalities of the different flags and attributes
 
-    Due to decision to use other commands to pass the functionalities, not all work together
+    Due to decision to use other commands to pass the functionalities, not all of the 
+    combinations work together
 
 Command: DIR 
 Flags:

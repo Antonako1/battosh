@@ -158,20 +158,21 @@ enum batch_commands{
     AND,            // -- &&
     OR,             // -- ||
     NOT,            // -- !
-    SHL,            // -- << NOTE ?
-    SHR,            // -- >> NOTE ?
+    SHL,            // << // NOTE ? investigate
+    SHR,            // >> // NOTE ? investigate
 
     // Assignment Operators
-    ADD_ASSIGN,     // +=
-    SUB_ASSIGN,     // -=
-    MUL_ASSIGN,     // *=
-    DIV_ASSIGN,     // /=
-    MOD_ASSIGN,     // %=
+                    // bat| sh
+    ADD_ASSIGN,     // += | 
+    SUB_ASSIGN,     // -= | 
+    MUL_ASSIGN,     // *= | 
+    DIV_ASSIGN,     // /= | 
+    MOD_ASSIGN,     // %= | 
     
     // Bitwise Operators
-    AND_BIT,        // -- -a
-    OR_BIT,         // -- -o
-    XOR,            // -- ^ // TODO: XOR operator
+    AND_BIT,        // -a
+    OR_BIT,         // -o
+    XOR_BIT,        // ^ // TODO: XOR operator
 
     // TODO STRING OPERATORS: =, !=, -z, -n, str https://www.tutorialspoint.com/unix/unix-basic-operators.htm
     
@@ -182,7 +183,7 @@ enum batch_commands{
     DIV,            // /
     MOD,            // %
 
-    EXIST,          // -- (exist) - check if file exists | 
+    EXIST,          // -- (exist) - check if file exists | -e
 
 };
 
