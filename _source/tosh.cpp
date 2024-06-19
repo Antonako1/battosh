@@ -14,6 +14,8 @@ RMDIR_FLAG rmdir_flag;
 RENAME_FLAG rename_flag;
 IF_FLAG if_flag;
 TIMEOUT_FLAG timeout_flag;
+MOVE_FLAG move_flag;
+
 
 void add_end_values(const ParsedToken &parsed_token, std::string &output){
     for(const auto &value : parsed_token.values){
@@ -52,6 +54,7 @@ void if_statement_workings(
     std::string statement = "";
     size_t index = 0;
     for(index = i; index < tokens->size(); index++){
+
         ParsedToken next_token = tokens->at(index);
         switch (next_token.command) {
         case IF: break; // skip, otherwise will appear in default
@@ -152,7 +155,11 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         parsed_token.command = ENDLINE;
         tokens->push_back(parsed_token);        
     }
+    std::string QUIET_MODE = "";
 
+    if(args->quiet){
+        QUIET_MODE = "2> /dev/null";
+    }
     output += "#!/bin/" + *args->SHELL + "\n";
     bool inside_if = false;
     bool if_end = false;
@@ -160,13 +167,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     int if_statement_intend = 0;
     for(size_t i = 0; i < tokens->size(); i++){
         ParsedToken parsed_token = tokens->at(i);
-        // std::cout << "Token: " << parsed_token.value << " Command: " << parsed_token.command << std::endl;
-        // for(const auto &flag : parsed_token.flags){
-        //     std::cout << "  Flag: " << flag << std::endl;
-        // }
-        // for (const auto &value : parsed_token.values) {
-        //     std::cout << "  Value: " << value << std::endl;
-        // }
+        std::cout << "Token: " << parsed_token.value << " Command: " << parsed_token.command << std::endl;
+        for(const auto &flag : parsed_token.flags){
+            std::cout << "  Flag: " << flag << std::endl;
+        }
+        for (const auto &value : parsed_token.values) {
+            std::cout << "  Value: " << value << std::endl;
+        }
         if(inside_if || short_hand_if_statement != 0){
             output += std::string(if_statement_intend, ' ');
         } 
@@ -225,6 +232,23 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 } else {
                     output += "set -v";
                 }
+                break;
+            }
+            case MOVE: {
+                output += "mv ";
+                // TODO PATH CHECK
+                for(const auto &flag : parsed_token.flags){
+                    if(flag == move_flag.GET_HELP){
+                        output += move_flag.LINUX_GET_HELP + " ";
+                    }
+                    else if(flag == move_flag.FORCE_MOVE){
+                        output += move_flag.LINUX_FORCE_MOVE + " ";
+                    }
+                    else if(flag == move_flag.PROMPT){
+                        output += move_flag.LINUX_PROMPT + " ";
+                    }
+                }
+                add_end_values(parsed_token, output);
                 break;
             }
             case REM: {
@@ -339,7 +363,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 }
                 add_end_values(parsed_token, output);
                 if(add_quiet_mode){
-                    output += rmdir_flag.LINUX_QUIET_MODE;
+                    output += QUIET_MODE;
                 }
                 break;
             }

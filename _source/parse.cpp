@@ -79,6 +79,8 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             case REN:
             case RENAME:
             case TIMEOUT:
+            case ECHOOFF:
+            case MOVE:
                 parse_to_the_end(token.command, tokens, i, token, parsed_tokens);
                 break;
 

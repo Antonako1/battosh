@@ -31,17 +31,18 @@ Linux:
                     --version                   See version
                     --wsl                       Turn paths to comply with WSL, C:\temp -> /mnt/c/temp. Can not be used with --linux
                     --linux                     Program tries its best to turn paths from windows to linux, C:\Users\%USERNAME%\Documents -> ~/Documents. Can not be used with --wsl
-            -sw,    --save-whitespace           Program saves the original whitespace and line ends 
+            -sw,    --save-whitespace           Program saves the original whitespace and line endings
             -sc,    --save-comments             Program saves the comments
                     --set-shell {shell}         Default: /bin/bash. Program will change bash to whatever shell you have provided
                     --set-mkdirp                Sets all MKDIR commands to have -p as it is the Windows default
+            -qm      --set-quietmode             CMD flag /Q will be turned to 2> /dev/null
         examples:
             battosh file.bat                    -> outputs file.sh
             battosh file.bat -o test.sh         -> outputs test.sh
             battosh file.bat -sw --wsl          -> changes paths to work on wsl, saves whitespaces
             battosh file.bat --set-shell zsh    -> turns /bin/bash to /bin/zsh
 
-battosh can turn the following commands/statements into bash
+battosh can turn the following commands/statements with their flags into bash
 
 
     ECHO, /?                ->              echo, /bin/echo --help
@@ -66,6 +67,7 @@ battosh can turn the following commands/statements into bash
     (rmdir, rd), /?, /S, /Q  ->             rmdir, --help, rm -rf, rmdir ... 2> /dev/null (combination is rm -rf ... 2> /dev/null)
     (ren, rename), /?        ->             mv, --help
     timeout, /?, /T          ->             pause, --help, pause [number]. (/NOBREAK has no equivelant in pause)
+    move, /Y, /-Y            ->             mv, --force, --interactive
 
 ### Known issues
 

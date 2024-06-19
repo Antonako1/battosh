@@ -49,7 +49,7 @@ enum batch_commands{
     EXIT,           // -- (exit) - exit the command interpreter | exit
     MD,             // -- (md) - make directory | mkdir
     MKDIR,          // -- (mkdir) - make directory | mkdir
-    MOVE,           // (move) - move files | mv
+    MOVE,           // -- (move) - move files | mv
     PATH,           // (path) - display or set a search path for executable files | path
     PAUSE,          // (pause) - suspend processing of a batch file and display a message | sleep
     PROMPT,         // (prompt) - change the command prompt | prompt
@@ -205,7 +205,8 @@ struct RMDIR_FLAG{
     std::string REMOVE_DIR_TREE = "/S";
     std::string REMOVE_DIR_TREE_EXPECT_VALUE = "NONE";
     
-    std::string LINUX_QUIET_MODE = "2> /dev/null";
+    // std::string LINUX_QUIET_MODE = "2> /dev/null";
+    // std::string LINUX_QUIET_MODE = "";
     std::string QUIET_MODE = "/Q";
 
 };
@@ -230,4 +231,17 @@ struct TIMEOUT_FLAG{
     std::string TIMEOUT_EXPECT_VALUE = "INT";
 
     std::string NO_INTERRUPT = "/NOBREAK"; // no linux equivalent
+};
+
+struct MOVE_FLAG {
+    std::string LINUX_GET_HELP = "--help";
+    std::string GET_HELP = "/?";
+    std::string GET_HELP_EXPECT_VALUE = "NONE";
+
+    std::string LINUX_FORCE_MOVE = "--force";
+    std::string FORCE_MOVE = "/Y";
+    std::string FORCE_MOVE_EXPECT_VALUE = "NONE";
+
+    std::string LINUX_PROMPT = "--interactive";
+    std::string PROMPT = "/-Y";
 };

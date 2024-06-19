@@ -35,6 +35,7 @@ struct battosh_info {
     bool savecomments;
     std::unique_ptr<std::string> SHELL;
     bool mkdir_p;
+    bool quiet;
 };
 
 std::vector<Token>* lexical(battosh_info *args);

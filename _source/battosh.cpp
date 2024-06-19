@@ -61,7 +61,11 @@ int main(int argc, char *argv[]) {
             }
         } else if (std::string(argv[i]) == "--set-mkdirp"){
             info->mkdir_p = true;
-        } else {
+        } else if (std::string(argv[i]) == "-qm" || std::string(argv[i]) == "--quiet-mode"){
+            info->quiet = true;
+        } 
+        
+        else {
             if (i == 1) {
                 continue;
             }
