@@ -3,6 +3,7 @@
 #include <vector>
 #include "battosh.hxx"
 
+
 void message(std::string &msg, int flag, int command, bool error, int line, int column){
     std::string error_msg = "";
     switch (command)

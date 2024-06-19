@@ -83,7 +83,6 @@ int main(int argc, char *argv[]) {
     
     std::vector<Token> *tokens = lexical(info.get());
 
-
     std::vector<ParsedToken> *parsed_tokens = parse(tokens, info.get());
 
     tosh(parsed_tokens, info.get());

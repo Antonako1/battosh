@@ -43,27 +43,29 @@ Linux:
 
 battosh can turn the following commands/statements into bash
 
-    usermade program
-    cmake --build .     ->              usermade program
-                                        cmake --build .
-    ECHO, /?            ->              echo, /bin/echo --help
-    @REM                ->              #
-    REM                 ->              #
-    ::                  ->              #
-    ver                 ->              $SHELL --version
-    cls                 ->              clear
-    call                ->              call
-    type                ->              cat
-    cd                  ->              cd
-    exit, /?, /B        ->              exit, --help, exit [n]
+
+    ECHO, /?                ->              echo, /bin/echo --help
+    @REM                    ->              #
+    REM                     ->              #
+    ::                      ->              #
+    ver                     ->              $SHELL --version
+    cls                     ->              clear
+    call                    ->              call
+    type                    ->              cat
+    cd                      ->              cd
+    exit, /?, /B            ->              exit, --help, exit [n]
+    comparison and logical
+    operators               ->              comparison and logical
+                                            operators
     if else, else if
-    comparisons,
     exist
-    /I                  ->              if else, elif
-                                        comparisons
-                                        -e
-                                        only works for variables... ("${var1,,}" = "${var2,,}")
-    mkdir, /?           ->              mkdir, --help
+    /I                      ->              if else, elif
+                                            -e
+                                            only works for variables... ("${var1,,}" = "${var2,,}")
+    (mkdir, md), /?          ->             mkdir, --help
+    (rmdir, rd), /?, /S, /Q  ->             rmdir, --help, rm -rf, rmdir ... 2> /dev/null (combination is rm -rf ... 2> /dev/null)
+    (ren, rename), /?        ->             mv, --help
+    timeout, /?, /T          ->             pause, --help, pause [number]. (/NOBREAK has no equivelant in pause)
 
 ### Known issues
 

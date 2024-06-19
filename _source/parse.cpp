@@ -15,7 +15,13 @@ void parse_to_the_end(int command, std::vector<Token> *tokens, size_t &i, Token 
     parsed_token.column = token.column;
     i++; // Move to the next token
     bool endline = false;
-
+    for(std::string &flag : token.flags){
+        std::string temp = flag;
+        for(char &c : temp){
+            c = toupper(c);
+        }
+        parsed_token.flags.push_back(temp);
+    }
     while (i < tokens->size()) {
         Token next_token = tokens->at(i);
         if (next_token.command == ENDLINE) {
@@ -38,6 +44,7 @@ void add_single_token(Token &token, int command, std::vector<ParsedToken> *parse
     parsed_token.value = token.value;
     parsed_token.line = token.line;
     parsed_token.column = token.column;
+    // parsed_token.flags = token.flags;
     parsed_tokens->push_back(parsed_token);
     i++;
 }
@@ -64,8 +71,14 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             case CALL:
             case TYPE:
             case MKDIR:
+            case MD:
             case CHDIR:
             case CD:
+            case RD:
+            case RMDIR:
+            case REN:
+            case RENAME:
+            case TIMEOUT:
                 parse_to_the_end(token.command, tokens, i, token, parsed_tokens);
                 break;
 

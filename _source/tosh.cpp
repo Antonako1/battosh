@@ -10,6 +10,10 @@
 EXIT_FLAG exit_flag;
 ECHO_FLAG echo_flag;
 MKDIR_FLAG mkdir_flag;
+RMDIR_FLAG rmdir_flag;
+RENAME_FLAG rename_flag;
+IF_FLAG if_flag;
+TIMEOUT_FLAG timeout_flag;
 
 void add_end_values(const ParsedToken &parsed_token, std::string &output){
     for(const auto &value : parsed_token.values){
@@ -94,7 +98,7 @@ void if_statement_workings(
             output += tokens->at(index).value;
             break;
         case LPAREN:
-            output += "]; then";
+            output += " ]; then";
             if (tokens->at(index + 1).command != ENDLINE) {
                 output += "\n";
             }
@@ -121,6 +125,8 @@ void if_statement_workings(
                 // rough code
                 if(next_token.command != UNKNOWN){
                     index--;
+                    // Remove the added token from output
+                    output = output.substr(0, output.size() - next_token.value.size() - 1);
                 }
                 output += "]; then\n";
                 break_statemnt = true;
@@ -154,6 +160,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     int if_statement_intend = 0;
     for(size_t i = 0; i < tokens->size(); i++){
         ParsedToken parsed_token = tokens->at(i);
+        // std::cout << "Token: " << parsed_token.value << " Command: " << parsed_token.command << std::endl;
+        // for(const auto &flag : parsed_token.flags){
+        //     std::cout << "  Flag: " << flag << std::endl;
+        // }
+        // for (const auto &value : parsed_token.values) {
+        //     std::cout << "  Value: " << value << std::endl;
+        // }
         if(inside_if || short_hand_if_statement != 0){
             output += std::string(if_statement_intend, ' ');
         } 
@@ -225,6 +238,34 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement);
                 break;
             }
+            case REN:
+            case RENAME: {
+                output += "mv ";
+                // TODO PATH CHECK
+                for(const auto &flag : parsed_token.flags){
+                    if(flag == rename_flag.GET_HELP){
+                        output += rename_flag.LINUX_GET_HELP + " ";
+                    }
+                }
+                add_end_values(parsed_token, output);
+                break;
+            }
+            case TIMEOUT:{
+                output += "sleep ";
+                for(const auto &flag : parsed_token.flags){
+                    if(flag == timeout_flag.GET_HELP){
+                        output += timeout_flag.LINUX_GET_HELP + " ";
+                    } else if (flag == timeout_flag.NO_INTERRUPT){
+                        // TODO: Note to user: Linux does not have a no interrupt flag
+                        
+                    } 
+                    // else if (flag == timeout_flag.TIMEOUT){
+                    //     output += timeout_flag.LINUX_TIMEOUT + " ";
+                    // }
+                }
+                add_end_values(parsed_token, output);
+                break;
+            }
             case RPAREN: {
                 if(tokens->size() > i + 1 && tokens->at(i + 1).command == ELSE){
                     if(tokens->size() > i + 2 && tokens->at(i + 2).command == IF){
@@ -234,15 +275,18 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         output += "elif [ ";
                         if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement);
                     } else {
-                        output += output[output.size() - 1] == '\n' ? "" : "\n";
+                        // output += output[output.size() - 1] == '\n' ? "" : "\n";
+                        output = output.substr(0, output.size() - if_statement_intend);
                         if_statement_intend = if_statement_intend-4<0?0:if_statement_intend-4;
                         output += std::string(if_statement_intend, ' ');
                         if_statement_intend += 4;
                         output += "else";
                     }
                 } else {
-                    output += output[output.size() - 1] == '\n' ? "" : "\n";
+                    // output += output[output.size() - 1] == '\n' ? "" : "\n";
+                    output = output.substr(0, output.size() - if_statement_intend);
                     if_statement_intend = if_statement_intend - 4 < 0 ? 0 : if_statement_intend - 4;
+
                     if(if_statement_intend != 0){
                         output += std::string(if_statement_intend, ' ');
                     }
@@ -268,6 +312,38 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 }
                 break;
             }
+            case RD:
+            case RMDIR: {
+                bool updated_command = false;
+                bool add_quiet_mode = false;
+                for(const auto &flag : parsed_token.flags){
+                    if(flag == rmdir_flag.GET_HELP){
+                        output += "rmdir ";
+                        output += rmdir_flag.LINUX_GET_HELP + " ";
+                        updated_command = true;
+                        continue;
+                    } else if(flag == rmdir_flag.REMOVE_DIR_TREE){
+                        if(!updated_command) {
+                            output += rmdir_flag.LINUX_UPDATED_COMMAND + " ";
+                            output += rmdir_flag.LINUX_REMOVE_DIR_TREE + " ";
+                            updated_command = true;
+                        }
+                        continue;
+                    } else if(flag == rmdir_flag.QUIET_MODE){
+                        add_quiet_mode = true;
+                        continue;
+                    }
+                }
+                if(!updated_command){
+                    output += "rmdir ";
+                }
+                add_end_values(parsed_token, output);
+                if(add_quiet_mode){
+                    output += rmdir_flag.LINUX_QUIET_MODE;
+                }
+                break;
+            }
+            case MD:
             case MKDIR: {
                 output += "mkdir ";
                 if(args->mkdir_p){
