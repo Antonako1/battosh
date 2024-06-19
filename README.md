@@ -48,7 +48,7 @@ battosh can turn the following commands/statements with their flags into bash
 
 Note: Although every command can start with @, attempting to use it with any command other than those listed below will not work because the lexer cannot process it.
 
-    Command                                 What it is turned to with all flags and attributes
+    Command                                 Path to the docs file
 
     ECHO                    =>              See .\docs\ECHO.txt
     @ECHO (on/off)          =>              See .\docs\ECHO.txt

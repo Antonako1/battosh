@@ -16,6 +16,10 @@ About:
     --linux tries to change the paths to the corresponding ones on linux
     See example section to see how these work
 
+    The CD.. command (greatest shortcut known to mankind) is parsed (partly due to faulty a lexer) as "CD.."
+    which would be treated as an unknown token.
+    All occurances of "CD.." will be turned to "cd .."
+
 Command: CH | CHDIR
 Flags:
 
@@ -42,9 +46,11 @@ Example(s):
 chdir C:\Program Files\battosh\
 @REM --linux is turned on for this command
 cd "C:\Users\%USERNAME%\Downloads"
+cd..
 =>
 cd /mnt/c/Program\ Files/battosh
 cd ~/Downloads
+cd ..
 
 Sources:
     cd /?
