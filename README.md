@@ -29,13 +29,15 @@ Linux:
             -o,     --out                       Set the program to output the shell file with a different filename
             -h,     --help                      See help message
                     --version                   See version
-                    --wsl                       Turn paths to comply with WSL, C:\temp -> /mnt/c/temp. Can not be used with --linux
-                    --linux                     Program tries its best to turn paths from windows to linux, C:\Users\%USERNAME%\Documents -> ~/Documents. Can not be used with --wsl
+                    --wsl                       Turn paths to comply with WSL, C:\temp -> /mnt/c/temp. Can not be used with --linux. Works only with absolute paths or Windows' standard variables (%USERNAME%, %APPDATA% etc.)
+                    --linux                     Program tries its best to turn paths from windows to linux, C:\Users\%USERNAME%\Documents -> ~/Documents. Can not be used with --wsl. Works only with absolute paths or Windows' standard variables (%USERNAME%, %APPDATA% etc.)
             -sw,    --save-whitespace           Program saves the original whitespace and line endings
             -sc,    --save-comments             Program saves the comments
                     --set-shell {shell}         Default: /bin/bash. Program will change bash to whatever shell you have provided
                     --set-mkdirp                Sets all MKDIR commands to have -p as it is the Windows default
-            -qm      --set-quietmode             CMD flag /Q will be turned to 2> /dev/null
+            -qm,    --set-quietmode             CMD flag /Q will be turned to 2> /dev/null
+            -ds,    --dir-sort                  When dir is translated to ls, add -l flag to ls (ls -l) 
+            -bs,    --bat-shell                 Turn all occurences of .bat to .sh
         examples:
             battosh file.bat                    -> outputs file.sh
             battosh file.bat -o test.sh         -> outputs test.sh
@@ -44,17 +46,36 @@ Linux:
 
 battosh can turn the following commands/statements with their flags into bash
 
+Note: Although every command can start with @, attempting to use it with any command other than those listed below will not work because the lexer cannot process it.
 
-    ECHO, /?                ->              echo, /bin/echo --help
-    @REM                    ->              #
-    REM                     ->              #
-    ::                      ->              #
-    ver                     ->              $SHELL --version
-    cls                     ->              clear
-    call                    ->              call
-    type                    ->              cat
-    cd                      ->              cd
-    exit, /?, /B            ->              exit, --help, exit [n]
+    Command                                 What it is turned to with all flags and attributes
+
+    ECHO                    =>              See .\docs\ECHO.txt
+    @ECHO (on/off)          =>              See .\docs\ECHO.txt
+    (@)REM,, ::             =>              See .\docs\Comments.txt
+    VER                     =>              See .\docs\VER.txt
+    CLS                     =>              See .\docs\CLS.txt
+    CALL                    =>              See .\docs\CALL.txt
+    TYPE                    =>              See .\docs\TYPE.txt
+    CD, CHDIR, CD..         =>              See .\docs\CD.txt
+    EXIT                    =>              See .\docs\EXIT.txt
+    Arithmetic operators    =>              See .\docs\Arithmetic-Operators.txt
+    Logical operators       =>              See .\docs\Logical-Operators.txt
+    Assignment operators    =>              See
+    Bitwise operators       =>              See
+    Arithmetic operators    =>              See
+    String operators        =>              See
+    IF, (ELSE IF)           =>              See .\docs\IF.txt
+    ELSE                    =>              See .\docs\ELSE.txt
+    MKDIR, MD               =>              See .\docs\MKDIR.txt
+    RMDIR, RD               =>              See .\docs\RMDIR.txt
+    REN, RENAME             =>              See .\docs\REN.txt
+    TIMEOUT                 =>              See .\docs\TIMEOUT.txt
+    MOVE                    =>              See .\docs\MOVE.txt
+    HELP                    =>              See .\docs\HELP.txt
+    PAUSE                   =>              See .\docs\PAUSE.txt
+    DIR                     =>              See .\docs\DIR.txt
+
     comparison and logical
     operators               ->              comparison and logical
                                             operators
@@ -70,7 +91,8 @@ battosh can turn the following commands/statements with their flags into bash
     move, /Y, /-Y            ->             mv, --force, --interactive
     help, /?                 ->             help, --help
     pause                    ->             read -rsp $'Press any key to continue...\n' -n 1 key
-
+    dir, /A:[D, R, H, A, 
+    S, I, L, O, -], /B, /C
 
 ### Known issues
 

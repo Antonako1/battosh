@@ -60,7 +60,15 @@ int main(int argc, char *argv[]) {
                 std::string error = "Shell not provided";
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
             }
-        } else if (std::string(argv[i]) == "--set-mkdirp"){
+        } else if(std::string(argv[i]) == "-dr" || std::string(argv[i]) == "--dir-sort"){
+            info->dirsort = true;
+        }
+
+        else if (std::string(argv[i]) == "-bs" || std::string(argv[i]) == "--bat-shell"){
+            info->batchtoshell = true;
+        }
+        
+        else if (std::string(argv[i]) == "--set-mkdirp"){
             info->mkdir_p = true;
         } else if (std::string(argv[i]) == "-qm" || std::string(argv[i]) == "--quiet-mode"){
             info->quiet = true;

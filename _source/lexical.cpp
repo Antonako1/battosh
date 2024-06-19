@@ -280,14 +280,32 @@ std::vector<Token>* lexical(battosh_info *args) {
                     break;
                 case '/':{
                         std::string flag = "/";
+                        std::string attribute = ":";
                         size_t flag_index = index + 1;
                         bool flag_found = false;
                         while (flag_index < line.size()) {
                             ahead = look_ahead(flag_index, line);
                             if (ahead == " " || ahead == "/" || ahead == "\n" ||
-                                ahead == "\r" || ahead == "\t") {
+                                ahead == "\r" || ahead == "\t" || ahead == ":" || ahead == "-") {
                                 flag_found = true;
                                 tokens->at(tokens->size() - 1).flags.push_back(flag);
+                                
+                                // check if attribute is present
+                                if(ahead == ":" || ahead == "-"){
+                                    flag_index++;
+                                    ahead = look_ahead(flag_index, line);
+                                    while (flag_index < line.size()) {
+                                        if (ahead == " " || ahead == "/" || ahead == "\n" ||
+                                            ahead == "\r" || ahead == "\t") {
+                                            break;
+                                        }
+                                        attribute += ahead;
+                                        flag_index++;
+                                        ahead = look_ahead(flag_index, line);
+                                        tokens->at(tokens->size() - 1).attributes.push_back(attribute);
+                                        attribute = ":";
+                                    }
+                                }
                                 break;
                             }
                             flag += ahead;

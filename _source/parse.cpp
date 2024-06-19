@@ -22,6 +22,13 @@ void parse_to_the_end(int command, std::vector<Token> *tokens, size_t &i, Token 
         }
         parsed_token.flags.push_back(temp);
     }
+    for(std::string &attribute : token.attributes){
+        std::string temp = attribute;
+        for(char &c : temp){
+            c = toupper(c);
+        }
+        parsed_token.attributes.push_back(temp);
+    }
     while (i < tokens->size()) {
         Token next_token = tokens->at(i);
         if (next_token.command == ENDLINE) {
@@ -67,6 +74,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             }
 
             // parse to the end stack
+            case DIR:
             case ECHO:
             case CALL:
             case TYPE:

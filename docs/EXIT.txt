@@ -1,0 +1,38 @@
+About:
+    Exit command exits from the script or program, like cmd or powershell.
+
+    Surprisingly, linux's and windows' versions of this command are almost identical,
+    of course that is in how they work and with the flags
+
+    The error code can be seen in windows when echoing %ERRORLEVEL% variable.
+    In linux the same can be done by echoing $?
+
+Command: EXIT
+Flags:
+
+Flag                => About
+1. /?               => Displays help message
+2. /B               => Exit with a given number as the error code. Will work if no number is provided
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Turning command and flags to shell
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Command: exit
+Flags:
+
+Converted flag 
+(and or command)    => About
+1. --help           => Displays help message
+2. exit [n]         => Will exit with the given error code
+
+%%%%%%%%%%%
+Example(s):
+%%%%%%%%%%%
+exit /B 3
+=>
+exit 3
+
+Sources:
+    exit /?
+    exit --help

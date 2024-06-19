@@ -1,0 +1,51 @@
+About:
+    CD Changes Directory to the given path
+    CHDIR and CD are the same, but CHDIR does not
+    need to surround the path with quotes if it has spaces in it
+
+    CD on its own displays the current path same as "pwd" in linux.
+    It is also stored in a variable called %CD%
+
+    The flag /D is used to change the drive along with the directory.
+    Since linux has all of the drives under /mnt/, this flag is not needed
+    and thus will not be included. 
+
+    The program includes a few flags used to automatically change paths included
+    in the scripts, some of these flags are --wsl and --linux.
+    --wsl tries to change the paths to work with WSL
+    --linux tries to change the paths to the corresponding ones on linux
+    See example section to see how these work
+
+Command: CH | CHDIR
+Flags:
+
+Flag                => About
+1. /?               => Displays help message
+2. /D               => Changes current drive in addition to the directory
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Turning command and flags to shell
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Command: cd
+Flags:
+
+Converted flag 
+(and or command)    => About
+1. Not included
+2. Not included
+
+%%%%%%%%%%%
+Example(s):
+%%%%%%%%%%%
+@REM --wsl is turned on for this command 
+chdir C:\Program Files\battosh\
+@REM --linux is turned on for this command
+cd "C:\Users\%USERNAME%\Downloads"
+=>
+cd /mnt/c/Program\ Files/battosh
+cd ~/Downloads
+
+Sources:
+    cd /?
+    cd --help

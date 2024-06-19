@@ -18,7 +18,8 @@ void message(std::string &msg, int flag, int command, bool error, int line, int 
 struct Token{
     int command;
     std::string value;
-    std::vector<std::string> flags;
+    std::vector<std::string> flags;         // example: /Q
+    std::vector<std::string> attributes;    // example: /A:D
     int line;
     int column;
 };
@@ -36,6 +37,8 @@ struct battosh_info {
     std::unique_ptr<std::string> SHELL;
     bool mkdir_p;
     bool quiet;
+    bool dirsort;
+    bool batchtoshell; // turn .bat to .sh
 };
 
 std::vector<Token>* lexical(battosh_info *args);
@@ -46,7 +49,10 @@ struct ParsedToken{
 
     // inner values, example: echo "hello world"
     std::vector<std::string> values;
+    // flags, example: /Q
     std::vector<std::string> flags;
+    // attributes, example: /A:D
+    std::vector<std::string> attributes;
     int line;
     int column;
 };

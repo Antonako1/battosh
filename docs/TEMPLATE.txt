@@ -1,0 +1,30 @@
+About:
+    ...
+
+Command: <batch:command>
+Flags:
+
+Flag                => About
+1. /?               => Displays help message
+    1. Attribute        => About
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Turning command and flags to shell
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<pih> = <path inserted here>
+
+Command: <shell_command>
+Flags:
+
+Converted flag 
+(and or command)    => About
+1. Not included
+    Converted attribute
+    (and or command)    => About
+
+%%%%%%%%%%%
+Example(s):
+%%%%%%%%%%%
+
+Sources:

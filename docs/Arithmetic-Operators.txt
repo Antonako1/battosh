@@ -1,0 +1,45 @@
+About:
+    Note: These are only for arithmetic operations, for string comparisons, see .\String-Operators.txt
+
+    Batch has a few arithmetic operators:
+    bat | more common
+    ----|----
+    EQU | ==
+    NEQ | !=
+    LSS | <
+    LEQ | <=
+    GTR | >
+    GEQ | >=
+
+    If we translate these shortened terms, they will be:
+    EQUAL
+    NOT EQUAL
+    LESS THAN
+    LESS THAN OR EQUAL TO
+    GREATER THAN
+    GREATER THAN OR EQUAL TO
+    The ones in shell are very similar. You can see them below in the examples section
+
+
+%%%%%%%%%%%
+Example(s):
+%%%%%%%%%%%
+@REM This cannot be parsed, but it will
+@REM show how these operators will be changed
+1 EQU 1
+1 NEQ 1
+1 LSS 1
+1 LEQ 1
+1 GTR 1
+1 GEQ 1
+=>
+1 -eq 1
+1 -ne 1
+1 -lt 1
+1 -le 1
+1 -gt 1
+1 -ge 1
+
+Sources:
+    if /?
+    https://www.tutorialspoint.com/unix/unix-basic-operators.htm :: See the other operators here too! :)

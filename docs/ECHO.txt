@@ -1,0 +1,62 @@
+About:
+    Writes text to screen
+    
+    The command is pretty simple to turn to shell :)
+
+    Note: Due to "echo --help" echoing the ask for help to the screen, it must be passed straight to the binary
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    @ECHO OFF/ON turns the echoing of commands off and on respectively
+    The @ prefix means that the given command will apply to itself
+
+    Even though @ECHO ON/OFF does the same job as ECHO ON/OFF, the latter sadly wont be parsed correctly 
+
+Command: ECHO
+Flags:
+
+Flag                => About
+1. /?               => Displays help message
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Command: @ECHO
+Flag                => About
+1. ON               => Turns echoing of commands on
+2. OFF              => Turns echoing of commands off
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Turning command and flags to shell
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Command: echo
+Flags:
+
+Converted flag 
+(and or command)    => About
+1. --help           => /bin/echo --help
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Command: set
+Flags:
+
+Converted flag 
+(and or command)    => About
+1. -v               => Turns echoing of commands on
+2. +x               => Turns echoing of commands off
+
+%%%%%%%%%%%
+Example(s):
+%%%%%%%%%%%
+@ECHO OFF
+ECHO Hi from batch
+=>
+set +x
+echo Hi from batch
+
+
+Sources:
+    echo /?
+    /bin/echo --help

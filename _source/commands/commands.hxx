@@ -46,7 +46,7 @@ enum batch_commands{
     COPY,           // (copy) - copy files | cp
     DEL,            // (del) - delete files | rm
     ERASE,          // (erase) - delete files | rm
-    DIR,            // (dir) - list directory contents | ls
+    DIR,            // -- (dir) - list directory contents | ls
     DATE,           // (date) - show or set the date |
     ECHO,           // -- (echo) - display message on screen | echo
     EXIT,           // -- (exit) - exit the command interpreter | exit
@@ -146,21 +146,41 @@ enum batch_commands{
 
     NULL__TOKEN,
 
-    // Comparison 
-    EQU,            // -- ==
-    NEQ,            // -- !=
-    LSS,            // -- <
-    LEQ,            // -- <=
-    GTR,            // -- >
-    GEQ,            // -- >=
+    // Comparison Operators
+    EQU,            // -- -eq
+    NEQ,            // -- -ne
+    LSS,            // -- -lt
+    LEQ,            // -- -le
+    GTR,            // -- -gt
+    GEQ,            // -- -ge
 
-    // Operators
+    // logical Operators
     AND,            // -- &&
     OR,             // -- ||
     NOT,            // -- !
-    XOR,            // -- ^
-    SHL,            // -- <<
-    SHR,            // -- >>
+    SHL,            // -- << NOTE ?
+    SHR,            // -- >> NOTE ?
+
+    // Assignment Operators
+    ADD_ASSIGN,     // +=
+    SUB_ASSIGN,     // -=
+    MUL_ASSIGN,     // *=
+    DIV_ASSIGN,     // /=
+    MOD_ASSIGN,     // %=
+    
+    // Bitwise Operators
+    AND_BIT,        // -- -a
+    OR_BIT,         // -- -o
+    XOR,            // -- ^ // TODO: XOR operator
+
+    // TODO STRING OPERATORS: =, !=, -z, -n, str https://www.tutorialspoint.com/unix/unix-basic-operators.htm
+    
+    // Arithmetic Operators
+    ADD,            // +
+    SUB,            // -
+    MUL,            // *
+    DIV,            // /
+    MOD,            // %
 
     EXIST,          // -- (exist) - check if file exists | 
 
@@ -258,4 +278,46 @@ struct HELP_FLAG {
 struct PAUSE_FLAG {
     // not my own code, copied from https://stackoverflow.com/a/17778773/22872825
     std::string LINUX_PAUSE = "read -rsp $'Press any key to continue...\\n' -n 1 key ";
+};
+
+struct DIR_FLAG {
+    std::string LINUX_GET_HELP = "--help";
+    std::string GET_HELP = "/?";
+    std::string GET_HELP_EXPECT_VALUE = "NONE";
+
+    std::string LINUX_ATTRIBUTES_NO_ATTRIB  = "-a "; // /A flag shows everything, this is the closest to it
+    std::string LINUX_ATTRIBUTES_DIRS           = "-d */";      // /A:D  
+                                                // PATH HERE
+    std::string LINUX_ATTRIBUTES_DIRS_ENDING    = "*/";      // /A:D  
+
+    std::string LINUX_ATTRIBUTES_READ_ONLY      = "find "; // /A:R
+                                                // PATH HERE
+    std::string LINUX_ATTRIBUTES_RO_ENDING      = " -maxdepth 1 -type f ! -writable"; // /A:R
+    
+    std::string LINUX_ATTRIBUTES_HIDDEN         = "-d "; // /A:H
+                                                // PATH HERE
+    std::string LINUX_ATTRIBUTES_HIDDEN_ENDING  = ".* "; // /A:H
+
+    std::string LINUX_ATTRIBUTES_ARCHIVE        = ""; // /A:A, no linux equivalent
+
+    std::string LINUX_ATTRIBUTES_SYSTEM         = "find"; // /A:S
+                                                // PATH HERE
+    std::string LINUX_ATTRIBUTES_SYSTEM_ENDING  = "-maxdepth 1 -type f \\( -perm /u=s -o -perm /g=s -o -perm /o=s \\)"; // /A:S
+
+    std::string LINUX_ATTRIBUTES_NON_INDEXED    = ""; // /A:I, no linux equivalent
+    std::string LINUX_ATTRIBUTES_REPARSE_POINT  = ""; // /A:L, no linux equivalent
+    std::string LINUX_ATTRIBUTES_OFFLINE        = ""; // /A:O, no linux equivalent
+    std::string LINUX_ATTRIBUTES_PREFIX_NOT     = "! "; // /A:-
+
+    std::string ATTRIBUTES                  = "/A";
+    std::string ATTRIBUTES_DIRS                 = ":D";
+    std::string ATTRIBUTES_READ_ONLY            = ":R";
+    std::string ATTRIBUTES_HIDDEN               = ":H";
+    std::string ATTRIBUTES_ARCHIVE              = ":A";
+    std::string ATTRIBUTES_SYSTEM               = ":S";
+    std::string ATTRIBUTES_NON_INDEXED          = ":I";
+    std::string ATTRIBUTES_REPARSE_POINT        = ":L";
+    std::string ATTRIBUTES_OFFLINE              = ":O";
+    std::string ATTRIBUTES_PREFIX_NOT           = ":-"; // example: dir /A:d-s -> show all directories exluding system directories
+    std::string ATTRIBUTES_EXPECT_VALUE = "STRING";
 };

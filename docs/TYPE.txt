@@ -1,0 +1,32 @@
+About:
+    Type types the contents of a file to the screen.
+    No surprise, the linux equivalent "cat" has countless
+    of flags (10), but thank goodness windows only has "/?"
+
+Command: TYPE
+Flags:
+
+Flag                => About
+1. /?               => Displays help message
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Turning command and flags to shell
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Command: cat
+Flags:
+
+Converted flag 
+(and or command)    => About
+1. Not included
+
+%%%%%%%%%%%
+Example(s):
+%%%%%%%%%%%
+type test.txt
+=>
+cat test.txt
+
+Sources:
+    type /?
+    cat --help

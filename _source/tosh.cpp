@@ -17,6 +17,7 @@ TIMEOUT_FLAG timeout_flag;
 MOVE_FLAG move_flag;
 HELP_FLAG help_flag;
 PAUSE_FLAG pause_flag;
+DIR_FLAG dir_flag;
 
 void add_end_values(const ParsedToken &parsed_token, std::string &output){
     for(const auto &value : parsed_token.values){
@@ -63,22 +64,22 @@ void if_statement_workings(
             output += "! ";
             break;
         case EQU:
-            output += "= ";
+            output += "-eq ";
             break;
         case NEQ:
-            output += "!= ";
+            output += "-ne ";
             break;
         case LSS:
-            output += "< ";
+            output += "-lt ";
             break;
         case LEQ:
-            output += "<= ";
+            output += "-le ";
             break;
         case GTR:
-            output += "> ";
+            output += "-gt ";
             break;
         case GEQ:
-            output += ">= ";
+            output += "-ge ";
             break;
         case AND:
             output += "&& ";
@@ -86,15 +87,16 @@ void if_statement_workings(
         case OR:
             output += "|| ";
             break;
-        case XOR:
-            output += "^ ";
-            break;
-        case SHL:
-            output += "<< ";
-            break;
-        case SHR:
-            output += ">> ";
-            break;
+        // TODO: WIP
+        // case XOR:
+        //     output += "^ ";
+        //     break;
+        // case SHL:
+        //     output += "<< ";
+        //     break;
+        // case SHR:
+        //     output += ">> ";
+        //     break;
         case EXIST:
             output += "-e ";
             // expect a file
@@ -175,6 +177,9 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         for (const auto &value : parsed_token.values) {
             std::cout << "  Value: " << value << std::endl;
         }
+        for (const auto &attribute : parsed_token.attributes) {
+            std::cout << "  Attribute: " << attribute << std::endl;
+        }
         if(inside_if || short_hand_if_statement != 0){
             output += std::string(if_statement_intend, ' ');
         } 
@@ -203,11 +208,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case VER: {
-                output += "$SHELL --version";
+                output += "uname -r";
                 break;
             }
             case CALL:{
-                output += "call ";
+                // NOTE More checks might be needed
+                output += "source ";
                 // TODO PATH CHECK
                 add_end_values(parsed_token, output);
                 break;
@@ -325,8 +331,8 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     }
                 } else {
                     // output += output[output.size() - 1] == '\n' ? "" : "\n";
-                    output = output.substr(0, output.size() - if_statement_intend);
                     if_statement_intend = if_statement_intend - 4 < 0 ? 0 : if_statement_intend - 4;
+                    output = output.substr(0, output.size() - if_statement_intend);
 
                     if(if_statement_intend != 0){
                         output += std::string(if_statement_intend, ' ');
@@ -406,6 +412,21 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             }
             case ENDLINE: {
                 output += "\n";
+                break;
+            }
+
+            // TODO WIP
+            case DIR: {
+                output += "ls ";
+
+                for(const auto &flag : parsed_token.flags){
+                    if(flag == dir_flag.GET_HELP){
+                        output += dir_flag.LINUX_GET_HELP + " ";
+                    }
+
+                }
+                // TODO PATH CHECK
+                add_end_values(parsed_token, output);
                 break;
             }
         }
