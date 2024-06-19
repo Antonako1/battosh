@@ -218,6 +218,9 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 add_end_values(parsed_token, output);
                 break;
             }
+            case CDBACK:
+                output += "cd ..";
+                break;
             case CHDIR:
             case CD:
                 output += "cd ";

@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
     }
 
     auto info = std::make_unique<battosh_info>();
+    // TODO check if file is .bat or .cmd
     info->INPUT_FILE = std::make_unique<std::string>(argv[1]);
     bool output_provided = false;
     bool shell_provided = false;

@@ -64,7 +64,7 @@ battosh can turn the following commands/statements with their flags into bash
                                             -e
                                             only works for variables... ("${var1,,}" = "${var2,,}")
     (mkdir, md), /?          ->             mkdir, --help
-    (rmdir, rd), /?, /S, /Q  ->             rmdir, --help, rm -rf, rmdir ... 2> /dev/null (combination is rm -rf ... 2> /dev/null)
+    (rmdir, rd), /?, /S, /Q  ->             rmdir, --help, rm -rf, rmdir ... 2> /dev/null (combination is rm -rf ... 2> /dev/null. Note: Only if -qm flag is provided will the program add 2> dev/null)
     (ren, rename), /?        ->             mv, --help
     timeout, /?, /T          ->             pause, --help, pause [number]. (/NOBREAK has no equivelant in pause)
     move, /Y, /-Y            ->             mv, --force, --interactive
@@ -76,7 +76,7 @@ battosh can turn the following commands/statements with their flags into bash
 
 - --save-whitespace and comment ignoring leaves empty rows there, where the comments were
 - Paths like: C:\temp turn to C : \temp. please do "C:\temp" in the meantime
-
+- If statement intending is broken sometimes
 
 
 ## Developing

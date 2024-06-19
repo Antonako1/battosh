@@ -10,7 +10,9 @@
 std::string commands[] = {
 "VER",          std::to_string(VER),
 "ASSOC",        std::to_string(ASSOC),
+"BREAK",        std::to_string(BREAK),
 "CD",           std::to_string(CD),
+"CD..",         std::to_string(CDBACK),
 "CHDIR",        std::to_string(CHDIR),
 "CLS",          std::to_string(CLS),
 "COPY",         std::to_string(COPY),
@@ -184,11 +186,6 @@ std::vector<Token>* lexical(battosh_info *args) {
     int column_num = 1;
 
     bool skip = false;
-
-    bool is_if_statement = false;
-    bool is_else_statement = false;
-    bool is_else_if_statement = false;
-
 
     while (std::getline(file, line)) {
         size_t index = 0;

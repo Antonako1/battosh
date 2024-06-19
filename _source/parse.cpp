@@ -74,6 +74,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             case MD:
             case CHDIR:
             case CD:
+            case CDBACK:
             case RD:
             case RMDIR:
             case REN:

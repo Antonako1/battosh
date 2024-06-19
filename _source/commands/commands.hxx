@@ -38,7 +38,9 @@ enum batch_commands{
     // FILE COMMANDS
     VER,            // -- (ver) - show version | $SHELL --version      
     ASSOC,          // (assoc) - show or change file associations | chmod
+    BREAK,          // (break) - set or clear extended CTRL+C checking | break
     CD,             // -- (cd) - change directory | cd
+    CDBACK,         // -- (cd..) - change directory | cd ..
     CHDIR,          // -- (chdir) - change directory | cd
     CLS,            // -- (cls) - clear the screen | clear
     COPY,           // (copy) - copy files | cp
