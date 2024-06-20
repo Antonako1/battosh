@@ -5,11 +5,11 @@
 NOTE! Please check the shell scripts before running them! Everything cannot be changed from batch to shell the way the user probably intended.
 
 
-The program depends on ATRC resource file library. Documentation on how to work with it is written into  ```.\ATRC\README.txt ```
+The program uses ATRC resource file library. Documentation on how to work with it is written into  ```.\ATRC\README.txt ```
 
 For most of the commands, the defaults are there for a reason but you can modify them.
  
-Read the documentation of the command you will be modifying before making any changes. Documentation can be found in  ```.\docs\ ```
+Read the documentation of the command you will be modifying before making any changes. Documentation can be found in  ```docs\ ```
 
 Resource files will be downloaded to:
 
