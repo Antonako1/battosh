@@ -1,0 +1,2 @@
+echo moi
+@rem test

@@ -1,7 +1,7 @@
 About:
     Comment (Remark) is used to record comments
     There are three ways of doing comments:
-    "@REM"          => The sole reason this is included is because VSCode's comment shortcut creates "@REM"
+    "@REM"
     "REM"
     "::"
     All of these will be turned into "#"

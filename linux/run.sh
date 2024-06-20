@@ -14,6 +14,8 @@ cp ../extern_dependencies/ATRC/libs/linux/* ./linux/
 
 # cp -r ../ATRC/* "$ATRC_PATH"
 
+cp ../test/test.bat ./linux/test.bat
+
 ./linux/"$PROJECTNAME" "$@"
 echo $?
 cp ./linux/*.sh ../test
