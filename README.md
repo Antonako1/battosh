@@ -11,7 +11,7 @@ For most of the commands, the defaults are there for a reason but you can modify
  
 Read the documentation of the command you will be modifying before making any changes. Documentation can be found in .\docs\
 
-Resource files will be downloaded to <homefolder>\battosh\ATRC
+Resource files will be downloaded to ```<homefolder>\battosh\ATRC```
 
 ## Download
 
