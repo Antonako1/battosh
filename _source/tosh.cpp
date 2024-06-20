@@ -253,7 +253,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         if(inside_if || short_hand_if_statement != 0){
             output += std::string(if_statement_intend, ' ');
         }
-
+        cts1 = ""; cts2 = ""; // reset buffer
         switch(parsed_token.command){
             case ECHO: {
                 ReadKey(fd_echo.get(), "ECHO", "command", cts1);
