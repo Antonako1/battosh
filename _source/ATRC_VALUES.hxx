@@ -23,6 +23,9 @@ inline std::string get_home_dir(std::string homePath_arg = "") {
 #elif __linux__
     homePath = getenv("HOME");
     homeDir = homePath ? std::string(homePath) : "";
+    if(homeDir != ""){
+        homeDir += "/.config/";
+    }
 #endif
     if(homeDir == "")
         throw std::runtime_error("Could not get home directory, please set the HOME flag.");

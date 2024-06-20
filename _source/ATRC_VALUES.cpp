@@ -59,8 +59,12 @@ void ReadATRC_VALUES(battosh_info *args) {
     std::string home_dir = *args->HOME_PATH;
     std::string atrc_path = home_dir;
 #ifdef _WIN32
+    if(atrc_path.back() == '\\')
+        atrc_path = atrc_path.substr(0, atrc_path.size() - 1);
     atrc_path += "\\battosh\\ATRC\\";
 #elif __linux__
+    if(atrc_path.back() == '/')
+        atrc_path = atrc_path.substr(0, atrc_path.size() - 1);
     atrc_path += "/battosh/ATRC/";
 #endif
 
