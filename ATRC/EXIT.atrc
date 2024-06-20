@@ -1,0 +1,10 @@
+! EXIT ATRC FILE
+!
+! Read the documentation before making any changes!
+[EXIT]
+! base command
+command=exit&
+! /B equivalent. If in use, end the value with whitespace.
+errcode=&
+! /? equivalent
+get_help=--help&

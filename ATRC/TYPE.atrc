@@ -1,0 +1,6 @@
+! TYPE ATRC FILE
+!
+! Read the documentation before making any changes!
+[TYPE]
+! base command
+command=cat&

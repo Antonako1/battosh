@@ -1,0 +1,6 @@
+! VER ATRC FILE
+!
+! Read the documentation before making any changes!
+[VER]
+! base command
+command=uname -r

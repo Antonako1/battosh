@@ -1,3 +1,2 @@
-@rem
-::
-rem @echo off
+exit /B 0
+exit /?

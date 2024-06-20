@@ -13,6 +13,15 @@ namespace fs = std::filesystem;
 
 std::unique_ptr<ATRCFiledata> fd_echo = nullptr;
 std::unique_ptr<ATRCFiledata> fd_comment = nullptr;
+std::unique_ptr<ATRCFiledata> fd_ver = nullptr;
+std::unique_ptr<ATRCFiledata> fd_cls = nullptr;
+std::unique_ptr<ATRCFiledata> fd_call = nullptr;
+std::unique_ptr<ATRCFiledata> fd_type = nullptr;
+std::unique_ptr<ATRCFiledata> fd_cd = nullptr;
+std::unique_ptr<ATRCFiledata> fd_exit = nullptr;
+std::unique_ptr<ATRCFiledata> fd_arithmetic_operators = nullptr;
+
+
 
 void snw(const std::string& file, std::string& nw, const std::string& path) {
     nw = path + file;
@@ -73,11 +82,17 @@ void ReadATRC_VALUES(battosh_info *args) {
     // cleanup();
 
     fd_echo = reader("ECHO.atrc", now_reading, atrc_path);
-
     fd_comment = reader("COMMENTS.atrc", now_reading, atrc_path);
+    fd_ver = reader("VER.atrc", now_reading, atrc_path);
+    fd_cls = reader("CLS.atrc", now_reading, atrc_path);
+    fd_call = reader("CALL.atrc", now_reading, atrc_path);
+    fd_type = reader("TYPE.atrc", now_reading, atrc_path);
+    fd_cd = reader("CD.atrc", now_reading, atrc_path);
+    fd_exit = reader("EXIT.atrc", now_reading, atrc_path);
+    fd_arithmetic_operators = reader("ARITHMETIC_OPERATORS.atrc", now_reading, atrc_path);
 }
 
-void cleanup() {
-    fd_echo.reset();
-    fd_comment.reset();
-}
+// void cleanup() {
+//     fd_echo.reset();
+//     fd_comment.reset();
+// }

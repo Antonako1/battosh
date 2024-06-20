@@ -193,9 +193,11 @@ std::vector<Token>* lexical(battosh_info *args) {
 // sketchy work for line endings
 // ifstream skips last character, which is line feed (0x0A)
 // on linux, it will be appended after the line has been read
+// Will break if on windows, file ends with only line feed
 #ifdef _WIN32
                 case '\n':
                 case '\r':
+                    // std::cout << "line endings" << std::endl;
                     if (!buffer.empty()) {
                         add_token(tokens, buffer, line_num, column_num, -1);
                     }

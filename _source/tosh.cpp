@@ -39,6 +39,14 @@ void add_end_values(const ParsedToken &parsed_token, std::string &output){
     }
 }
 
+std::string add_end_values_as_string(const ParsedToken &parsed_token){
+    std::string output = "";
+    for(const auto &value : parsed_token.values){
+        output += value + " ";
+    }
+    return output;
+}
+
 bool check_comparison_in_future(std::vector<ParsedToken> *tokens, size_t i){
     size_t j = i + 1;
     if(tokens->at(j).command == EXIST || tokens->at(j).command == EQU || tokens->at(j).command == NEQ || tokens->at(j).command == LSS || tokens->at(j).command == LEQ || tokens->at(j).command == GTR || tokens->at(j).command == GEQ){
@@ -61,7 +69,8 @@ void if_statement_workings(
     size_t &i, 
     std::string &output, 
     bool &inside_if,
-    int &short_hand_if_statement
+    int &short_hand_if_statement,
+    bool daw
     ){
     // statement check
     // loop until the next command or ( or endline
@@ -69,6 +78,7 @@ void if_statement_workings(
     bool if_initialized = false;
     std::string statement = "";
     size_t index = 0;
+    std::string cts1= "";
     for(index = i; index < tokens->size(); index++){
 
         ParsedToken next_token = tokens->at(index);
@@ -78,22 +88,58 @@ void if_statement_workings(
             output += "! ";
             break;
         case EQU:
-            output += "-eq ";
+            ReadKey(fd_arithmetic_operators.get(), "ARITHMETIC_OPERATORS", "EQU", cts1);
+            if(cts1 == "") {
+                send_message("[ARITHMETIC_OPERATORS] EQU not found", ATRC_NOT_FOUND, daw);
+                output += "-eq ";
+            } else {
+                output += cts1;
+            }
             break;
         case NEQ:
-            output += "-ne ";
+            ReadKey(fd_arithmetic_operators.get(), "ARITHMETIC_OPERATORS", "NEQ", cts1);
+            if(cts1 == "") {
+                send_message("[ARITHMETIC_OPERATORS] NEQ not found", ATRC_NOT_FOUND, daw);
+                output += "-ne ";
+            } else {
+                output += cts1;
+            }
             break;
         case LSS:
-            output += "-lt ";
+            ReadKey(fd_arithmetic_operators.get(), "ARITHMETIC_OPERATORS", "LSS", cts1);
+            if(cts1 == "") {
+                send_message("[ARITHMETIC_OPERATORS] LSS not found", ATRC_NOT_FOUND, daw);
+                output += "-lt ";
+            } else {
+                output += cts1;
+            }
             break;
         case LEQ:
-            output += "-le ";
+            ReadKey(fd_arithmetic_operators.get(), "ARITHMETIC_OPERATORS", "LEQ", cts1);
+            if(cts1 == "") {
+                send_message("[ARITHMETIC_OPERATORS] LEQ not found", ATRC_NOT_FOUND, daw);
+                output += "-le ";
+            } else {
+                output += cts1;
+            }
             break;
         case GTR:
-            output += "-gt ";
+            ReadKey(fd_arithmetic_operators.get(), "ARITHMETIC_OPERATORS", "GTR", cts1);
+            if(cts1 == "") {
+                send_message("[ARITHMETIC_OPERATORS] GTR not found", ATRC_NOT_FOUND, daw);
+                output += "-gt ";
+            } else {
+                output += cts1;
+            }
             break;
         case GEQ:
-            output += "-ge ";
+            ReadKey(fd_arithmetic_operators.get(), "ARITHMETIC_OPERATORS", "GEQ", cts1);
+            if(cts1 == "") {
+                send_message("[ARITHMETIC_OPERATORS] GEQ not found", ATRC_NOT_FOUND, daw);
+                output += "-ge ";
+            } else {
+                output += cts1;
+            }
             break;
         case AND:
             output += "&& ";
@@ -179,7 +225,10 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         tokens->push_back(parsed_token);        
     }
     std::string QUIET_MODE = "";
-
+    std::string buffer = "";
+    std::string insert1 = "";
+    std::string insert2 = "";
+    
     if(args->quiet){
         QUIET_MODE = "2> /dev/null";
     }
@@ -238,36 +287,76 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case CLS: {
-                output += "clear";
+                ReadKey(fd_cls.get(), "CLS", "command", cts1);
+                if(cts1 == "") {
+                    send_message("[CLS] command not found", ATRC_NOT_FOUND, daw);
+                    output += "clear";
+                } else {
+                    output += cts1;
+                }
                 break;
             }
             case VER: {
-                output += "uname -r";
+                ReadKey(fd_ver.get(), "VER", "command", cts1);
+                if(cts1 == ""){
+                    send_message("[VER] command not found", ATRC_NOT_FOUND, daw);
+                    output += "uname -r";
+                } else {
+                    output += cts1;
+                }
                 break;
             }
             case CALL:{
                 // NOTE More checks might be needed
-                output += "source ";
+                ReadKey(fd_call.get(), "CALL", "command", cts1);
                 // TODO PATH CHECK
+                if(cts1 == ""){
+                    send_message("[CALL] command not found", ATRC_NOT_FOUND, daw);
+                    output += "source ";
+                } else {
+                    output += cts1;
+                }
                 add_end_values(parsed_token, output);
                 break;
             }
             case TYPE: {
-                output += "cat ";
+                ReadKey(fd_type.get(), "TYPE", "command", cts1);
+                if(cts1 == ""){
+                    send_message("[TYPE] command not found", ATRC_NOT_FOUND, daw);
+                    output += "cat ";
+                } else {
+                    output += cts1;
+                }
                 // TODO PATH CHECK
                 add_end_values(parsed_token, output);
                 break;
             }
             case CDBACK:
-                output += "cd ..";
+                ReadKey(fd_cd.get(), "CD", "back", cts1);
+                if(cts1 == ""){
+                    send_message("[CD] back not found", ATRC_NOT_FOUND, daw);
+                    output += "cd ..";
+                } else {
+                    output += cts1;
+                }
                 break;
             case CHDIR:
-            case CD:
-                output += "cd ";
-                // Flag /D is used to change the drive, no equivalent in linux
+            case CD: {
                 // TODO PATH CHECK
-                add_end_values(parsed_token, output);
+                buffer = "";
+                ReadKey(fd_cd.get(), "CD", "command", cts1);
+                if(cts1 == ""){
+                    send_message("[CD] command not found", ATRC_NOT_FOUND, daw);
+                    buffer += "cd %*% ";
+                } else {
+                    buffer += cts1;
+                }
+                insert1 = add_end_values_as_string(parsed_token);
+                const std::string *temp[] = {&insert1};
+                InsertVar(buffer, temp);
+                output += buffer;
                 break;
+            }
             case ECHOOFF: {
                 std::string temp = parsed_token.values[0];
                 std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
@@ -334,7 +423,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             case IF: {
                 if_statement_intend += 4;
                 output += "if [ ";
-                if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement);
+                if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement, daw);
                 break;
             }
             case REN:
@@ -372,7 +461,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                             output = output.substr(0, output.size() - 4);
                         }
                         output += "elif [ ";
-                        if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement);
+                        if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement,daw);
                     } else {
                         // output += output[output.size() - 1] == '\n' ? "" : "\n";
                         output = output.substr(0, output.size() - if_statement_intend);
@@ -395,15 +484,34 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case EXIT: {
-                output += "exit ";
+                ReadKey(fd_exit.get(), "EXIT", "command", cts1);
+                if(cts1 == ""){
+                    send_message("[EXIT] command not found", ATRC_NOT_FOUND, daw);
+                    output += "exit ";
+                } else {
+                    output += cts1;
+                }
                 bool num_provided = false;
                 for(const auto &flag : parsed_token.flags){
                     if(flag == exit_flag.EXIT_CURRENT_BATCH){
-                        output += parsed_token.values.at(0);
+                        ReadKey(fd_exit.get(), "EXIT", "erarcode", cts1);
+                        if(cts1 == ""){
+                            send_message("[EXIT] errcode not found", ATRC_NOT_FOUND, daw);
+                            output += parsed_token.values.at(0);
+                        } else {
+                            output += cts1;
+                            output += parsed_token.values.at(0);
+                        }
                         num_provided = true;
                     }
                     else if(flag == exit_flag.GET_HELP){
-                        output += exit_flag.LINUX_GET_HELP + " ";
+                        ReadKey(fd_exit.get(), "EXIT", "get_help", cts1);
+                        if(cts1 == ""){
+                            send_message("[EXIT] get_help not found", ATRC_NOT_FOUND, daw);
+                            output += exit_flag.LINUX_GET_HELP + " ";
+                        } else {
+                            output += cts1;
+                        }
                     }
                 }
                 if(!num_provided){
@@ -516,7 +624,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     std::cout << "batchtoshell: " << args->batchtoshell << std::endl;
     std::cout << "home path: " << *args->HOME_PATH << std::endl;
     std::cout << "disable atrc warnings: " << args->disable_atrc_warnings << std::endl;
-    
+
     // Clean up
     // cleanup();
 }

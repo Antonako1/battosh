@@ -1,0 +1,6 @@
+! CLS ATRC FILE
+!
+! Read the documentation before making any changes!
+[CLS]
+! base command
+command=clear

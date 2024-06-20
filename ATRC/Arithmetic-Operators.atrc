@@ -1,0 +1,10 @@
+! ARITHMETIC OPERATORS ATRC FILE
+!
+! Read the documentation before making any changes!
+[ARITHMETIC_OPERATORS]
+EQU=-eq&
+NEQ=-ne&
+LSS=-lt&
+LEQ=-le&
+GTR=-gt&
+GEQ=-ge&

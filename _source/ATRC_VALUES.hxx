@@ -10,6 +10,14 @@ void ReadATRC_VALUES(battosh_info *args);
 
 extern std::unique_ptr<ATRCFiledata> fd_echo;
 extern std::unique_ptr<ATRCFiledata> fd_comment;
+extern std::unique_ptr<ATRCFiledata> fd_ver;
+extern std::unique_ptr<ATRCFiledata> fd_cls;
+extern std::unique_ptr<ATRCFiledata> fd_call;
+extern std::unique_ptr<ATRCFiledata> fd_type;
+extern std::unique_ptr<ATRCFiledata> fd_cd;
+extern std::unique_ptr<ATRCFiledata> fd_exit;
+extern std::unique_ptr<ATRCFiledata> fd_arithmetic_operators;
+
 
 inline std::string get_home_dir(std::string homePath_arg = "") {
 
@@ -32,4 +40,4 @@ inline std::string get_home_dir(std::string homePath_arg = "") {
     return homeDir;
 }
 
-void cleanup();
+// void cleanup();

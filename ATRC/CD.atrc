@@ -1,0 +1,9 @@
+! CD ATRC FILE
+!
+! Read the documentation before making any changes!
+[CD]
+! base command
+! path inserted at insert
+command=cd %*%&
+! for cd..
+back=cd ..

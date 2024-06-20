@@ -1,5 +1,3 @@
 #!/bin/bash
-# 
-# 
-# @echo off 
-
+exit 0
+exit --help 
