@@ -17,6 +17,9 @@ void message(std::string &msg, int flag, int command, bool error, int line, int 
             error_msg = "Version: " + std::string(version);
             break;
         }
+    case ATRC_NOT_FOUND:
+        error_msg = "ATRC value not found";
+        break;
     default:
         break;
     }

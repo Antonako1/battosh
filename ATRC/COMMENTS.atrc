@@ -1,0 +1,6 @@
+! COMMENT ATRC FILE
+!
+! Read the documentation before making any changes!
+[COMMENT]
+! @REM, REM and :: will be turned into this
+command=#&

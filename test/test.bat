@@ -1,1 +1,3 @@
-dir /A:d-s
+@rem
+::
+rem

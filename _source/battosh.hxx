@@ -8,9 +8,11 @@
 #include <memory>
 
 #define FL_FLAG_BATTOSH     0
+#define FL_FLAG_TOSH       1
 
 #define HELP_               1
 #define VERSION_            2
+#define ATRC_NOT_FOUND      3
 
 void message(std::string &msg, int flag, int command, bool error, int line, int column);
 
@@ -40,6 +42,7 @@ struct battosh_info {
     bool dirsort;
     bool batchtoshell; // turn .bat to .sh
     std::unique_ptr<std::string> HOME_PATH;
+    bool disable_atrc_warnings;
 };
 
 std::vector<Token>* lexical(battosh_info *args);

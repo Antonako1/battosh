@@ -22,6 +22,17 @@ HELP_FLAG help_flag;
 PAUSE_FLAG pause_flag;
 DIR_FLAG dir_flag;
 
+void send_message(std::string msg, int errnum, bool disable_atrc_warnings){
+    if(errnum == ATRC_NOT_FOUND && disable_atrc_warnings){
+        return;
+    }
+    message(msg, FL_FLAG_TOSH, 
+    errnum, false, -1,-1);
+}
+void add_to_output(std::string &output, const std::string &value){
+    output += value;
+}
+
 void add_end_values(const ParsedToken &parsed_token, std::string &output){
     for(const auto &value : parsed_token.values){
         output += value + " ";
@@ -154,13 +165,11 @@ void if_statement_workings(
 
 void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     std::string output = "";
+    std::string cts1, cts2 = ""; // buffer contents for atrc file reading
     
     
 
     ReadATRC_VALUES(*args->HOME_PATH);
-    if(DoesExistBlock(fd_echo.get(), "ECHO")){
-        std::cout << "ECHO exists" << std::endl;
-    }
     
     {
         // Prevent crashing
@@ -178,6 +187,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     bool if_end = false;
     int short_hand_if_statement = 0; // 0 = false, 1 = true, 2 = first pass, 3 = second pass, 4 = end if statement
     int if_statement_intend = 0;
+    bool daw = args->disable_atrc_warnings;
     for(size_t i = 0; i < tokens->size(); i++){
         ParsedToken parsed_token = tokens->at(i);
         std::cout << "Token: " << parsed_token.value << " Command: " << parsed_token.command << std::endl;
@@ -192,23 +202,36 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         }
         if(inside_if || short_hand_if_statement != 0){
             output += std::string(if_statement_intend, ' ');
-        } 
+        }
+
         switch(parsed_token.command){
             case ECHO: {
-                // output += "echo ";
+                ReadKey(fd_echo.get(), "ECHO", "command", cts1);
+                
                 bool updated_path = false;
                 for(const auto &flag : parsed_token.flags){
                     // check if flag is found
                     if(flag == echo_flag.GET_HELP){
                         updated_path = true;
-                        output += echo_flag.LINUX_GET_GELP_UPDATED_PATH + " ";
-                        output += echo_flag.LINUX_GET_HELP + " ";
+                        ReadKey(fd_echo.get(), "ECHO", "get_help", cts2);
+                        if(cts2 == "") {
+                            send_message("[ECHO] GET_HELP not found", ATRC_NOT_FOUND, daw);
+                            output += echo_flag.LINUX_GET_GELP_UPDATED_PATH + " ";
+                            output += echo_flag.LINUX_GET_HELP + " ";
+                        } else {
+                            output += cts2;
+                        }
                         continue;
                     }
                     output += flag + " ";
                 }
                 if(!updated_path){
-                    output += "echo ";
+                    if(cts1 == "") {
+                        send_message("[ECHO] command not found", ATRC_NOT_FOUND, daw);
+                        output += "echo ";
+                    } else {
+                        output += cts1;
+                    }
                 }
                 add_end_values(parsed_token, output);
                 break;
@@ -248,9 +271,21 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 std::string temp = parsed_token.values[0];
                 std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
                 if(temp == "off"){
-                    output += "set +v";
+                    ReadKey(fd_echo.get(), "@ECHO", "off", cts1);
+                    if(cts1 == "") {
+                        send_message("[ECHO] off not found", ATRC_NOT_FOUND, daw);
+                        output += "set +x";
+                    } else {
+                        output += cts1;
+                    }
                 } else {
-                    output += "set -v";
+                    ReadKey(fd_echo.get(), "@ECHO", "on", cts1);
+                    if(cts1 == "") {
+                        send_message("[ECHO] on not found", ATRC_NOT_FOUND, daw);
+                        output += "set -x";
+                    } else {
+                        output += cts1;
+                    }
                 }
                 break;
             }
@@ -285,7 +320,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case REM: {
-                output += "# ";
+                ReadKey(fd_comment.get(), "COMMENT", "command", cts1);
+                if(cts1 == "") {
+                    send_message("[COMMENT] command not found", ATRC_NOT_FOUND, daw);
+                    output += "# ";
+                } else {
+                    output += cts1;
+                }
                 add_end_values(parsed_token, output);
                 break;
             }

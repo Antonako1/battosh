@@ -8,6 +8,7 @@
 void ReadATRC_VALUES(const std::string& home_dir);
 
 extern std::unique_ptr<ATRCFiledata> fd_echo;
+extern std::unique_ptr<ATRCFiledata> fd_comment;
 
 inline std::string get_home_dir(std::string homePath_arg = "") {
 

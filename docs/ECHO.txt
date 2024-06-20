@@ -1,3 +1,6 @@
+Resouce file:
+    \ATRC\ECHO.atrc
+    
 About:
     Writes text to screen
     

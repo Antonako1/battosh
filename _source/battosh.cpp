@@ -78,6 +78,9 @@ int main(int argc, char *argv[]) {
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
             }
         }
+        else if(std::string(argv[i]) == "--disable-atrc-warnings"){
+            info->disable_atrc_warnings = true;
+        }
         
         else if (std::string(argv[i]) == "--set-mkdirp"){
             info->mkdir_p = true;

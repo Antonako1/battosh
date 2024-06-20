@@ -1,4 +1,17 @@
 ! ECHO and @ECHO ATRC FILE
-! Read the documentation before making any changes!
 !
+! Read the documentation before making any changes!
 [ECHO]
+! This is the base command you can change it to your
+! souls liking if you have a better alternative :)
+command=echo&
+
+! for help command => ECHO /?
+%help_command%=/bin/echo
+get_help=%help_command% --help&
+
+! @ECHO ON/OFF
+[@ECHO]
+%command%=set
+on=%command% -x
+off=%command% +x

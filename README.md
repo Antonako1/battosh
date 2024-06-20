@@ -48,6 +48,8 @@ Linux:
             -ds,    --dir-sort                  When dir is translated to ls, add -l flag to ls (ls -l) 
             -bs,    --bat-shell                 Turn all occurences of .bat to .sh
                     --set-home {path}           Give absolute position for the program to use as home directory instead of the system default. Example: C:\temp\. You will have to create battosh folder there yourself along with all the resource files and its folders
+                    --disable-atrc-warnings     Disable warning messages from ATRC
+
         examples:
             battosh file.bat                    -> outputs file.sh
             battosh file.bat -o test.sh         -> outputs test.sh
