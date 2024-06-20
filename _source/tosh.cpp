@@ -167,9 +167,10 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     std::string output = "";
     std::string cts1, cts2 = ""; // buffer contents for atrc file reading
     
+    ReadATRC_VALUES(args);
+
     
 
-    ReadATRC_VALUES(args);
     
     {
         // Prevent crashing
@@ -501,4 +502,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     }
     file << output;
     file.close();
+
+    // Clean up
+    // cleanup();
 }

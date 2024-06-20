@@ -6,12 +6,53 @@
 #include <vector>
 #include <memory>
 #include <fstream>
+#include <filesystem>  // For std::filesystem
+#include <stdexcept>
 
-std::unique_ptr<ATRCFiledata> fd_echo;
-std::unique_ptr<ATRCFiledata> fd_comment;
+namespace fs = std::filesystem;
+
+std::unique_ptr<ATRCFiledata> fd_echo = nullptr;
+std::unique_ptr<ATRCFiledata> fd_comment = nullptr;
 
 void snw(const std::string& file, std::string& nw, const std::string& path) {
     nw = path + file;
+}
+
+std::unique_ptr<ATRCFiledata> reader(const std::string& filename, const std::string& now_reading, const std::string& atrc_path) {
+    std::string full_path = atrc_path + filename;
+
+    // Create directories if they do not exist
+    if (!fs::exists(atrc_path)) {
+        if (!fs::create_directories(atrc_path)) {
+            std::cerr << "Failed to create directory: " << atrc_path << std::endl;
+            return nullptr;
+        } else {
+            std::cout << "Initialized: " << atrc_path << std::endl;
+        }
+    }
+    // Open the file for appending and reading (create if not exists)
+    std::ofstream outfile(full_path, std::ios::app);
+    if (!outfile) {
+        std::cerr << "Failed to open file: " << full_path << " for appending." << std::endl;
+        return nullptr;
+    }
+
+    // Check if file is empty
+    // if (outfile.tellp() == 0) {
+    //     // File is empty, write initial content
+    //     outfile << "[temp]\ntemp=temp\n";
+    // }
+
+    outfile.close();
+
+    // Read the file
+    std::unique_ptr<ATRCFiledata> temp = Read(full_path, "utf-8");
+    if (!temp) {
+        std::cerr << "Failed to read file: " << full_path << std::endl;
+        return nullptr;
+    }
+
+    return temp;
 }
 
 void ReadATRC_VALUES(battosh_info *args) {
@@ -24,22 +65,15 @@ void ReadATRC_VALUES(battosh_info *args) {
 #endif
 
     std::string now_reading = "";
-    snw("ECHO.atrc", now_reading, atrc_path);
-    ATRCFiledata* temp = nullptr;
-    try {
-        temp = Read(now_reading, "utf-8");
-    } catch (std::exception& e) {
-        if(!args->disable_atrc_warnings)
-            std::cerr << e.what() << std::endl;
-    }
-    fd_echo = std::unique_ptr<ATRCFiledata>(temp);
 
-    snw("COMMENTS.atrc", now_reading, atrc_path);
-    try {
-    temp = Read(now_reading, "utf-8");
-    } catch (std::exception& e){
-        if(!args->disable_atrc_warnings)
-            std::cerr << e.what() << std::endl;
-    }
-    fd_comment = std::unique_ptr<ATRCFiledata>(temp);
+    // cleanup();
+
+    fd_echo = reader("ECHO.atrc", now_reading, atrc_path);
+
+    fd_comment = reader("COMMENTS.atrc", now_reading, atrc_path);
+}
+
+void cleanup() {
+    fd_echo.reset();
+    fd_comment.reset();
 }

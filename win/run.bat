@@ -7,8 +7,8 @@ copy /Y ..\test\test.bat .\win\test.bat
 copy /B /Y ..\extern_dependencies\ATRC\libs\win\* .\win\
 
 set "ATRC_PATH=C:\Users\%USERNAME%\battosh\ATRC"
-if not exist %ATRC_PATH% mkdir %ATRC_PATH%
-copy /Y ..\ATRC\* %ATRC_PATH%
+@REM if not exist %ATRC_PATH% mkdir %ATRC_PATH%
+@REM copy /Y ..\ATRC\* %ATRC_PATH%
 echo.
 echo.
 .\win\%PROJECTNAME%.exe %*

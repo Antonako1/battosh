@@ -7,12 +7,12 @@ cd ../build
 cp ../test/test.bat ./linux/test.bat
 cp ../extern_dependencies/ATRC/libs/linux/* ./linux/
 
-ATRC_PATH="/home/$USER/battosh/ATRC"
-if [ ! -d "$ATRC_PATH" ]; then
-    mkdir -p "$ATRC_PATH"
-fi
+# ATRC_PATH="/home/$USER/battosh/ATRC"
+# if [ ! -d "$ATRC_PATH" ]; then
+#     mkdir -p "$ATRC_PATH"
+# fi
 
-cp -r ../ATRC/* "$ATRC_PATH"
+# cp -r ../ATRC/* "$ATRC_PATH"
 
 ./linux/"$PROJECTNAME" "$@"
 echo $?

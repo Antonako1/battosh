@@ -25,6 +25,8 @@ inline std::string get_home_dir(std::string homePath_arg = "") {
     homeDir = homePath ? std::string(homePath) : "";
 #endif
     if(homeDir == "")
-        throw std::runtime_error("Could not get home directory, please set the HOME environment variable.");
+        throw std::runtime_error("Could not get home directory, please set the HOME flag.");
     return homeDir;
 }
+
+void cleanup();
