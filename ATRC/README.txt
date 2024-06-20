@@ -21,7 +21,7 @@ Notes:
 
 
 ATRC syntax:
-    %var%       => Variable
+    %var%=val   => Variable
     [...]       => Block
     key=val     => Key
     !           => Comment
