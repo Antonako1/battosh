@@ -190,16 +190,16 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     bool daw = args->disable_atrc_warnings;
     for(size_t i = 0; i < tokens->size(); i++){
         ParsedToken parsed_token = tokens->at(i);
-        std::cout << "Token: " << parsed_token.value << " Command: " << parsed_token.command << std::endl;
-        for(const auto &flag : parsed_token.flags){
-            std::cout << "  Flag: " << flag << std::endl;
-        }
-        for (const auto &value : parsed_token.values) {
-            std::cout << "  Value: " << value << std::endl;
-        }
-        for (const auto &attribute : parsed_token.attributes) {
-            std::cout << "  Attribute: " << attribute << std::endl;
-        }
+        // std::cout << "Token: " << parsed_token.value << " Command: " << parsed_token.command << std::endl;
+        // for(const auto &flag : parsed_token.flags){
+        //     std::cout << "  Flag: " << flag << std::endl;
+        // }
+        // for (const auto &value : parsed_token.values) {
+        //     std::cout << "  Value: " << value << std::endl;
+        // }
+        // for (const auto &attribute : parsed_token.attributes) {
+        //     std::cout << "  Attribute: " << attribute << std::endl;
+        // }
         if(inside_if || short_hand_if_statement != 0){
             output += std::string(if_statement_intend, ' ');
         }
