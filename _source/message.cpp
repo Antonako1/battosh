@@ -11,7 +11,8 @@ void message(std::string &msg, int flag, int command, bool error, int line, int 
     case HELP_:
         error_msg = 
 R"battosh(
-{args} [optional]
+Usage:
+    battosh {args} [optional]
 
 args:
     provide path to your batch script

@@ -10,7 +10,7 @@ unicode True
 
 Outfile "${PROJECTNAME}-win-installer-v${VERSION}.exe"
 BrandingText /TRIMCENTER "${PROJECTNAME} Setup V${VERSION}"
-Name "${PROJECTNAME} Setup V${PROJECTNAME}"
+Name "${PROJECTNAME} Setup V${VERSION}"
 RequestExecutionLevel admin
 
 ManifestSupportedOS Win10
@@ -82,6 +82,7 @@ CreateDirectory $INSTALL_DIR
 File "${PROJECTNAME}.exe"
 File "LICENSE"
 File "README.md"
+File "ATRC.dll"
 
 CreateDirectory $PROFILE\battosh\docs
 SetOutPath $PROFILE\battosh\docs
@@ -164,7 +165,7 @@ Delete "$INSTDIR\license"
 Delete "$INSTDIR\README.md"
 Delete "$INSTDIR\setup.ps1"
 Delete "$INSTDIR\uninstall.ps1"
-
+Delete "$INSTDIR\ATRC.dll"
 ; Remove the installation directory if it still exists
 RMDir /r $INSTDIR
 
