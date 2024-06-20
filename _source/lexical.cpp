@@ -187,9 +187,13 @@ std::vector<Token>* lexical(battosh_info *args) {
         size_t index = 0;
         std::string buffer;
 
-        while (index < line.size()) {
+        for (size_t i = 0; i < line.size(); i++) {
             std::string ahead = look_ahead(index, line);
             switch (ahead[0]) {
+// sketchy work for line endings
+// ifstream skips last character, which is line feed (0x0A)
+// on linux, it will be appended after the line has been read
+#ifdef _WIN32
                 case '\n':
                 case '\r':
                     if (!buffer.empty()) {
@@ -197,8 +201,8 @@ std::vector<Token>* lexical(battosh_info *args) {
                     }
 
                     add_token(tokens, buffer, line_num, column_num, ENDLINE);
-
                     break;
+#endif
                 case ' ':
                 case '\t':{
                     if (!buffer.empty()) {
@@ -329,6 +333,10 @@ std::vector<Token>* lexical(battosh_info *args) {
         if (!buffer.empty()) {
             add_token(tokens, buffer, line_num, column_num, -1);
         }
+
+        #ifdef __linux__ 
+        add_token(tokens, buffer, line_num, column_num, ENDLINE);
+        #endif
 
         column_num = 1;
         line_num++;
