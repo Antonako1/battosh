@@ -41,5 +41,5 @@ void ReadATRC_VALUES(battosh_info *args) {
         if(!args->disable_atrc_warnings)
             std::cerr << e.what() << std::endl;
     }
-        fd_comment = std::unique_ptr<ATRCFiledata>(temp);
+    fd_comment = std::unique_ptr<ATRCFiledata>(temp);
 }
