@@ -1,0 +1,12 @@
+! MKDIR ATRC FILE
+!
+! Read the documentation before making any changes!
+[MKDIR]
+! base command
+command=mkdir&
+
+! /? equivalent
+get_help=--help&
+
+! Specify what flag will be given if --set-mkdirp is given
+mkdir_p=-p&

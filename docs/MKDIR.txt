@@ -1,0 +1,37 @@
+About:
+    MKDIR or MD creates a directory in the given path
+
+    The flag --set-mkdirp sets the -p flag to shell mkdir
+    commands when converting. -p creates directories along the way 
+    if they do not exist 
+
+
+
+Command: MKDIR or MD
+Flags:
+
+Flag                => About
+1. /?               => Displays help message
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Turning command and flags to shell
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Command: mkdir
+Flags:
+
+Converted flag 
+(and or command)    => About
+1. --help           => Displays help message
+
+%%%%%%%%%%%
+Example(s):
+%%%%%%%%%%%
+@rem --set-mkdirp enabled
+mkdir .\test\windows\
+=>
+mkdir -p ./test/windows
+
+Sources:
+    mkdir /?
+    mkdir --help

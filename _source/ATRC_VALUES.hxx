@@ -16,7 +16,14 @@ extern std::unique_ptr<ATRCFiledata> fd_call;
 extern std::unique_ptr<ATRCFiledata> fd_type;
 extern std::unique_ptr<ATRCFiledata> fd_cd;
 extern std::unique_ptr<ATRCFiledata> fd_exit;
-extern std::unique_ptr<ATRCFiledata> fd_arithmetic_operators;
+extern std::unique_ptr<ATRCFiledata> fd_relational_operators;
+//
+//
+//
+//
+//
+extern std::unique_ptr<ATRCFiledata> fd_mkdir;
+extern std::unique_ptr<ATRCFiledata> fd_rmdir;
 
 
 inline std::string get_home_dir(std::string homePath_arg = "") {

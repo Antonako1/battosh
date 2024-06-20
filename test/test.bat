@@ -1,2 +1,5 @@
-exit /B 0
-exit /?
+rmdir /?
+rmdir /s test
+rmdir /q test
+rmdir /s/q test
+rmdir /q/s test

@@ -66,25 +66,24 @@ Note: Although every command can start with @, attempting to use it with any com
 
     Command                                 Path to the docs file
 
-    ECHO                    =>              See .\docs\ECHO.txt
-    @ECHO (on/off)          =>              See .\docs\ECHO.txt
-    (@)REM,, ::             =>              See .\docs\Comments.txt
-    VER                     =>              See .\docs\VER.txt
-    CLS                     =>              See .\docs\CLS.txt
-    CALL                    =>              See .\docs\CALL.txt
-    TYPE                    =>              See .\docs\TYPE.txt
-    CD, CHDIR, CD..         =>              See .\docs\CD.txt
-    EXIT                    =>              See .\docs\EXIT.txt
-    Arithmetic operators    =>              See .\docs\Arithmetic-Operators.txt
+    ECHO                    =>              See docs\ECHO.txt
+    @ECHO (on/off)          =>              See docs\ECHO.txt
+    (@)REM,, ::             =>              See docs\Comments.txt
+    VER                     =>              See docs\VER.txt
+    CLS                     =>              See docs\CLS.txt
+    CALL                    =>              See docs\CALL.txt
+    TYPE                    =>              See docs\TYPE.txt
+    CD, CHDIR, CD..         =>              See docs\CD.txt
+    EXIT                    =>              See docs\EXIT.txt
+    Arithmetic operators    =>              See docs\Arithmetic-Operators.txt
     Logical operators       =>              See 
     Assignment operators    =>              See
     Bitwise operators       =>              See
     Arithmetic operators    =>              See
     String operators        =>              See
-    IF, (ELSE IF)           =>              See
-    ELSE                    =>              See
-    MKDIR, MD               =>              See
-    RMDIR, RD               =>              See
+    IF, ELSE(ELSE IF)       =>              See
+    MKDIR, MD               =>              See docs\MKDIR.txt
+    RMDIR, RD               =>              See docs\RMDIR.txt
     REN, RENAME             =>              See
     TIMEOUT                 =>              See
     MOVE                    =>              See

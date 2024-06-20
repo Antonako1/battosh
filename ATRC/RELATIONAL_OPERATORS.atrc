@@ -1,7 +1,7 @@
-! ARITHMETIC OPERATORS ATRC FILE
+! RELATIONAL OPERATORS ATRC FILE
 !
 ! Read the documentation before making any changes!
-[ARITHMETIC_OPERATORS]
+[RELATIONAL_OPERATORS]
 EQU=-eq&
 NEQ=-ne&
 LSS=-lt&

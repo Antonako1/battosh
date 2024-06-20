@@ -175,7 +175,12 @@ enum batch_commands{
     XOR_BIT,        // ^ // TODO: XOR operator
 
     // TODO STRING OPERATORS: =, !=, -z, -n, str https://www.tutorialspoint.com/unix/unix-basic-operators.htm
+    STR_EQU,        // =
+    STR_NEQ,        // !=
+    STR_Z,          // -z
+    STR_N,          // -n
     
+
     // Arithmetic Operators
     ADD,            // +
     SUB,            // -
@@ -225,7 +230,8 @@ struct RMDIR_FLAG{
     std::string GET_HELP_EXPECT_VALUE = "NONE";
 
     std::string LINUX_UPDATED_COMMAND = "rm";
-    std::string LINUX_REMOVE_DIR_TREE = "-rf";
+    std::string LINUX_REMOVE_DIR_TREE = "-r";
+    std::string LINUX_REMOVE_DIR_TREE_FORCE = "-rf";
     std::string REMOVE_DIR_TREE = "/S";
     std::string REMOVE_DIR_TREE_EXPECT_VALUE = "NONE";
     

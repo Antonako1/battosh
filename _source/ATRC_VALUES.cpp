@@ -19,7 +19,14 @@ std::unique_ptr<ATRCFiledata> fd_call = nullptr;
 std::unique_ptr<ATRCFiledata> fd_type = nullptr;
 std::unique_ptr<ATRCFiledata> fd_cd = nullptr;
 std::unique_ptr<ATRCFiledata> fd_exit = nullptr;
-std::unique_ptr<ATRCFiledata> fd_arithmetic_operators = nullptr;
+std::unique_ptr<ATRCFiledata> fd_relational_operators = nullptr;
+//
+//
+//
+//
+//
+std::unique_ptr<ATRCFiledata> fd_mkdir = nullptr;
+std::unique_ptr<ATRCFiledata> fd_rmdir = nullptr;
 
 
 
@@ -89,7 +96,10 @@ void ReadATRC_VALUES(battosh_info *args) {
     fd_type = reader("TYPE.atrc", now_reading, atrc_path);
     fd_cd = reader("CD.atrc", now_reading, atrc_path);
     fd_exit = reader("EXIT.atrc", now_reading, atrc_path);
-    fd_arithmetic_operators = reader("ARITHMETIC_OPERATORS.atrc", now_reading, atrc_path);
+    fd_relational_operators = reader("RELATIONAL_OPERATORS.atrc", now_reading, atrc_path);
+    
+    fd_mkdir = reader("MKDIR.atrc", now_reading, atrc_path);
+    fd_rmdir = reader("RMDIR.atrc", now_reading, atrc_path);
 }
 
 // void cleanup() {

@@ -1,3 +1,6 @@
 #!/bin/bash
-exit 0
-exit --help 
+rmdir --help 
+rm -r test 
+-r test 
+rm -rf test 
+rm -rf test 

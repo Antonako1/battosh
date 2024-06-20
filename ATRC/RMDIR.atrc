@@ -1,0 +1,18 @@
+! RMDIR ATRC FILE
+!
+! Read the documentation before making any changes!
+[RMDIR]
+! base command
+command=rmdir&
+
+! /? equivalent
+get_help=--help&
+
+! If /S is provided, the command will be changed into this
+modified_command=rm&
+
+! If /S is provided, this flag will be given
+remove_dir_tree=-r&
+
+! If /S /Q are provided, this flag will be given
+remove_dir_tree_force=-rf&

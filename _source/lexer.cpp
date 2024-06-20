@@ -217,6 +217,14 @@ std::vector<Token>* lexical(battosh_info *args) {
                     // loop to next whitespace, % or end of line
                     break;
                 case '"': {
+                        /*+++
+                    //   TODO:
+                    //   1. Make a whole string buffer
+                    //   2. Check if it is a string ("...")
+                    //   3. Add string buffer to tokens
+                    //   4||5. Continue
+                    //   4||5. Re-loop the string buffer
+                        ---*/
                         buffer += ahead;
                         index++;
                         while (index < line.size()) {
