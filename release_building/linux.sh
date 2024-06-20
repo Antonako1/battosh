@@ -1,25 +1,34 @@
 #!/bin/bash
 set -e
 cd "$(dirname "$0")"
-. ../linux/shell/globals.sh
-cd "$(dirname "$0")"
+if [ -f ../linux/shell/globals.sh ]; then
+    . ../linux/shell/globals.sh
+else
+    echo "Error: globals.sh not found!"
+    exit 1
+fi
+# cd "$(dirname "$0")"
 
 # STANDALONE BUILDING
+rm -rf ./output
 BUILD_DIR="./output/linux"
-mkdir -p $BUILD_DIR
+mkdir -p "$BUILD_DIR"
 ../linux/shell/del.sh
-cd "$(dirname "$0")"
+
 ../linux/build.sh "Release"
-cd "$(dirname "$0")"
-cp ../build/linux/$PROJECTNAME $BUILD_DIR
-cd "$(dirname "$0")"
-cd output
-tar -czf $PROJECTNAME-linux-standalone.tar.gz -C linux $PROJECTNAME
-cd ..
+mkdir -p "$BUILD_DIR/docs"
+cp -r ../docs/* "$BUILD_DIR/docs/"
+mkdir -p "$BUILD_DIR/ATRC"
+cp -r ../ATRC/* "$BUILD_DIR/ATRC/"
+cp ../LICENSE "$BUILD_DIR/"
+cp ../README.md "$BUILD_DIR/"
+cp ../build/linux/$PROJECTNAME "$BUILD_DIR/"
+cp ../extern_dependencies/ATRC/libs/linux/*.so "$BUILD_DIR/"
+cd "$BUILD_DIR"
+# zip -r "$PROJECTNAME-linux-standalone.zip" "$PROJECTNAME" docs ATRC LICENSE README.md *.so
+tar -czvf "$PROJECTNAME-linux-standalone.tar.gz" "$PROJECTNAME" docs ATRC LICENSE README.md *.so
 
 # APPIMAGE BUILDING
-cp ./output/linux/$PROJECTNAME ./$PROJECTNAME.AppDir/usr/bin/$PROJECTNAME
-
 if [ ! -f ./appimagetool-x86_64.AppImage ]; then
         curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
         chmod 700 ./appimagetool-x86_64.AppImage
