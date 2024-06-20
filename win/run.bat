@@ -3,8 +3,15 @@ cd /d %~dp0
 call .\batch\globals.bat
 cd ..
 cd ..\build
-copy ..\test\test.bat .\win\test.bat
+copy /Y ..\test\test.bat .\win\test.bat
+copy /B /Y ..\extern_dependencies\ATRC\libs\win\* .\win\
+
+set "ATRC_PATH=C:\Users\%USERNAME%\battosh\ATRC"
+if not exist %ATRC_PATH% mkdir %ATRC_PATH%
+copy /Y ..\ATRC\*.atrc %ATRC_PATH%
+echo.
+echo.
 .\win\%PROJECTNAME%.exe %*
 echo %ERRORLEVEL%
-copy .\win\*.sh ..\test
+copy /Y .\win\*.sh ..\test
 cd ..

@@ -39,6 +39,7 @@ struct battosh_info {
     bool quiet;
     bool dirsort;
     bool batchtoshell; // turn .bat to .sh
+    std::unique_ptr<std::string> HOME_PATH;
 };
 
 std::vector<Token>* lexical(battosh_info *args);

@@ -2,7 +2,16 @@
 
 ### Turn batch scripts to shell scripts on Windows and Linux
 
-NOTE: Please check the shell scripts before running them! Everything cannot be changed from batch to shell the way the user probably intended.
+NOTE! Please check the shell scripts before running them! Everything cannot be changed from batch to shell the way the user probably intended.
+
+
+The program depends on ATRC resource file library. Documentation on how to work with it is written into .\ATRC\README.txt
+
+For most of the commands, the defaults are there for a reason but you can modify them.
+ 
+Read the documentation of the command you will be modifying before making any changes. Documentation can be found in .\docs\
+
+Resource files will be downloaded to <homefolder>\battosh\ATRC
 
 ## Download
 
@@ -38,6 +47,7 @@ Linux:
             -qm,    --set-quietmode             CMD flag /Q will be turned to 2> /dev/null
             -ds,    --dir-sort                  When dir is translated to ls, add -l flag to ls (ls -l) 
             -bs,    --bat-shell                 Turn all occurences of .bat to .sh
+                    --set-home {path}           Give absolute position for the program to use as home directory instead of the system default. Example: C:\temp\. You will have to create battosh folder there yourself along with all the resource files and its folders
         examples:
             battosh file.bat                    -> outputs file.sh
             battosh file.bat -o test.sh         -> outputs test.sh
@@ -60,7 +70,7 @@ Note: Although every command can start with @, attempting to use it with any com
     CD, CHDIR, CD..         =>              See .\docs\CD.txt
     EXIT                    =>              See .\docs\EXIT.txt
     Arithmetic operators    =>              See .\docs\Arithmetic-Operators.txt
-    Logical operators       =>              See .\docs\Logical-Operators.txt
+    Logical operators       =>              See 
     Assignment operators    =>              See
     Bitwise operators       =>              See
     Arithmetic operators    =>              See

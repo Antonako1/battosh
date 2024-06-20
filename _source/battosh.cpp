@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include "battosh.hxx"
+#include "ATRC_VALUES.hxx"
 
 
 
@@ -18,7 +19,7 @@ int main(int argc, char *argv[]) {
     info->INPUT_FILE = std::make_unique<std::string>(argv[1]);
     bool output_provided = false;
     bool shell_provided = false;
-    
+    bool home_provided = false;
     for (int i = 1; i < argc; i++) {
         if (std::string(argv[i]) == "-h" || std::string(argv[i]) == "--help") {
             std::string err_msg = "Help message";
@@ -67,6 +68,16 @@ int main(int argc, char *argv[]) {
         else if (std::string(argv[i]) == "-bs" || std::string(argv[i]) == "--bat-shell"){
             info->batchtoshell = true;
         }
+        else if (std::string(argv[i]) == "--set-home"){
+            if (i + 1 < argc) {
+                info->HOME_PATH = std::make_unique<std::string>(argv[i + 1]);
+                i++;
+                home_provided = true;
+            } else {
+                std::string error = "Home path not provided";
+                message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
+            }
+        }
         
         else if (std::string(argv[i]) == "--set-mkdirp"){
             info->mkdir_p = true;
@@ -91,6 +102,16 @@ int main(int argc, char *argv[]) {
 
     if (!shell_provided) {
         info->SHELL = std::make_unique<std::string>("bash");
+    }
+    
+    if(!home_provided){
+        info->HOME_PATH = std::make_unique<std::string>(get_home_dir(""));
+    } else {
+        std::string home_path = *info->HOME_PATH;
+        if(home_path.back() == '/' || home_path.back() == '\\'){
+            home_path = home_path.substr(0, home_path.size() - 1);
+        }
+        info->HOME_PATH = std::make_unique<std::string>(home_path);
     }
 
     

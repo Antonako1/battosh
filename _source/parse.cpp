@@ -115,7 +115,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             case AND:
             case OR:
             case NOT:
-            case XOR:
+            // case XOR:
             case SHL:
             case SHR:
                 add_single_token(token, token.command, parsed_tokens, i);

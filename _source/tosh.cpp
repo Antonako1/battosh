@@ -6,6 +6,9 @@
 #include <algorithm>
 #include "battosh.hxx"
 #include "./commands/commands.hxx"
+#include "ATRC_VALUES.hxx"
+#include "../extern_dependencies/ATRC/include/ATRC.h"
+
 
 EXIT_FLAG exit_flag;
 ECHO_FLAG echo_flag;
@@ -36,7 +39,7 @@ bool check_comparison_in_future(std::vector<ParsedToken> *tokens, size_t i){
 
 bool check_operators_in_future(std::vector<ParsedToken> *tokens, size_t i){
     size_t j = i + 1;
-    if(tokens->at(j).command == AND || tokens->at(j).command == OR || tokens->at(j).command == NOT || tokens->at(j).command == XOR || tokens->at(j).command == SHL || tokens->at(j).command == SHR){
+    if(tokens->at(j).command == AND || tokens->at(j).command == OR || tokens->at(j).command == NOT || tokens->at(j).command == SHL || tokens->at(j).command == SHR){
         return true;
     }
     return false;
@@ -151,7 +154,14 @@ void if_statement_workings(
 
 void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     std::string output = "";
+    
+    
 
+    ReadATRC_VALUES(*args->HOME_PATH);
+    if(DoesExistBlock(fd_echo.get(), "ECHO")){
+        std::cout << "ECHO exists" << std::endl;
+    }
+    
     {
         // Prevent crashing
         ParsedToken parsed_token;

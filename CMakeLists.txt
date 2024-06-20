@@ -20,8 +20,26 @@ file(GLOB SOURCES
   "./_source/*.rc"
 )
 
+# Set ATRC library directory based on the platform
+if (WIN32)
+    set(ATRC_DIR "${PROJECT_SOURCE_DIR}/extern_dependencies/ATRC/libs/win")
+elseif (UNIX)
+    set(ATRC_DIR "${PROJECT_SOURCE_DIR}/extern_dependencies/ATRC/libs/linux")
+endif()
+
+# Find the ATRC library
+find_library(ATRC NAMES ATRC REQUIRED PATHS ${ATRC_DIR})
+message(STATUS "ATRC library found at: ${ATRC}")
+
+# Include header directory
+include_directories("${PROJECT_SOURCE_DIR}/extern_dependencies/ATRC/include")
+
 # Add executable
 add_executable(${project_name} ${SOURCES})
+
+# Link to the executable
+target_link_libraries(${project_name} PRIVATE ${ATRC})
+
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET ${project_name} PROPERTY CXX_STANDARD 20)
