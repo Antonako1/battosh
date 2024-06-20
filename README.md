@@ -77,34 +77,16 @@ Note: Although every command can start with @, attempting to use it with any com
     Bitwise operators       =>              See
     Arithmetic operators    =>              See
     String operators        =>              See
-    IF, (ELSE IF)           =>              See .\docs\IF.txt
-    ELSE                    =>              See .\docs\ELSE.txt
-    MKDIR, MD               =>              See .\docs\MKDIR.txt
-    RMDIR, RD               =>              See .\docs\RMDIR.txt
-    REN, RENAME             =>              See .\docs\REN.txt
-    TIMEOUT                 =>              See .\docs\TIMEOUT.txt
-    MOVE                    =>              See .\docs\MOVE.txt
-    HELP                    =>              See .\docs\HELP.txt
-    PAUSE                   =>              See .\docs\PAUSE.txt
-    DIR                     =>              See .\docs\DIR.txt
-
-    comparison and logical
-    operators               ->              comparison and logical
-                                            operators
-    if else, else if
-    exist
-    /I                      ->              if else, elif
-                                            -e
-                                            only works for variables... ("${var1,,}" = "${var2,,}")
-    (mkdir, md), /?          ->             mkdir, --help
-    (rmdir, rd), /?, /S, /Q  ->             rmdir, --help, rm -rf, rmdir ... 2> /dev/null (combination is rm -rf ... 2> /dev/null. Note: Only if -qm flag is provided will the program add 2> dev/null)
-    (ren, rename), /?        ->             mv, --help
-    timeout, /?, /T          ->             pause, --help, pause [number]. (/NOBREAK has no equivelant in pause)
-    move, /Y, /-Y            ->             mv, --force, --interactive
-    help, /?                 ->             help, --help
-    pause                    ->             read -rsp $'Press any key to continue...\n' -n 1 key
-    dir, /A:[D, R, H, A, 
-    S, I, L, O, -], /B, /C
+    IF, (ELSE IF)           =>              See
+    ELSE                    =>              See
+    MKDIR, MD               =>              See
+    RMDIR, RD               =>              See
+    REN, RENAME             =>              See
+    TIMEOUT                 =>              See
+    MOVE                    =>              See
+    HELP                    =>              See
+    PAUSE                   =>              See
+    DIR                     =>              See
 
 ### Known issues
 
