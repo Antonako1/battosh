@@ -124,6 +124,5 @@ int main(int argc, char *argv[]) {
 
     tosh(parsed_tokens, info.get());
 
-    delete tokens;
     return 0;
 }
