@@ -83,6 +83,17 @@ File "${PROJECTNAME}.exe"
 File "LICENSE"
 File "README.md"
 
+CreateDirectory $PROFILE\battosh\docs
+SetOutPath $PROFILE\battosh\docs
+File /r "docs\*.*"
+
+CreateDirectory $PROFILE\battosh\ATRC
+SetOutPath $PROFILE\battosh\ATRC
+File /r "ATRC\*.*"
+
+
+SetOutPath $INSTALL_DIR
+
 SectionEnd
 
 ############# SETUP ################
