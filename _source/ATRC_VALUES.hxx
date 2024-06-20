@@ -4,8 +4,9 @@
 #include <memory>
 #include <stdexcept>
 #include "../extern_dependencies/ATRC/include/ATRC.h"
+#include "battosh.hxx"
 
-void ReadATRC_VALUES(const std::string& home_dir);
+void ReadATRC_VALUES(battosh_info *args);
 
 extern std::unique_ptr<ATRCFiledata> fd_echo;
 extern std::unique_ptr<ATRCFiledata> fd_comment;

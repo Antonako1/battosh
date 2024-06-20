@@ -169,7 +169,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     
     
 
-    ReadATRC_VALUES(*args->HOME_PATH);
+    ReadATRC_VALUES(battosh_info *args);
     
     {
         // Prevent crashing
