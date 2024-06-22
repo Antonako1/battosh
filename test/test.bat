@@ -1,5 +1,11 @@
-rmdir /?
-rmdir /q test
-rmdir /s test
-rmdir /s/q test
-rmdir /q/s test
+@REM rmdir /?
+@REM rmdir /q test
+@REM rmdir /s test
+@REM rmdir /s/q test
+@REM rmdir /q/s test
+
+if 1 leq 1 mkdir test
+
+cls
+cd..
+cd test

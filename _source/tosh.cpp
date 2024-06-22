@@ -22,12 +22,33 @@ HELP_FLAG help_flag;
 PAUSE_FLAG pause_flag;
 DIR_FLAG dir_flag;
 
+
 void send_message(std::string msg, int errnum, bool disable_atrc_warnings){
     if(errnum == ATRC_NOT_FOUND && disable_atrc_warnings){
         return;
     }
     message(msg, FL_FLAG_TOSH, 
     errnum, false, -1,-1);
+}
+void read_key_to_output
+    (
+    std::string block, 
+    std::string key,
+    std::string original_value,
+    ATRCFiledata *fd,
+    std::string &cts, 
+    std::string &output, 
+    bool daw
+    )
+{
+    cts = "";    
+    ReadKey(fd, block, key, cts);
+    if(cts == ""){
+        send_message("block: ["+block+"] key: <"+key+"> not found", ATRC_NOT_FOUND, daw);
+        output += original_value;
+    } else {
+        output += cts;
+    }   
 }
 void add_to_output(std::string &output, const std::string &value){
     output += value;
@@ -88,58 +109,23 @@ void if_statement_workings(
             output += "! ";
             break;
         case EQU:
-            ReadKey(fd_relational_operators.get(), "RELATIONAL_OPERATORS", "EQU", cts1);
-            if(cts1 == "") {
-                send_message("[RELATIONAL_OPERATORS] EQU not found", ATRC_NOT_FOUND, daw);
-                output += "-eq ";
-            } else {
-                output += cts1;
-            }
+            // read_key_to_output(cts1, output, "RELATIONAL_OPERATORS", "EQU", fd_relational_operators.get(), "-eq ", daw);
+            read_key_to_output("RELATIONAL_OPERATORS", "EQU", "-eq ", fd_relational_operators.get(), cts1, output, daw);
             break;
         case NEQ:
-            ReadKey(fd_relational_operators.get(), "RELATIONAL_OPERATORS", "NEQ", cts1);
-            if(cts1 == "") {
-                send_message("[RELATIONAL_OPERATORS] NEQ not found", ATRC_NOT_FOUND, daw);
-                output += "-ne ";
-            } else {
-                output += cts1;
-            }
+            read_key_to_output("RELATIONAL_OPERATORS", "NEQ", "-ne ", fd_relational_operators.get(), cts1, output, daw);
             break;
         case LSS:
-            ReadKey(fd_relational_operators.get(), "RELATIONAL_OPERATORS", "LSS", cts1);
-            if(cts1 == "") {
-                send_message("[RELATIONAL_OPERATORS] LSS not found", ATRC_NOT_FOUND, daw);
-                output += "-lt ";
-            } else {
-                output += cts1;
-            }
+            read_key_to_output("RELATIONAL_OPERATORS", "LSS", "-lt ", fd_relational_operators.get(), cts1, output, daw);
             break;
         case LEQ:
-            ReadKey(fd_relational_operators.get(), "RELATIONAL_OPERATORS", "LEQ", cts1);
-            if(cts1 == "") {
-                send_message("[RELATIONAL_OPERATORS] LEQ not found", ATRC_NOT_FOUND, daw);
-                output += "-le ";
-            } else {
-                output += cts1;
-            }
+            read_key_to_output("RELATIONAL_OPERATORS", "LEQ", "-le ", fd_relational_operators.get(), cts1, output, daw);
             break;
         case GTR:
-            ReadKey(fd_relational_operators.get(), "RELATIONAL_OPERATORS", "GTR", cts1);
-            if(cts1 == "") {
-                send_message("[RELATIONAL_OPERATORS] GTR not found", ATRC_NOT_FOUND, daw);
-                output += "-gt ";
-            } else {
-                output += cts1;
-            }
+            read_key_to_output("RELATIONAL_OPERATORS", "GTR", "-gt ", fd_relational_operators.get(), cts1, output, daw);
             break;
         case GEQ:
-            ReadKey(fd_relational_operators.get(), "RELATIONAL_OPERATORS", "GEQ", cts1);
-            if(cts1 == "") {
-                send_message("[RELATIONAL_OPERATORS] GEQ not found", ATRC_NOT_FOUND, daw);
-                output += "-ge ";
-            } else {
-                output += cts1;
-            }
+            read_key_to_output("RELATIONAL_OPERATORS", "GEQ", "-ge ", fd_relational_operators.get(), cts1, output, daw);
             break;
         case AND:
             output += "&& ";
@@ -226,8 +212,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     }
     std::string QUIET_MODE = "";
     std::string buffer = "";
-    std::string insert1 = "";
-    std::string insert2 = "";
     
     if(args->quiet){
         QUIET_MODE = "2> /dev/null";
@@ -255,9 +239,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         }
         cts1 = ""; cts2 = ""; // reset buffer
         switch(parsed_token.command){
-            case ECHO: {
-                ReadKey(fd_echo.get(), "ECHO", "command", cts1);
-                
+            case ECHO: {                
                 bool updated_path = false;
                 for(const auto &flag : parsed_token.flags){
                     // check if flag is found
@@ -276,83 +258,42 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     output += flag + " ";
                 }
                 if(!updated_path){
-                    if(cts1 == "") {
-                        send_message("[ECHO] command not found", ATRC_NOT_FOUND, daw);
-                        output += "echo ";
-                    } else {
-                        output += cts1;
-                    }
+                    read_key_to_output("ECHO", "command", "echo ", fd_echo.get(), cts1, output, daw);
                 }
                 add_end_values(parsed_token, output);
                 break;
             }
             case CLS: {
-                ReadKey(fd_cls.get(), "CLS", "command", cts1);
-                if(cts1 == "") {
-                    send_message("[CLS] command not found", ATRC_NOT_FOUND, daw);
-                    output += "clear";
-                } else {
-                    output += cts1;
-                }
+                read_key_to_output("CLS", "command", "clear", fd_cls.get(), cts1, output, daw);
                 break;
             }
             case VER: {
-                ReadKey(fd_ver.get(), "VER", "command", cts1);
-                if(cts1 == ""){
-                    send_message("[VER] command not found", ATRC_NOT_FOUND, daw);
-                    output += "uname -r";
-                } else {
-                    output += cts1;
-                }
+                read_key_to_output("VER", "command", "uname -r", fd_ver.get(), cts1, output, daw);
                 break;
             }
             case CALL:{
                 // NOTE More checks might be needed
-                ReadKey(fd_call.get(), "CALL", "command", cts1);
                 // TODO PATH CHECK
-                if(cts1 == ""){
-                    send_message("[CALL] command not found", ATRC_NOT_FOUND, daw);
-                    output += "source ";
-                } else {
-                    output += cts1;
-                }
+                read_key_to_output("CALL", "command", "source ", fd_call.get(), cts1, output, daw);
                 add_end_values(parsed_token, output);
                 break;
             }
             case TYPE: {
-                ReadKey(fd_type.get(), "TYPE", "command", cts1);
-                if(cts1 == ""){
-                    send_message("[TYPE] command not found", ATRC_NOT_FOUND, daw);
-                    output += "cat ";
-                } else {
-                    output += cts1;
-                }
+                read_key_to_output("TYPE", "command", "cat ", fd_type.get(), cts1, output, daw);
                 // TODO PATH CHECK
                 add_end_values(parsed_token, output);
                 break;
             }
             case CDBACK:
-                ReadKey(fd_cd.get(), "CD", "back", cts1);
-                if(cts1 == ""){
-                    send_message("[CD] back not found", ATRC_NOT_FOUND, daw);
-                    output += "cd ..";
-                } else {
-                    output += cts1;
-                }
+                read_key_to_output("CD", "back", "cd ..", fd_cd.get(), cts1, output, daw);
                 break;
             case CHDIR:
             case CD: {
                 // TODO PATH CHECK
                 buffer = "";
-                ReadKey(fd_cd.get(), "CD", "command", cts1);
-                if(cts1 == ""){
-                    send_message("[CD] command not found", ATRC_NOT_FOUND, daw);
-                    buffer += "cd %*% ";
-                } else {
-                    buffer += cts1;
-                }
-                insert1 = add_end_values_as_string(parsed_token);
-                const std::string *temp[] = {&insert1};
+                read_key_to_output("CD", "command", "cd %*% ", fd_cd.get(), cts1, buffer, daw);
+                std::string insert1 = add_end_values_as_string(parsed_token);
+                std::vector<std::string> temp = {insert1};
                 InsertVar(buffer, temp);
                 output += buffer;
                 break;
@@ -361,21 +302,9 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 std::string temp = parsed_token.values[0];
                 std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
                 if(temp == "off"){
-                    ReadKey(fd_echo.get(), "@ECHO", "off", cts1);
-                    if(cts1 == "") {
-                        send_message("[ECHO] off not found", ATRC_NOT_FOUND, daw);
-                        output += "set +x";
-                    } else {
-                        output += cts1;
-                    }
+                    read_key_to_output("ECHO", "off", "set +x", fd_echo.get(), cts1, output, daw);
                 } else {
-                    ReadKey(fd_echo.get(), "@ECHO", "on", cts1);
-                    if(cts1 == "") {
-                        send_message("[ECHO] on not found", ATRC_NOT_FOUND, daw);
-                        output += "set -x";
-                    } else {
-                        output += cts1;
-                    }
+                    read_key_to_output("ECHO", "on", "set -x", fd_echo.get(), cts1, output, daw);
                 }
                 break;
             }
@@ -410,13 +339,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case REM: {
-                ReadKey(fd_comment.get(), "COMMENT", "command", cts1);
-                if(cts1 == "") {
-                    send_message("[COMMENT] command not found", ATRC_NOT_FOUND, daw);
-                    output += "# ";
-                } else {
-                    output += cts1;
-                }
+                read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), cts1, output, daw);
                 add_end_values(parsed_token, output);
                 break;
             }
@@ -484,6 +407,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case EXIT: {
+                read_key_to_output("EXIT", "command", "exit ", fd_exit.get(), cts1, output, daw);
                 ReadKey(fd_exit.get(), "EXIT", "command", cts1);
                 if(cts1 == ""){
                     send_message("[EXIT] command not found", ATRC_NOT_FOUND, daw);
@@ -494,7 +418,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 bool num_provided = false;
                 for(const auto &flag : parsed_token.flags){
                     if(flag == exit_flag.EXIT_CURRENT_BATCH){
-                        ReadKey(fd_exit.get(), "EXIT", "erarcode", cts1);
+                        ReadKey(fd_exit.get(), "EXIT", "errcode", cts1);
                         if(cts1 == ""){
                             send_message("[EXIT] errcode not found", ATRC_NOT_FOUND, daw);
                             output += parsed_token.values.at(0);
@@ -505,13 +429,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         num_provided = true;
                     }
                     else if(flag == exit_flag.GET_HELP){
-                        ReadKey(fd_exit.get(), "EXIT", "get_help", cts1);
-                        if(cts1 == ""){
-                            send_message("[EXIT] get_help not found", ATRC_NOT_FOUND, daw);
-                            output += exit_flag.LINUX_GET_HELP + " ";
-                        } else {
-                            output += cts1;
-                        }
+                        read_key_to_output("EXIT", "get_help", exit_flag.LINUX_GET_HELP + " ", fd_exit.get(), cts1, output, daw);
                     }
                 }
                 if(!num_provided){
@@ -526,31 +444,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 bool add_force_mode = false;
                 for(const auto &flag : parsed_token.flags){
                     if(flag == rmdir_flag.GET_HELP){
-                        ReadKey(fd_rmdir.get(), "RMDIR", "command", cts1);
-                        if(cts1 == ""){
-                            send_message("[RMDIR] command not found", ATRC_NOT_FOUND, daw);
-                            output += "rmdir ";
-                        } else {
-                            output += cts1;
-                        }        
-                        ReadKey(fd_rmdir.get(), "RMDIR", "get_help", cts1);
-                        if(cts1 == ""){
-                            send_message("[RMDIR] get_help not found", ATRC_NOT_FOUND, daw);
-                            output += rmdir_flag.LINUX_GET_HELP + " ";
-                        } else {
-                            output += cts1;
-                        }
+                        read_key_to_output("RMDIR", "command", "rmdir ", fd_rmdir.get(), cts1, output, daw);
+                        read_key_to_output("RMDIR", "get_help", rmdir_flag.LINUX_GET_HELP + " ", fd_rmdir.get(), cts1, output, daw);
                         updated_command = true;
                         continue;
                     } else if(flag == rmdir_flag.REMOVE_DIR_TREE){
                         if(!updated_command) {
-                            ReadKey(fd_rmdir.get(), "RMDIR", "modified_command", cts1);
-                            if(cts1 == ""){
-                                send_message("[RMDIR] modified_command not found", ATRC_NOT_FOUND, daw);
-                                output += rmdir_flag.LINUX_UPDATED_COMMAND + " ";
-                            } else {
-                                output += cts1;
-                            }
+                            read_key_to_output("RMDIR", "modified_command", "rmdir ", fd_rmdir.get(), cts1, output, daw);
                             updated_command = true;
                             add_force_mode = true;
                         }
@@ -568,21 +468,9 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         output += cts1;
                     }   
                 } else if(add_quiet_mode && add_force_mode){
-                    ReadKey(fd_rmdir.get(), "RMDIR", "remove_dir_tree_force", cts1);
-                    if(cts1 == ""){
-                        send_message("[RMDIR] remove_dir_tree_force not found", ATRC_NOT_FOUND, daw);
-                        output += rmdir_flag.LINUX_REMOVE_DIR_TREE_FORCE + " ";
-                    } else {
-                        output += cts1;
-                    }
+                    read_key_to_output("RMDIR", "remove_dir_tree_force", rmdir_flag.LINUX_REMOVE_DIR_TREE_FORCE + " ", fd_rmdir.get(), cts1, output, daw);
                 } else if (!add_quiet_mode && add_force_mode){
-                    ReadKey(fd_rmdir.get(), "RMDIR", "remove_dir_tree", cts1);
-                    if(cts1 == ""){
-                        send_message("[RMDIR] remove_dir_tree not found", ATRC_NOT_FOUND, daw);
-                        output += rmdir_flag.LINUX_REMOVE_DIR_TREE + " ";
-                    } else {
-                        output += cts1;
-                    }
+                    read_key_to_output("RMDIR", "remove_dir_tree", rmdir_flag.LINUX_REMOVE_DIR_TREE + " ", fd_rmdir.get(), cts1, output, daw);
                 }
                 add_end_values(parsed_token, output);
                 if(add_quiet_mode){
@@ -592,31 +480,14 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             }
             case MD:
             case MKDIR: {
-                ReadKey(fd_mkdir.get(), "MKDIR", "command", cts1);
-                if(cts1 == ""){
-                    send_message("[MKDIR] command not found", ATRC_NOT_FOUND, daw);
-                    output += "mkdir ";
-                } else {
-                    output += cts1;
-                }
+                // TODO PATH CHECK
+                read_key_to_output("MKDIR", "command", "mkdir ", fd_mkdir.get(), cts1, output, daw);
                 if(args->mkdir_p){
-                    ReadKey(fd_mkdir.get(), "MKDIR", "mkdir_p", cts1);
-                    if(cts1 == ""){
-                        send_message("[MKDIR] mkdir_p not found", ATRC_NOT_FOUND, daw);
-                        output += "-p ";
-                    } else {
-                        output += cts1;
-                    }
+                    read_key_to_output("MKDIR", "mkdir_p", "mkdir -p ", fd_mkdir.get(), cts1, output, daw);
                 }
                 for(const auto &flag : parsed_token.flags){
                     if(flag == mkdir_flag.GET_HELP){
-                        ReadKey(fd_mkdir.get(), "MKDIR", "get_help", cts1);
-                        if(cts1 == ""){
-                            send_message("[MKDIR] get_help not found", ATRC_NOT_FOUND, daw);
-                            output += mkdir_flag.LINUX_GET_HELP + " ";
-                        } else {
-                            output += cts1;
-                        }
+                        read_key_to_output("MKDIR", "get_help", mkdir_flag.LINUX_GET_HELP + " ", fd_mkdir.get(), cts1, output, daw);
                     }
                 }
                 add_end_values(parsed_token, output);
