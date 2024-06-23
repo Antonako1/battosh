@@ -1,11 +1,7 @@
-@REM rmdir /?
-@REM rmdir /q test
-@REM rmdir /s test
-@REM rmdir /s/q test
-@REM rmdir /q/s test
-
-if 1 leq 1 mkdir test
-
-cls
-cd..
-cd test
+cd C:\test
+cd \tmp
+cd "C:\test"
+cd .\test\lol.txt
+cd ".\test\lol.txt"
+cd "./test"
+cd ./test

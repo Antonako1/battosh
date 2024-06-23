@@ -49,6 +49,7 @@ enum batch_commands{
     DIR,            // -- (dir) - list directory contents | ls
     DATE,           // (date) - show or set the date |
     ECHO,           // -- (echo) - display message on screen | echo
+    ECHO_emptyline, // -- (echo.) - display message on screen | echo
     EXIT,           // -- (exit) - exit the command interpreter | exit
     MD,             // -- (md) - make directory | mkdir
     MKDIR,          // -- (mkdir) - make directory | mkdir
@@ -199,6 +200,8 @@ struct ECHO_FLAG{
     std::string LINUX_GET_HELP_EXPECT_VALUE = "NONE";
     std::string GET_HELP = "/?";
     std::string GET_HELP_EXPECT_VALUE = "NONE";
+
+    std::string LINUX_NEWLINE = "\"\"";
 };
 
 struct EXIT_FLAG{

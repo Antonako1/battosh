@@ -1,6 +1,13 @@
 #ifndef battosh_H
 #define battosh_H
 
+
+
+#ifdef DEBUG
+    #include <iostream>
+    const bool not___defined___ = bool( std::cout << "%%%DEBUG MODE%%%" << std::endl );
+#endif
+
 #define VERSION             "0.0.2"
 
 #include <string>
@@ -64,5 +71,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args);
 
 
 void tosh(std::vector<ParsedToken> *tokens, battosh_info *args);
+
+void pathing(ParsedToken &parsed_token, battosh_info *args);
 
 #endif // battosh_H

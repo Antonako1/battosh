@@ -61,6 +61,10 @@
         "chrono": "cpp",
         "forward_list": "cpp",
         "iomanip": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "list": "cpp",
+        "mutex": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     }
 }

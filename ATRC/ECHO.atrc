@@ -6,7 +6,14 @@
 !     The command is pretty simple to turn to shell :)
 ! 
 !     Note: Due to "echo --help" echoing the ask for help to the screen, it must be passed straight to the binary
-! 
+!     
+!     Echo blank lines with:
+!       ECHO.
+!       ECHO(
+!       ECHO+
+!       ECHO,
+!       ECHO;
+!       ECHO:
 !     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ! 
 !     @ECHO OFF/ON turns the echoing of commands off and on respectively
@@ -70,6 +77,9 @@ command=echo&
 ! for help command => ECHO /?
 %help_command%=/bin/echo
 get_help=%help_command% --help&
+
+!Echo a blank line => ECHO.
+blank_line=""&
 
 ! @ECHO ON/OFF
 [@ECHO]

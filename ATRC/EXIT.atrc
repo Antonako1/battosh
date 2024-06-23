@@ -42,6 +42,6 @@
 ! base command
 command=exit&
 ! /B equivalent. If in use, end the value with whitespace.
-errcode=&
+errcode=
 ! /? equivalent
 get_help=--help&

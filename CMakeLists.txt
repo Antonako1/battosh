@@ -6,7 +6,7 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-set(DEBUGGING__ "TRUE")
+set(DEBUGGING__ 1)
 
 set(project_name "battosh")
 
@@ -78,7 +78,10 @@ endif()
 
 # Enable debugging symbols for Release and Debug builds if DEBUGGING__ is TRUE
 if (DEBUGGING__)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+  if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+  endif()
+  add_compile_definitions(DEBUG)
 endif()
 message("STATUS" "CXX: ${CMAKE_CXX_FLAGS}")
 

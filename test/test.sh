@@ -1,14 +1,10 @@
 #!/bin/bash
-# rmdir 
-# rmdir test 
-# rmdir test 
-# rmdir test 
-# rmdir test 
+cd C:/test  
+cd /tmp  
+cd "C:/test"  
+cd ./test/lol.txt  
+cd "./test/lol.txt"  
+cd "./test"  
+cd ./test  
 
-if [ 1 -le 1 ]; then
-    mkdir test     
-fi
-
-clear
-cd ..
-cd test  
+ls 

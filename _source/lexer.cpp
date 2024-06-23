@@ -164,7 +164,27 @@ void add_token(std::vector<Token> *tokens, std::string &buffer, int line, int co
     buffer.clear();
 }
 
-
+bool add_echo_new_line(std::vector<Token> *tokens, std::string &buffer, int line_num, int column_num){
+    if(buffer.length() > 4){
+        // bad bad bad
+        std::string temp = buffer;
+        std::transform(temp.begin(), temp.end(), temp.begin(), ::toupper);
+        if(temp.substr(0, 4) == "ECHO" 
+        && (
+            temp.substr(4,5) == "."
+            ||temp.substr(4,5) == "("
+            ||temp.substr(4,5) == "+"
+            ||temp.substr(4,5) == ","
+            ||temp.substr(4,5) == ";"
+            ||temp.substr(4,5) == ":"
+        )
+        ) {
+            add_token(tokens, buffer, line_num, column_num, ECHO_emptyline);
+            return true;
+        }
+    }
+    return false;
+}
 
 std::vector<Token>* lexical(battosh_info *args) {
     std::string input_file = *args->INPUT_FILE;
@@ -199,7 +219,8 @@ std::vector<Token>* lexical(battosh_info *args) {
                 case '\r':
                     // std::cout << "line endings" << std::endl;
                     if (!buffer.empty()) {
-                        add_token(tokens, buffer, line_num, column_num, -1);
+                        if(!add_echo_new_line(tokens, buffer, line_num, column_num))
+                            add_token(tokens, buffer, line_num, column_num, -1);
                     }
 
                     add_token(tokens, buffer, line_num, column_num, ENDLINE);
@@ -208,7 +229,9 @@ std::vector<Token>* lexical(battosh_info *args) {
                 case ' ':
                 case '\t':{
                     if (!buffer.empty()) {
-                        add_token(tokens, buffer, line_num, column_num, -1);
+                        if(!add_echo_new_line(tokens, buffer, line_num, column_num))
+                            add_token(tokens, buffer, line_num, column_num, -1);
+                        // add_token(tokens, buffer, line_num, column_num, -1);
                     }
                 }
                     break;
@@ -255,11 +278,10 @@ std::vector<Token>* lexical(battosh_info *args) {
                     index--;
 
                     if(!is_comment){
-                        if (!buffer.empty()) {
-                            add_token(tokens, buffer, line_num, column_num, -1);
-                        }
-                        buffer = ":";
-                        add_token(tokens, buffer, line_num, column_num, GOTO);
+                        // :DDDDDDDDDD
+                        consume(index, line, buffer);
+                        consume(index, line, buffer);
+                        index--;
                     }
                     break;
                 }
@@ -292,6 +314,11 @@ std::vector<Token>* lexical(battosh_info *args) {
                         std::string flag = "/";
                         std::string attribute = ":";
                         size_t flag_index = index + 1;
+                        char previous = line[flag_index - 2];
+                        if (previous != '/' && previous != ' ') {
+                            buffer += "/";
+                            break;
+                        }
                         bool flag_found = false;
                         while (flag_index < line.size()) {
                             ahead = look_ahead(flag_index, line);
@@ -299,7 +326,6 @@ std::vector<Token>* lexical(battosh_info *args) {
                                 ahead == "\r" || ahead == "\t" || ahead == ":" || ahead == "-") {
                                 flag_found = true;
                                 tokens->at(tokens->size() - 1).flags.push_back(flag);
-                                
                                 // check if attribute is present
                                 if(ahead == ":" || ahead == "-"){
                                     flag_index++;
@@ -324,7 +350,7 @@ std::vector<Token>* lexical(battosh_info *args) {
                         flag_index--;
 
                         if(!flag_found){
-                            tokens->at(tokens->size() - 1).flags.push_back(flag);
+                            buffer += "/";
                         }
 
                         index = flag_index;
@@ -333,7 +359,6 @@ std::vector<Token>* lexical(battosh_info *args) {
                 default:
                     consume(index, line, buffer);
                     continue;
-
             }
 
             index++;
@@ -341,7 +366,8 @@ std::vector<Token>* lexical(battosh_info *args) {
         }
 
         if (!buffer.empty()) {
-            add_token(tokens, buffer, line_num, column_num, -1);
+            if(!add_echo_new_line(tokens, buffer, line_num, column_num))
+                add_token(tokens, buffer, line_num, column_num, -1);
         }
 
         #ifdef __linux__ 

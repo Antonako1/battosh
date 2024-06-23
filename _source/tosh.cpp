@@ -44,7 +44,9 @@ void read_key_to_output
     cts = "";    
     ReadKey(fd, block, key, cts);
     if(cts == ""){
-        send_message("block: ["+block+"] key: <"+key+"> not found", ATRC_NOT_FOUND, daw);
+        if(!DoesExistKey(fd, block, key)){
+            send_message("block: ["+block+"] key: <"+key+"> not found", ATRC_NOT_FOUND, daw);
+        }
         output += original_value;
     } else {
         output += cts;
@@ -93,15 +95,12 @@ void if_statement_workings(
     int &short_hand_if_statement,
     bool daw
     ){
-    // statement check
-    // loop until the next command or ( or endline
     bool break_statemnt = false;
     bool if_initialized = false;
     std::string statement = "";
     size_t index = 0;
     std::string cts1= "";
     for(index = i; index < tokens->size(); index++){
-
         ParsedToken next_token = tokens->at(index);
         switch (next_token.command) {
         case IF: break; // skip, otherwise will appear in default
@@ -146,6 +145,7 @@ void if_statement_workings(
         case EXIST:
             output += "-e ";
             // expect a file
+            // TODO PATH CHECK
             index++;
             output += tokens->at(index).value;
             break;
@@ -177,7 +177,6 @@ void if_statement_workings(
                 // rough code
                 if(next_token.command != UNKNOWN){
                     index--;
-                    // Remove the added token from output
                     output = output.substr(0, output.size() - next_token.value.size() - 1);
                 }
                 output += "]; then\n";
@@ -198,12 +197,7 @@ void if_statement_workings(
 void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     std::string output = "";
     std::string cts1, cts2 = ""; // buffer contents for atrc file reading
-    
-    ReadATRC_VALUES(args);
-
-    
-
-    
+    ReadATRC_VALUES(args);    
     {
         // Prevent crashing
         ParsedToken parsed_token;
@@ -224,6 +218,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     bool daw = args->disable_atrc_warnings;
     for(size_t i = 0; i < tokens->size(); i++){
         ParsedToken parsed_token = tokens->at(i);
+#ifdef DEBUG
         std::cout << "Token: " << parsed_token.value << " Command: " << parsed_token.command << std::endl;
         for(const auto &flag : parsed_token.flags){
             std::cout << "  Flag: " << flag << std::endl;
@@ -234,15 +229,15 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         for (const auto &attribute : parsed_token.attributes) {
             std::cout << "  Attribute: " << attribute << std::endl;
         }
+#endif
         if(inside_if || short_hand_if_statement != 0){
             output += std::string(if_statement_intend, ' ');
         }
-        cts1 = ""; cts2 = ""; // reset buffer
+        cts1 = ""; cts2 = "";
         switch(parsed_token.command){
             case ECHO: {                
                 bool updated_path = false;
                 for(const auto &flag : parsed_token.flags){
-                    // check if flag is found
                     if(flag == echo_flag.GET_HELP){
                         updated_path = true;
                         ReadKey(fd_echo.get(), "ECHO", "get_help", cts2);
@@ -272,7 +267,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case CALL:{
-                // NOTE More checks might be needed
                 // TODO PATH CHECK
                 read_key_to_output("CALL", "command", "source ", fd_call.get(), cts1, output, daw);
                 add_end_values(parsed_token, output);
@@ -287,13 +281,16 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             case CDBACK:
                 read_key_to_output("CD", "back", "cd ..", fd_cd.get(), cts1, output, daw);
                 break;
+            case ECHO_emptyline:
+                read_key_to_output("ECHO", "command", "echo ", fd_echo.get(), cts1, output, daw);
+                read_key_to_output("ECHO", "blank_line", echo_flag.LINUX_NEWLINE + " ", fd_echo.get(), cts2, output, daw);
+                break;
             case CHDIR:
             case CD: {
-                // TODO PATH CHECK
                 buffer = "";
                 read_key_to_output("CD", "command", "cd %*% ", fd_cd.get(), cts1, buffer, daw);
-                std::string insert1 = add_end_values_as_string(parsed_token);
-                std::vector<std::string> temp = {insert1};
+                pathing(parsed_token, args);
+                std::vector<std::string> temp = {add_end_values_as_string(parsed_token)};
                 InsertVar(buffer, temp);
                 output += buffer;
                 break;
@@ -401,6 +398,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     if(if_statement_intend != 0){
                         output += std::string(if_statement_intend, ' ');
                     }
+                    output += "\n"; // !temporary fix
                     output += "fi\n";
                     inside_if = false;
                 }
@@ -408,24 +406,11 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             }
             case EXIT: {
                 read_key_to_output("EXIT", "command", "exit ", fd_exit.get(), cts1, output, daw);
-                ReadKey(fd_exit.get(), "EXIT", "command", cts1);
-                if(cts1 == ""){
-                    send_message("[EXIT] command not found", ATRC_NOT_FOUND, daw);
-                    output += "exit ";
-                } else {
-                    output += cts1;
-                }
                 bool num_provided = false;
                 for(const auto &flag : parsed_token.flags){
                     if(flag == exit_flag.EXIT_CURRENT_BATCH){
-                        ReadKey(fd_exit.get(), "EXIT", "errcode", cts1);
-                        if(cts1 == ""){
-                            send_message("[EXIT] errcode not found", ATRC_NOT_FOUND, daw);
-                            output += parsed_token.values.at(0);
-                        } else {
-                            output += cts1;
-                            output += parsed_token.values.at(0);
-                        }
+                        read_key_to_output("EXIT", "errcode", exit_flag.LINUX_EXIT_CURRENT_BATCH, fd_exit.get(), cts1, output, daw);
+                        output += parsed_token.values.at(0);
                         num_provided = true;
                     }
                     else if(flag == exit_flag.GET_HELP){
@@ -541,17 +526,18 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     // create message()
     std::cout << "File created: " << *args->OUTPUT_FILE << std::endl;
     std::cout << "Ran with flags:" << std::endl;
-    std::cout << "wsl paths: " << args->wsl << std::endl;
-    std::cout << "linux paths: " << args->_linux_battosh << std::endl;
-    std::cout << "save whitespace: " << args->savewhitespace << std::endl;
-    std::cout << "save comments: " << args->savecomments << std::endl;
-    std::cout << "shell: " << *args->SHELL << std::endl;
-    std::cout << "mkdir_p: " << args->mkdir_p << std::endl;
-    std::cout << "quiet: " << args->quiet << std::endl;
-    std::cout << "dirsort: " << args->dirsort << std::endl;
-    std::cout << "batchtoshell: " << args->batchtoshell << std::endl;
-    std::cout << "home path: " << *args->HOME_PATH << std::endl;
-    std::cout << "disable atrc warnings: " << args->disable_atrc_warnings << std::endl;
+
+    if(args->wsl)std::cout << "wsl paths" << std::endl;
+    if(args->_linux_battosh)std::cout << "linux paths" << std::endl;
+    if(args->savewhitespace)std::cout << "save whitespace" << std::endl;
+    if(args->savecomments)std::cout << "save comments" << std::endl;
+    if(args->SHELL)std::cout << "shell" << std::endl;
+    if(args->mkdir_p)std::cout << "mkdir_p" << std::endl;
+    if(args->quiet)std::cout << "quiet" << std::endl;
+    if(args->dirsort)std::cout << "dirsort" << std::endl;
+    if(args->batchtoshell)std::cout << "batchtoshell" << std::endl;
+    if(args->HOME_PATH)std::cout << "home path" << std::endl;
+    if(args->disable_atrc_warnings)std::cout << "disable atrc warnings" << std::endl;
 
     // Clean up
     // cleanup();

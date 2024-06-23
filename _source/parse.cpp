@@ -99,6 +99,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             case PAUSE:
             case CLS:
             case VER:
+            case ECHO_emptyline:
             case ENDLINE:
             case IF:        // TODO, NOTE: /I will not propably work, add_single_token should add flags
             case ELSE:
