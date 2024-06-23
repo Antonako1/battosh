@@ -1,6 +1,49 @@
 ! CALL ATRC FILE
 !
-! Read the documentation before making any changes!
+! About:
+!     Call does what it says, call a given batch file
+! 
+!     It does not function the same way in linux as in windows
+!     In windows, call is used to call a batch file and return 
+!     to the file it was called from.
+!     In linux, just providing the path to the shell script is 
+!     enough and it will return running the script.
+!     However passing the same environmental variables can be done
+!     by using a "." or "source".
+!     And again, it comes to me, whether to use "source" or not...
+!     
+!     The program turns "CALL" to "source".
+!     Note: If flag -bs or --bat-shell is given, all occurences of ".bat" will be turned to ".sh"
+! 
+! Command: CALL
+! Flags:
+! 
+! Flag                => About
+! 1. /?               => Displays help message
+! 
+! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Turning command and flags to shell
+! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! 
+! 
+! Command: source
+! Flags:
+! 
+! Converted flag 
+! (and or command)    => About
+! 1. Not included
+! 
+! %%%%%%%%%%%
+! Example(s):
+! %%%%%%%%%%%
+! @REM --bat-shell flag is provided
+! call test.bat
+! =>
+! source test.sh
+! 
+! Sources:
+!     call /?
+!     source --help
 [CALL]
 ! base command
 command=source&

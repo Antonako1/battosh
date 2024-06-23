@@ -1,5 +1,5 @@
 Notes:
-    Read the equivalent doc file before doing changes!
+    "Not included" means that the given flag will not be translated to shell
     
     Above everything will have a comment explaining what it does
     

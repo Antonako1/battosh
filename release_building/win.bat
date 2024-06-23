@@ -11,15 +11,15 @@ mkdir %BUILD_DIR%
 call ..\win\batch\del.bat
 call .\win\build.bat "Release"
 cd /d %~dp0
-if not exist %BUILD_DIR%\docs\ mkdir %BUILD_DIR%\docs\
-COPY ..\docs %BUILD_DIR%\docs\
+@REM if not exist %BUILD_DIR%\docs\ mkdir %BUILD_DIR%\docs\
+@REM COPY ..\docs %BUILD_DIR%\docs\
 if not exist %BUILD_DIR%\ATRC\ mkdir %BUILD_DIR%\ATRC\
 COPY ..\ATRC %BUILD_DIR%\ATRC\
 COPY ..\LICENSE %BUILD_DIR%
 COPY ..\README.md %BUILD_DIR%
 COPY /Y/B ..\build\win\%PROJECTNAME%.exe %BUILD_DIR%
 COPY /Y/B ..\extern_dependencies\ATRC\libs\win\*.dll %BUILD_DIR%
-"C:\Program Files\7-Zip\7z.exe" a -tzip %BUILD_DIR%\%PROJECTNAME%-win-standalone.zip %BUILD_DIR%\%PROJECTNAME%.exe %BUILD_DIR%\docs\ %BUILD_DIR%\ATRC\ %BUILD_DIR%\LICENSE %BUILD_DIR%\README.md %BUILD_DIR%\*.dll
+"C:\Program Files\7-Zip\7z.exe" a -tzip %BUILD_DIR%\%PROJECTNAME%-win-standalone.zip %BUILD_DIR%\%PROJECTNAME%.exe %BUILD_DIR%\ATRC\ %BUILD_DIR%\LICENSE %BUILD_DIR%\README.md %BUILD_DIR%\*.dll
 
 REM INSTALLER BUILDING
 if not exist %BUILD_DIR%\nsis mkdir %BUILD_DIR%\nsis
@@ -29,8 +29,8 @@ COPY ..\README.md %BUILD_DIR%\nsis
 COPY .\setup.ps1 %BUILD_DIR%\nsis
 COPY .\uninstall.ps1 %BUILD_DIR%\nsis
 
-if not exist %BUILD_DIR%\nsis\docs\ mkdir %BUILD_DIR%\nsis\docs\
-COPY ..\docs %BUILD_DIR%\nsis\docs\
+@REM if not exist %BUILD_DIR%\nsis\docs\ mkdir %BUILD_DIR%\nsis\docs\
+@REM COPY ..\docs %BUILD_DIR%\nsis\docs\
 if not exist %BUILD_DIR%\nsis\ATRC\ mkdir %BUILD_DIR%\nsis\ATRC\
 COPY ..\ATRC %BUILD_DIR%\nsis\ATRC\
 COPY /Y/B ..\extern_dependencies\ATRC\libs\win\*.dll %BUILD_DIR%\nsis

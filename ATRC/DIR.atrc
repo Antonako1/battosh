@@ -1,0 +1,89 @@
+! DIR ATRC FILE
+!
+! About:
+!     Displays contents of the current directory
+!     
+!     100% of the features don't work hand-in-hand.
+!     This is due to the decision on how to make the program:
+!     Use only "ls" and not pass all the functionalities or 
+!     use other commands to pass the functionalities of the different flags and attributes
+! 
+!     Due to decision to use other commands to pass the functionalities, not all of the 
+!     combinations work together
+! 
+! Command: DIR 
+! Flags:
+! 
+! Flag            => About 
+! 1. /A           => Search by attributes or display everything if none are given
+!     Attributes:
+!     1. D            => Displays all the directories
+!     2. R            => Displays read-only files
+!     3. H            => Displays hidden files
+!     4. A            => Displays files ready for archiving
+!     5. S            => Displays system files
+!     6. I            => Displays not content indexed files
+!     7. L            => Displays reparse points
+!     8. O            => Displays offline files
+!     9. -            => Prefix for not
+! 2. /B           => 
+! 3. /C           => 
+! 4. /D           => 
+! 5. /L           => 
+! 6. /N           => 
+! 7. /O           => 
+! 8. /P           => 
+! 9. /Q           => 
+! 10. /R          => 
+! 11. /S          => 
+! 12. /T          => 
+! 13. /W          => 
+! 14. /X          => 
+! 15. /4          => 
+! 
+! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Turning command and flags to shell
+! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! 
+! <pih> = <path inserted here>
+! 
+! Command: ls (find is a alternative used)
+! Flags:
+! 
+! Converted flag 
+! (and or command)    => About
+! 1. -a           => Displays everything. Used if no attributes are given
+!     Converted attribute
+!     (and or command)    => About
+!     1. ls -d <pih>/*/
+!     2. find <pih> -maxdepth 1 -type f ! -writable
+!     3. ls -d <pih>/.*
+!     4. No equivelant. Using -a
+!     5. find <pih> -maxdepth 1 -type f \\( -perm /u=s -o -perm /g=s -o -perm /o=s \\)
+!     6. No equivelant. Using -a
+!     7. No equivelant. Using -a
+!     8. No equivelant. Using -a
+!     9. <find command> ! <rest of command>
+! 2.
+! 3.
+! 4.
+! 5.
+! 6.
+! 7.
+! 8.
+! 9.
+! 10.
+! 11.
+! 12.
+! 13.
+! 14.
+! 15.
+! 
+! sources: 
+!     dir /?
+!     man ls
+!     man find
+[DIR]
+! base command
+command=dir&
+%command_alternative%=find&

@@ -9,8 +9,6 @@ The program uses ATRC resource file library. Documentation on how to work with i
 
 For most of the commands, the defaults are there for a reason but you can modify them.
  
-Read the documentation of the command you will be modifying before making any changes. Documentation can be found in  ```docs\ ```
-
 Resource files will be downloaded to:
 
 Linux: ```~/.config/battosh/ATRC```
@@ -64,26 +62,26 @@ battosh can turn the following commands/statements with their flags into bash
 
 Note: Although every command can start with @, attempting to use it with any command other than those listed below will not work because the lexer cannot process it.
 
-    Command                                 Path to the docs file
+    Command                                 Path to the atrc file
 
-    ECHO                    =>              See docs\ECHO.txt
-    @ECHO (on/off)          =>              See docs\ECHO.txt
-    (@)REM,, ::             =>              See docs\Comments.txt
-    VER                     =>              See docs\VER.txt
-    CLS                     =>              See docs\CLS.txt
-    CALL                    =>              See docs\CALL.txt
-    TYPE                    =>              See docs\TYPE.txt
-    CD, CHDIR, CD..         =>              See docs\CD.txt
-    EXIT                    =>              See docs\EXIT.txt
-    Arithmetic operators    =>              See docs\Arithmetic-Operators.txt
+    ECHO                    =>              See ATRC\ECHO.atrc
+    @ECHO (on/off)          =>              See ATRC\ECHO.atrc
+    (@)REM,, ::             =>              See ATRC\Comments.atrc
+    VER                     =>              See ATRC\VER.atrc
+    CLS                     =>              See ATRC\CLS.atrc
+    CALL                    =>              See ATRC\CALL.atrc
+    TYPE                    =>              See ATRC\TYPE.atrc
+    CD, CHDIR, CD..         =>              See ATRC\CD.atrc
+    EXIT                    =>              See ATRC\EXIT.atrc
+    Arithmetic operators    =>              See ATRC\Arithmetic-Operators.atrc
     Logical operators       =>              See 
     Assignment operators    =>              See
     Bitwise operators       =>              See
     Arithmetic operators    =>              See
     String operators        =>              See
     IF, ELSE(ELSE IF)       =>              See
-    MKDIR, MD               =>              See docs\MKDIR.txt
-    RMDIR, RD               =>              See docs\RMDIR.txt
+    MKDIR, MD               =>              See ATRC\MKDIR.atrc
+    RMDIR, RD               =>              See ATRC\RMDIR.atrc
     REN, RENAME             =>              See
     TIMEOUT                 =>              See
     MOVE                    =>              See

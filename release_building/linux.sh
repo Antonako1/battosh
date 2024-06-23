@@ -16,8 +16,8 @@ mkdir -p "$BUILD_DIR"
 ../linux/shell/del.sh
 
 ../linux/build.sh "Release"
-mkdir -p "$BUILD_DIR/docs"
-cp -r ../docs/* "$BUILD_DIR/docs/"
+# mkdir -p "$BUILD_DIR/docs"
+# cp -r ../docs/* "$BUILD_DIR/docs/"
 mkdir -p "$BUILD_DIR/ATRC"
 cp -r ../ATRC/* "$BUILD_DIR/ATRC/"
 cp ../LICENSE "$BUILD_DIR/"
@@ -26,7 +26,7 @@ cp ../build/linux/$PROJECTNAME "$BUILD_DIR/"
 cp ../extern_dependencies/ATRC/libs/linux/*.so "$BUILD_DIR/"
 cd "$BUILD_DIR"
 # zip -r "$PROJECTNAME-linux-standalone.zip" "$PROJECTNAME" docs ATRC LICENSE README.md *.so
-tar -czvf "$PROJECTNAME-linux-standalone.tar.gz" "$PROJECTNAME" docs ATRC LICENSE README.md *.so
+tar -czvf "$PROJECTNAME-linux-standalone.tar.gz" "$PROJECTNAME" ATRC LICENSE README.md *.so
 
 # APPIMAGE BUILDING
 if [ ! -f ./appimagetool-x86_64.AppImage ]; then
