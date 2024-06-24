@@ -54,7 +54,7 @@ void read_key_to_output
     }   
 }
 
-void add_end_values(ParsedToken &parsed_token, std::string &output){	
+void add_end_values(ParsedToken &parsed_token, std::string &output, battosh_info *args){	
 	std::string temp_buffer = "";
     for(std::string value : parsed_token.values){
         temp_buffer += value + " ";
@@ -66,9 +66,9 @@ void add_end_values(ParsedToken &parsed_token, std::string &output){
 
 }
 
-std::string add_end_values_as_string(const ParsedToken &parsed_token){
+std::string add_end_values_as_string(ParsedToken &parsed_token, battosh_info *args){
     std::string output = "";
-    add_end_values(parsed_token, output);
+    add_end_values(parsed_token, output, args);
     return output;
 }
 
@@ -257,7 +257,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 if(!updated_path){
                     read_key_to_output("ECHO", "command", "echo ", fd_echo.get(), cts1, output, daw);
                 }
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
             case CLS: {
@@ -271,13 +271,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             case CALL:{
                 // TODO PATH CHECK
                 read_key_to_output("CALL", "command", "source ", fd_call.get(), cts1, output, daw);
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
             case TYPE: {
                 read_key_to_output("TYPE", "command", "cat ", fd_type.get(), cts1, output, daw);
                 // TODO PATH CHECK
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
             case CDBACK:
@@ -291,7 +291,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             case CD: {
                 buffer = "";
                 read_key_to_output("CD", "command", "cd %*% ", fd_cd.get(), cts1, buffer, daw);
-                std::vector<std::string> temp = {add_end_values_as_string(parsed_token)};
+                std::vector<std::string> temp = {add_end_values_as_string(parsed_token, args)};
                 InsertVar(buffer, temp);
                 output += buffer;
                 break;
@@ -333,12 +333,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         output += move_flag.LINUX_PROMPT + " ";
                     }
                 }
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
             case REM: {
                 read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), cts1, output, daw);
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
             case IF: {
@@ -356,7 +356,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         output += rename_flag.LINUX_GET_HELP + " ";
                     }
                 }
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
             case TIMEOUT:{
@@ -372,7 +372,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     //     output += timeout_flag.LINUX_TIMEOUT + " ";
                     // }
                 }
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
             case RPAREN: {
@@ -419,7 +419,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     }
                 }
                 if(!num_provided){
-                    add_end_values(parsed_token, output);
+                    add_end_values(parsed_token, output, args);
                 }
                 break;
             }
@@ -458,7 +458,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 } else if (!add_quiet_mode && add_force_mode){
                     read_key_to_output("RMDIR", "remove_dir_tree", rmdir_flag.LINUX_REMOVE_DIR_TREE + " ", fd_rmdir.get(), cts1, output, daw);
                 }
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 if(add_quiet_mode){
                     output += QUIET_MODE;
                 }
@@ -476,12 +476,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         read_key_to_output("MKDIR", "get_help", mkdir_flag.LINUX_GET_HELP + " ", fd_mkdir.get(), cts1, output, daw);
                     }
                 }
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
             case UNKNOWN:{
                 output += parsed_token.value + " ";
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
             case ENDLINE: {
@@ -500,7 +500,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
 
                 }
                 // TODO PATH CHECK
-                add_end_values(parsed_token, output);
+                add_end_values(parsed_token, output, args);
                 break;
             }
         }

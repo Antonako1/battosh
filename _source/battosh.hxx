@@ -72,6 +72,6 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args);
 
 void tosh(std::vector<ParsedToken> *tokens, battosh_info *args);
 
-void pathing(ParsedToken &parsed_token, battosh_info *args);
+void pathing(std::string &input, battosh_info *args);
 
 #endif // battosh_H

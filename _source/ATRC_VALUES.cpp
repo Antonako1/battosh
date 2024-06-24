@@ -99,8 +99,8 @@ void ReadATRC_VALUES(battosh_info *args) {
     fd_exit = reader("EXIT.atrc", atrc_path);
     fd_relational_operators = reader("RELATIONAL_OPERATORS.atrc", atrc_path);
     
-    fd_mkdir = reader("MKDIR.atrc", now_reading, atrc_path);
-    fd_rmdir = reader("RMDIR.atrc", now_reading, atrc_path);
+    fd_mkdir = reader("MKDIR.atrc", atrc_path);
+    fd_rmdir = reader("RMDIR.atrc", atrc_path);
 }
 
 // void cleanup() {

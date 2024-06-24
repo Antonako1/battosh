@@ -54,7 +54,7 @@ std::string VARIABLES[] = {
     "%ZES_ENABLE_SYSMAN%",                std::to_string(ZES_ENABLE_SYSMAN),
 };
 
-char look_ahead(int index, std::string &line){
+char look_ahead(size_t index, std::string &line){
     if(index >= line.size()){
         return '\0';
     }
@@ -62,58 +62,11 @@ char look_ahead(int index, std::string &line){
 }
 
 void variablify(std::string &input, battosh_info *args){
-    int index = 0;
+    size_t index = 0;
     std::string buffer = "";
-
+	bool buffer_used = false;
     for(index = 0; index < input.size(); index++){
-        index++;
         char ahead = look_ahead(index, input);
-        if(ahead == '%'){
-            buffer += "%";
-            while(true){
-                ahead = look_ahead(index, input);
-                if(ahead == ' ' || ahead == '\t' || ahead == '\0'){
-                    break;
-                }
-                buffer += ahead;
-                index++;
-            }
-            index--;
-            // buffer contains %%x
-        }
-
-        //check for %0...9, %*
-        else if(std::isdigit(ahead) || ahead == '*'){
-            buffer += "%";
-            buffer += ahead;
-            // buffer contains %x
-        }
-        //check for %~...<num>
-        else if(ahead == '~'){
-            buffer += "%";
-            while(true){
-                ahead = look_ahead(index, input);
-                if(ahead == ' ' || ahead == '\t' || ahead == '\0'){
-                    break;
-                }
-                buffer += ahead;
-                index++;
-            }
-            index--;
-            // buffer contains %~x
-        }
-        else{
-            buffer += "%";
-            while(true){
-                ahead = look_ahead(index, input);
-                if(ahead == ' ' || ahead == '\t' || ahead == '%' || ahead == '\0'){
-                    break;
-                }
-                buffer += ahead;
-                index++;
-            }
-            buffer += "%";
-            // buffer contains %x%
-        }
+        
     }
 }

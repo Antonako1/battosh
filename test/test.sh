@@ -1,5 +1,6 @@
 #!/bin/bash
-cd %%x  
+cd %%x %0test%  
+cd %0test%  
 
 cd %APPDATA%/test  
 
