@@ -61,7 +61,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
 
     size_t i = 0;
     while (i < tokens->size()) {
-        Token token = tokens->at(i);        
+        Token token = tokens->at(i);    
         switch (token.command) {
             case REM: {
                 if(args->savecomments) {
@@ -104,6 +104,11 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             case IF:        // TODO, NOTE: /I will not propably work, add_single_token should add flags
             case ELSE:
             case ELSEIF:
+            case VAR:
+            case VARARG:
+            case TILDEARG:
+            case COLONTILDEARG:
+            case FORVAR:
             case LPAREN:
             case RPAREN:
             case EXIST:

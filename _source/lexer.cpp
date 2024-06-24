@@ -235,10 +235,71 @@ std::vector<Token>* lexical(battosh_info *args) {
                     }
                 }
                     break;
-                case '%':
-                    // Variable
-                    // loop to next whitespace, % or end of line
+                /*
+                
+                case '%':{
+                    //check for forvar
+                    index++;
+                    char ahead = look_ahead(index, line)[0];
+                    if(ahead == '%'){
+                        buffer += "%";
+                        while(true){
+                            ahead = look_ahead(index, line)[0];
+                            if(ahead == ' ' || ahead == '\t' || ahead == '\0'){
+                                break;
+                            }
+                            buffer += ahead;
+                            index++;
+                        }
+                        index--;
+                        add_token(tokens, buffer, line_num, column_num, FORVAR);
+                    }
+
+                    //check for %0...9, %*
+                    else if(std::isdigit(ahead) || ahead == '*'){
+                        buffer += "%";
+                        buffer += ahead;
+                        add_token(tokens, buffer, line_num, column_num, VARARG);
+                    }
+                    //check for %~...<num>
+                    else if(ahead == '~'){
+                        buffer += "%";
+                        while(true){
+                            ahead = look_ahead(index, line)[0];
+                            if(ahead == ' ' || ahead == '\t' || ahead == '\0'){
+                                break;
+                            }
+                            buffer += ahead;
+                            index++;
+                        }
+                        index--;
+                        add_token(tokens, buffer, line_num, column_num, TILDEARG);
+                    }
+                    else{
+                        buffer += "%";
+                        while(true){
+                            ahead = look_ahead(index, line)[0];
+                            if(ahead == ' ' || ahead == '\t' || ahead == '%' || ahead == '\0'){
+                                break;
+                            }
+                            buffer += ahead;
+                            index++;
+                        }
+                        buffer += "%";
+                        std::cout << "buf: '" << buffer << "'" << std::endl;
+                        add_token(tokens, buffer, line_num, column_num, VAR);
+                    }
+                }
                     break;
+                */
+
+                // TODO NOTE WIP
+                case '^': {
+                    index++;
+                    char ahead = look_ahead(index, line)[0];
+                    buffer += ahead;
+                    break;
+                }
                 case '"': {
                         /*+++
                     //   TODO:
@@ -308,6 +369,10 @@ std::vector<Token>* lexical(battosh_info *args) {
                                 break;
                             }
                         }
+                    // test. allow everything to start with @
+                    if(!skip){
+                        buffer = buffer.substr(0, buffer.size() - 1);
+                    }
                     }
                     break;
                 case '/':{
@@ -371,6 +436,7 @@ std::vector<Token>* lexical(battosh_info *args) {
         }
 
         #ifdef __linux__ 
+        // no can do situation. will break everything about endlines
         add_token(tokens, buffer, line_num, column_num, ENDLINE);
         #endif
 

@@ -11,6 +11,7 @@
 
 namespace fs = std::filesystem;
 
+std::unique_ptr<ATRCFiledata> fd_variables = nullptr;
 std::unique_ptr<ATRCFiledata> fd_echo = nullptr;
 std::unique_ptr<ATRCFiledata> fd_comment = nullptr;
 std::unique_ptr<ATRCFiledata> fd_ver = nullptr;
@@ -34,7 +35,7 @@ void snw(const std::string& file, std::string& nw, const std::string& path) {
     nw = path + file;
 }
 
-std::unique_ptr<ATRCFiledata> reader(const std::string& filename, const std::string& now_reading, const std::string& atrc_path) {
+std::unique_ptr<ATRCFiledata> reader(const std::string& filename, const std::string& atrc_path) {
     std::string full_path = atrc_path + filename;
 
     // Create directories if they do not exist
@@ -87,16 +88,16 @@ void ReadATRC_VALUES(battosh_info *args) {
     std::string now_reading = "";
 
     // cleanup();
-
-    fd_echo = reader("ECHO.atrc", now_reading, atrc_path);
-    fd_comment = reader("COMMENTS.atrc", now_reading, atrc_path);
-    fd_ver = reader("VER.atrc", now_reading, atrc_path);
-    fd_cls = reader("CLS.atrc", now_reading, atrc_path);
-    fd_call = reader("CALL.atrc", now_reading, atrc_path);
-    fd_type = reader("TYPE.atrc", now_reading, atrc_path);
-    fd_cd = reader("CD.atrc", now_reading, atrc_path);
-    fd_exit = reader("EXIT.atrc", now_reading, atrc_path);
-    fd_relational_operators = reader("RELATIONAL_OPERATORS.atrc", now_reading, atrc_path);
+    fd_variables = reader("VARIABLES.atrc", atrc_path),
+    fd_echo = reader("ECHO.atrc", atrc_path);
+    fd_comment = reader("COMMENTS.atrc", atrc_path);
+    fd_ver = reader("VER.atrc", atrc_path);
+    fd_cls = reader("CLS.atrc", atrc_path);
+    fd_call = reader("CALL.atrc", atrc_path);
+    fd_type = reader("TYPE.atrc", atrc_path);
+    fd_cd = reader("CD.atrc", atrc_path);
+    fd_exit = reader("EXIT.atrc", atrc_path);
+    fd_relational_operators = reader("RELATIONAL_OPERATORS.atrc", atrc_path);
     
     fd_mkdir = reader("MKDIR.atrc", now_reading, atrc_path);
     fd_rmdir = reader("RMDIR.atrc", now_reading, atrc_path);

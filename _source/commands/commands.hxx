@@ -130,6 +130,11 @@ enum batch_commands{
 
     // Variable
     VAR,            // %var%
+    VARARG,         // -- %1, %2, %3 etc.
+    TILDEARG,       // -- %~1, %~2, %~3 etc.
+    COLONTILDEARG,  // %ARG:~0,1%
+    FORVAR,         // -- %%var in for loop
+
     SETX,           // (setx) - Set environment variables | setx
     
     // Unknown
@@ -191,6 +196,12 @@ enum batch_commands{
 
     EXIST,          // -- (exist) - check if file exists | -e
 
+    
+    /*
+    // TODO
+    command && execute if errorlevel 0
+    command || execute if errorlevel neq 0 
+     */
 };
 
 

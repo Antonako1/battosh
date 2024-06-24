@@ -8,6 +8,8 @@
 
 void ReadATRC_VALUES(battosh_info *args);
 
+
+extern std::unique_ptr<ATRCFiledata> fd_variables;
 extern std::unique_ptr<ATRCFiledata> fd_echo;
 extern std::unique_ptr<ATRCFiledata> fd_comment;
 extern std::unique_ptr<ATRCFiledata> fd_ver;

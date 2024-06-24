@@ -1,7 +1,5 @@
-cd C:\test
-cd \tmp
-cd "C:\test"
-cd .\test\lol.txt
-cd ".\test\lol.txt"
-cd "./test"
-cd ./test
+cd %%x
+
+cd %APPDATA%\test
+
+cd %1 %* %~dp0 %~dnxp0 "%APPDATA%\test"

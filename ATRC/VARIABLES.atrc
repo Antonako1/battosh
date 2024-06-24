@@ -1,0 +1,192 @@
+! VARIABLES ATRC FILE
+!
+!   About:
+!       Environmental variables are used for locating executables 
+!       without the need of the full path
+!       
+!       On Windows you can see these by typing SET.
+!       On Linux you can see these by typing printenv.
+!
+!       When turning from Windows to Linux using --linux,
+!       the converted path will be used. This only works
+!       on absolute paths or if the path contains an 
+!       environmental variable. 
+!       
+!       If your script contains
+!       paths, it would be best to add them as a local variable
+!       so that you can convert them yourself better. Optionally
+!       you can use process flags (.\PROCESS_FLAGS.atrc) 
+!
+!       When using the --wsl flag, it will add /mnt/<drive>/
+!       to the start of the path. This is much more reliable
+!       than using --linux
+!   
+!   Variables                               => About
+!   %~                                      => Percent tilde, gets various information about a file. Please see https://en.wikibooks.org/wiki/Windows_Batch_Scripting#Percent_tilde
+!   %~(d|p|n|x){arg}                        => Get Drive, Path, Name, eXtension of the file
+!   %*                                      => All arguments given to the batch file
+!   %0...9                                  => Argument given to the batch file. 0 is the batch file
+!   %*                                      => 
+!   
+!   Environmental variables:
+!   
+!   Environmental variable                  => About
+!   1. ALLUSERSPROFILE                      =>
+!   2. APPDATA                              =>
+!   3. CommonProgramFiles                   =>
+!   4. CommonProgramFilesx86                =>
+!   5. CommonProgramW6432                   =>
+!   6. COMPUTERNAME                         =>
+!   7. ComSpec                              =>
+!   8. DriverData                           =>
+!   9. HOMEDRIVE                            =>
+!   10. HOMEPATH                            =>
+!   11. LOCALAPPDATA                        =>
+!   12. LOGONSERVER                         =>
+!   13. NUMBER_OF_PROCESSORS                =>
+!   14. OneDrive                            =>
+!   15. OneDriveConsumer                    =>
+!   16. OS                                  =>
+!   17. Path                                =>
+!   18. PATHEXT                             =>
+!   19. POWERSHELL_DISTRIBUTION_CHANNEL     =>
+!   20. PROCESSOR_ARCHITECTURE              =>
+!   21. PROCESSOR_IDENTIFIER                =>
+!   22. PROCESSOR_LEVEL                     =>
+!   23. PROCESSOR_REVISION                  =>
+!   24. ProgramData                         =>
+!   25. ProgramFiles                        =>
+!   26. ProgramFilesx86                     =>
+!   27. ProgramW6432                        =>
+!   28. PROMPT                              =>
+!   29. PSModulePath                        =>
+!   30. PUBLIC                              =>
+!   31. SESSIONNAME                         =>
+!   32. SystemDrive                         =>
+!   33. SystemRoot                          =>
+!   34. TEMP                                =>
+!   35. TMP                                 =>
+!   36. USERDOMAIN                          =>
+!   37. USERDOMAIN_ROAMINGPROFILE           =>
+!   38. USERNAME                            =>
+!   39. USERPROFILE                         =>
+!   40. VBOX_MSI_INSTALL_PATH               =>
+!   41. windir                              =>
+!   42. WSLENV                              =>
+!   43. WT_PROFILE_ID                       =>
+!   44. WT_SESSION                          =>
+!   45. ZES_ENABLE_SYSMAN                   =>
+!   
+!   
+!   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!   Turning command and flags to shell
+!   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!   
+!   
+!   Environmental variable (Linux)         => About
+!   1.
+!   2.
+!   3.
+!   4.
+!   5.
+!   6.
+!   7.
+!   8.
+!   9.
+!   10.
+!   11.
+!   12.
+!   13.
+!   14.
+!   15.
+!   16.
+!   17.
+!   18.
+!   19.
+!   20.
+!   21.
+!   22.
+!   23.
+!   24.
+!   25.
+!   26.
+!   27.
+!   28.
+!   29.
+!   30.
+!   31.
+!   32.
+!   33.
+!   34.
+!   35.
+!   36.
+!   37.
+!   38.
+!   39.
+!   40.
+!   41.
+!   42.
+!   43.
+!   44.
+!   45.
+!   
+!   %%%%%%%%%%%
+!   Example(s):
+!   %%%%%%%%%%%
+!   
+!   Sources:
+!       SET
+!       printenv
+!
+!
+!
+!   The environmental for windows can be changed.
+!   This is not recommended but do as you please.
+!   Below the Windows variable will be a linux version
+!   
+[VARIABLES]
+!   1.
+!   2.
+!   3.
+!   4.
+!   5.
+!   6.
+!   7.
+!   8.
+!   9.
+!   10.
+!   11.
+!   12.
+!   13.
+!   14.
+!   15.
+!   16.
+!   17.
+!   18.
+!   19.
+!   20.
+!   21.
+!   22.
+!   23.
+!   24.
+!   25.
+!   26.
+!   27.
+!   28.
+!   29.
+!   30.
+!   31.
+!   32.
+!   33.
+!   34.
+!   35.
+!   36.
+!   37.
+!   38.
+!   39.
+!   40.
+!   41.
+!   42.
+!   43.
+!   44.
+!   45.

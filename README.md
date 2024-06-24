@@ -60,20 +60,17 @@ Linux:
 
 battosh can turn the following commands/statements with their flags into bash
 
-Note: Although every command can start with @, attempting to use it with any command other than those listed below will not work because the lexer cannot process it.
-
-    Command                                 Path to the atrc file
-
+    Variables               =>              See ATRC\VARIABLES.atrc
     ECHO                    =>              See ATRC\ECHO.atrc
     @ECHO (on/off)          =>              See ATRC\ECHO.atrc
-    (@)REM,, ::             =>              See ATRC\Comments.atrc
+    (@)REM, ::              =>              See ATRC\COMMENTS.atrc
     VER                     =>              See ATRC\VER.atrc
     CLS                     =>              See ATRC\CLS.atrc
     CALL                    =>              See ATRC\CALL.atrc
     TYPE                    =>              See ATRC\TYPE.atrc
     CD, CHDIR, CD..         =>              See ATRC\CD.atrc
     EXIT                    =>              See ATRC\EXIT.atrc
-    Arithmetic operators    =>              See ATRC\Arithmetic-Operators.atrc
+    Relational operators    =>              See ATRC\RELATIONAL_OPERATORS.atrc
     Logical operators       =>              See 
     Assignment operators    =>              See
     Bitwise operators       =>              See
@@ -88,6 +85,7 @@ Note: Although every command can start with @, attempting to use it with any com
     HELP                    =>              See
     PAUSE                   =>              See
     DIR                     =>              See
+
 
 ### Known issues
 

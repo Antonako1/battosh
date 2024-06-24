@@ -44,7 +44,8 @@
 ! 
 ! Sources:
 !     if /?
-!     https://www.tutorialspoint.com/unix/unix-basic-operators.htm :: See the other operators here too! :)
+!     https://www.tutorialspoint.com/unix/unix-basic-operators.htm See the other operators here too! :)
+!
 [RELATIONAL_OPERATORS]
 EQU=-eq&
 NEQ=-ne&

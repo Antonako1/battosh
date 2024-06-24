@@ -4,11 +4,12 @@
 #include <memory>
 #include <fstream>
 #include <algorithm>
+
 #include "battosh.hxx"
 #include "./commands/commands.hxx"
 #include "ATRC_VALUES.hxx"
 #include "../extern_dependencies/ATRC/include/ATRC.h"
-
+#include "VARIABLES.hxx"
 
 EXIT_FLAG exit_flag;
 ECHO_FLAG echo_flag;
@@ -52,21 +53,22 @@ void read_key_to_output
         output += cts;
     }   
 }
-void add_to_output(std::string &output, const std::string &value){
-    output += value;
-}
 
-void add_end_values(const ParsedToken &parsed_token, std::string &output){
-    for(const auto &value : parsed_token.values){
-        output += value + " ";
+void add_end_values(ParsedToken &parsed_token, std::string &output){	
+	std::string temp_buffer = "";
+    for(std::string value : parsed_token.values){
+        temp_buffer += value + " ";
     }
+	
+	variablify(temp_buffer, args);
+	pathing(temp_buffer, args);
+	output = temp_buffer;
+
 }
 
 std::string add_end_values_as_string(const ParsedToken &parsed_token){
     std::string output = "";
-    for(const auto &value : parsed_token.values){
-        output += value + " ";
-    }
+    add_end_values(parsed_token, output);
     return output;
 }
 
@@ -221,13 +223,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
 #ifdef DEBUG
         std::cout << "Token: " << parsed_token.value << " Command: " << parsed_token.command << std::endl;
         for(const auto &flag : parsed_token.flags){
-            std::cout << "  Flag: " << flag << std::endl;
+            std::cout << "  Flag: '" << flag << "'" << std::endl;
         }
         for (const auto &value : parsed_token.values) {
-            std::cout << "  Value: " << value << std::endl;
+            std::cout << "  Value: '" << value << "'" << std::endl;
         }
         for (const auto &attribute : parsed_token.attributes) {
-            std::cout << "  Attribute: " << attribute << std::endl;
+            std::cout << "  Attribute: '" << attribute << "'" << std::endl;
         }
 #endif
         if(inside_if || short_hand_if_statement != 0){
@@ -289,7 +291,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             case CD: {
                 buffer = "";
                 read_key_to_output("CD", "command", "cd %*% ", fd_cd.get(), cts1, buffer, daw);
-                pathing(parsed_token, args);
                 std::vector<std::string> temp = {add_end_values_as_string(parsed_token)};
                 InsertVar(buffer, temp);
                 output += buffer;
