@@ -4,4 +4,4 @@ release_building/output/
 .AppImage
 *.*~
 *.swp
-.vim
+*.vim
