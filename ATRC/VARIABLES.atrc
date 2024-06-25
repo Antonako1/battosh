@@ -15,8 +15,7 @@
 !       (.\PROCESS_FLAGS.atrc) 
 !
 !       When using the --wsl flag, it will add /mnt/<drive>/
-!       to the start of the path. This is much more reliable
-!       than using --linux
+!       to the start of the path.
 !   
 !   Variables                               => About
 !   %~                                      => Percent tilde, gets various information about a file. Please see https://en.wikibooks.org/wiki/Windows_Batch_Scripting#Percent_tilde
@@ -81,7 +80,6 @@
 !   51. CMDEXTVERSION                       => Contains the version of the Command Processor Extensions
 !   52. CD                                  => Contains current working directory
 !
-! NOTE: Following paths will be used when --linux flag is provided
 ! NOTE: Paths should not end in a slash (/)
 ! NOTE: Wrap in $() if you want to use a command as a part of the paths:
 !       mkdir -p ./$(uname -s)/test => Will create a ./Linux/test folders

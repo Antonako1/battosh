@@ -28,6 +28,9 @@ int main(int argc, char *argv[]) {
             std::string err_msg = "battosh version";
             message(err_msg, FL_FLAG_BATTOSH, VERSION_, true, -1, -1);
         } else if (std::string(argv[i]) == "--wsl") {
+            // TODO message
+            std::cout << "--wsl provided, linux paths automatically turned off\n";
+            info->no_linux = true;
             info->wsl = true;
         } else if (std::string(argv[i]) == "--no-linux") {
             info->no_linux = true;

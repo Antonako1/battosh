@@ -74,7 +74,6 @@ void add_end_values(ParsedToken &parsed_token, std::string &output, battosh_info
 std::string add_end_values_as_string(ParsedToken &parsed_token, battosh_info *args){
     std::string output = "";
     add_end_values(parsed_token, output, args);
-    std::cout << "output2 " << output << std::endl;
     return output;
 }
 
