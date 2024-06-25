@@ -1,9 +1,6 @@
 ! VARIABLES ATRC FILE
 !
 !   About:
-!       Environmental variables are used for locating executables 
-!       without the need of the full path
-!       
 !       On Windows you can see these by typing SET.
 !       On Linux you can see these by typing printenv.
 !
