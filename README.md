@@ -40,23 +40,24 @@ Linux:
             -o,     --out                       Set the program to output the shell file with a different filename
             -h,     --help                      See help message
                     --version                   See version
-                    --wsl                       Turn paths to comply with WSL, C:\temp -> /mnt/c/temp. Can not be used with --linux. Works only with absolute paths or Windows' standard variables (%USERNAME%, %APPDATA% etc.)
-                    --linux                     Program tries its best to turn paths from windows to linux, C:\Users\%USERNAME%\Documents -> ~/Documents. Can not be used with --wsl. Works only with absolute paths or Windows' standard variables (%USERNAME%, %APPDATA% etc.)
-            -sc,    --save-comments             Program saves the comments
+                    --wsl                       Turn paths to comply with WSL, C:\temp -> /mnt/c/temp.
+                    --no-linux                  Program does not turn some paths from windows to linux
+            -nc,    --no-comments               Program does not save comments
                     --disable-atrc-warnings     Disable warning messages from ATRC
-            -sw,    --save-whitespace           Program saves the original whitespace and line endings
                     --set-shell {shell}         Default: /bin/bash. Program will change bash to whatever shell you have provided
                     --set-mkdirp                Sets all MKDIR commands to have -p as it is the Windows default
             -qm,    --set-quietmode             CMD flag /Q will be turned to 2> /dev/null
             -ds,    --dir-sort                  When dir is translated to ls, add -l flag to ls (ls -l) 
             -bs,    --bat-shell                 Turn all occurences of .bat to .sh
-                    --set-home {path}           Give absolute position for the program to use as home directory instead of the system default. Example: C:\temp\. You'll have to create battosh\ATRC\ folder there aswell: C:\temp\battosh\ATRC\<ATRC files here>
+                    --set-home {path}           Give absolute path to where the program will look for config files
 
         examples:
             battosh file.bat                    -> outputs file.sh
             battosh file.bat -o test.sh         -> outputs test.sh
             battosh file.bat -sw --wsl          -> changes paths to work on wsl, saves whitespaces
             battosh file.bat --set-shell zsh    -> turns /bin/bash to /bin/zsh
+
+see file processing flags to inject and modify code during compile `ATRC\PROCESS_FLAGS.atrc`
 
 battosh can turn the following commands/statements with their flags into bash
 

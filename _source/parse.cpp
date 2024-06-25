@@ -64,11 +64,11 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
         Token token = tokens->at(i);    
         switch (token.command) {
             case REM: {
-                if(args->savecomments) {
-                    parse_to_the_end(REM, tokens, i, token, parsed_tokens);
+                if(args->no_comments) {
+                    parse_to_the_end(NULL__TOKEN, tokens, i, token, parsed_tokens);
                 }
                 else {
-                    i++;
+                    parse_to_the_end(REM, tokens, i, token, parsed_tokens);
                 }
                 break;
             }

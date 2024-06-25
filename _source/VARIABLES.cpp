@@ -134,7 +134,7 @@ void variablify(std::string &input, battosh_info *args){
 				index++;
 			}
 			int array_index, match = 0;
-			if(!end_found){
+			if(!end_found || args->no_linux){
 				array_index, match = -1;
 			} 
 			

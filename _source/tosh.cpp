@@ -549,9 +549,9 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     std::cout << "Ran with flags:" << std::endl;
 
     if(args->wsl)std::cout << "wsl paths" << std::endl;
-    if(args->_linux_battosh)std::cout << "linux paths" << std::endl;
-    if(args->savewhitespace)std::cout << "save whitespace" << std::endl;
-    if(args->savecomments)std::cout << "save comments" << std::endl;
+    if(args->no_linux)std::cout << "no linux paths" << std::endl;
+    if(args->no_whitespace)std::cout << "don't save whitespace" << std::endl;
+    if(args->no_comments)std::cout << "don't save comments" << std::endl;
     if(args->SHELL)std::cout << "shell" << std::endl;
     if(args->mkdir_p)std::cout << "mkdir_p" << std::endl;
     if(args->quiet)std::cout << "quiet" << std::endl;

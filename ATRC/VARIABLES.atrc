@@ -81,7 +81,7 @@
 !   51. CMDEXTVERSION                       => Contains the version of the Command Processor Extensions
 !   52. CD                                  => Contains current working directory
 !
-!
+! NOTE: Following paths will be used when --linux flag is provided
 ! NOTE: Paths should not end in a slash (/)
 ! NOTE: Wrap in $() if you want to use a command as a part of the paths:
 !       mkdir -p ./$(uname -s)/test => Will create a ./Linux/test folders
@@ -101,7 +101,6 @@ DriverData=/lib/modules
 ! As you can see, it uses the same username as the wsl itself...
 ! will be an obvious problem if wsl and windows usernames are different
 %home_drive_lower%=c
-!%home_drive_upper%=C
 HOMEDRIVE=%home_drive_lower%
 HOMEPATH=$HOME
 LOCALAPPDATA=/usr/local

@@ -41,9 +41,9 @@ struct battosh_info {
     std::unique_ptr<std::string> INPUT_FILE;
     std::unique_ptr<std::string> OUTPUT_FILE;
     bool wsl;
-    bool _linux_battosh;
-    bool savewhitespace;
-    bool savecomments;
+    bool no_linux;
+    bool no_whitespace;
+    bool no_comments;
     std::unique_ptr<std::string> SHELL;
     bool mkdir_p;
     bool quiet;
