@@ -82,7 +82,6 @@ get_help=%help_command% --help&
 blank_line=""&
 
 ! @ECHO ON/OFF
-[@ECHO]
 %command%=set
 on=%command% -x
 off=%command% +x

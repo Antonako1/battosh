@@ -56,10 +56,10 @@ std::string VARIABLES[] = {
 	"%CMDEXTVERSION%",			    	  std::to_string(CMDEXTVERSION),
 	"%CD%",						    	  std::to_string(CD__),
 };
-void clear_previous(std::string &buffer, int match){
-	//buffer = buffer.substr(, (VARIABLES[match-1].size() - 1));
-	buffer = "";
-}
+// void clear_previous(std::string &buffer, int match){
+// 	//buffer = buffer.substr(, (VARIABLES[match-1].size() - 1));
+// 	buffer = "";
+// }
 std::tuple<int, int> check_for_full_var_matches(std::string &buffer){
 	for(int i = 0; i < sizeof(VARIABLES)/sizeof(VARIABLES[0]); i+=2){
         if(buffer == VARIABLES[i]){
@@ -107,28 +107,44 @@ void variablify(std::string &input, battosh_info *args){
 				buffer += ahead;
 				index++;
 			}
+			ahead = look_ahead(index, input);
 			// buffer contains %~(d|p|n|x)<single_digit>
 			buffer_used = true;
+
+			// after processing, add the ahead
+			buffer += ahead;
 		}
 		// TODO check for percent colon 
 
 		if(!buffer_used){
+			bool end_found = false;
 			while(index < input.size() - 1){
 				ahead = look_ahead(index, input);
 				buffer += ahead;
+
+				// Bad fix
+				if(ahead == '"') {
+					buffer += ahead;
+					break;
+				};
 				if(ahead == '%'){
+					end_found = true;
 					break;
 				}
 				index++;
 			}
+			int array_index, match = 0;
+			if(!end_found){
+				array_index, match = -1;
+			} 
+			
 			//buffer contains %x%
+			else {
+				const std::tuple results_ = check_for_full_var_matches(buffer);
+				array_index = std::get<0>(results_);
+				match = std::get<1>(results_);
+			}
 
-			const std::tuple results_ = check_for_full_var_matches(buffer);
-			int array_index = std::get<0>(results_);
-			int match = std::get<1>(results_);
-#ifdef DEBUG
-			std::cout << "	MATCH: " << match << " array_index: " << array_index<< std::endl;
-#endif
 			std::string cts1 = "";
 			std::string df_input = "";
 
@@ -256,16 +272,18 @@ void variablify(std::string &input, battosh_info *args){
 					break;
                 case -1:
                 default:
+					std::cout << "BUFFER_____: " << buffer<<std::endl;
 					buffer = "$"+buffer.substr(1, buffer.size() -2);
 					// std::cout << "Not a environmental variable: " << buffer << std::endl;
 					df_input = "";
 					break;
             }
 			if(df_input != ""){
-				clear_previous(buffer, match);
+				// clear_previous(buffer, match);
+				buffer = "";
 				read_key_to_output(
 					"VARIABLES", 
-					VARIABLES[array_index],
+					VARIABLES[array_index].substr(1, VARIABLES[array_index].size() -2),
 					df_input,	
 					fd_variables.get(), 
 					cts1, 

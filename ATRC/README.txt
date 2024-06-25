@@ -6,12 +6,13 @@ Notes:
     Not everything can be modified, these instances will be also
     told in the .atrc files
     
-    Do not change key or block names
+    Do not change key, variable or block names
 
     Whitespace (&) is there for a reason :)
 
     Variables cannot be redefined nor can their values be changed. 
-    They are all constants
+    They are all constants. You can however make your own variables
+    
 
     If the program runs into an error, it will log it into console
     and revert back to using the defaults values that have been 

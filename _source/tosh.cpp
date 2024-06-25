@@ -55,20 +55,26 @@ void read_key_to_output
 }
 
 void add_end_values(ParsedToken &parsed_token, std::string &output, battosh_info *args){	
-	std::string temp_buffer = "";
+	// std::string temp_buffer = "";
+    std::string temp_output = output;
     for(std::string value : parsed_token.values){
-        temp_buffer += value + " ";
+        // temp_buffer += value + " ";
+        temp_output += value + " ";
     }
 	
-	variablify(temp_buffer, args);
-	pathing(temp_buffer, args);
-	output = temp_buffer;
+	variablify(temp_output, args);
+	pathing(temp_output, args);
+	// variablify(temp_buffer, args);
+	// pathing(temp_buffer, args);
+    // temp_output += temp_buffer;
+	output = temp_output;
 
 }
 
 std::string add_end_values_as_string(ParsedToken &parsed_token, battosh_info *args){
     std::string output = "";
     add_end_values(parsed_token, output, args);
+    std::cout << "output2 " << output << std::endl;
     return output;
 }
 
@@ -480,6 +486,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case UNKNOWN:{
+                // std::string temp = add_end_values_as_string(parsed_token, args);
                 output += parsed_token.value + " ";
                 add_end_values(parsed_token, output, args);
                 break;
@@ -520,6 +527,19 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     std::ofstream file(*args->OUTPUT_FILE);
     if (!file.is_open()) {
         std::cerr << "ERROR OPENING FILE: " << *args->OUTPUT_FILE << std::endl;
+        while (true) {
+            std::cout << "Print the generated script into console? (y/n): ";
+            char ans;
+            std::cin >> ans;
+            if (ans == 'y' || ans == 'Y') {
+                std::cout << output << std::endl;
+                break;
+            } else if (ans == 'n' || ans == 'N') {
+                break;
+            } else {
+                std::cout << "Invalid input. Please enter 'y' or 'n'." << std::endl;
+            }
+        }
         exit(1);
     }
     file << output;
