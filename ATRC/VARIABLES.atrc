@@ -31,162 +31,127 @@
 !   Environmental variables:
 !   
 !   Environmental variable                  => About
-!   1. ALLUSERSPROFILE                      =>
-!   2. APPDATA                              =>
-!   3. CommonProgramFiles                   =>
-!   4. CommonProgramFilesx86                =>
-!   5. CommonProgramW6432                   =>
-!   6. COMPUTERNAME                         =>
-!   7. ComSpec                              =>
-!   8. DriverData                           =>
-!   9. HOMEDRIVE                            =>
-!   10. HOMEPATH                            =>
-!   11. LOCALAPPDATA                        =>
-!   12. LOGONSERVER                         =>
-!   13. NUMBER_OF_PROCESSORS                =>
-!   14. OneDrive                            =>
-!   15. OneDriveConsumer                    =>
-!   16. OS                                  =>
-!   17. Path                                =>
-!   18. PATHEXT                             =>
-!   19. POWERSHELL_DISTRIBUTION_CHANNEL     =>
-!   20. PROCESSOR_ARCHITECTURE              =>
-!   21. PROCESSOR_IDENTIFIER                =>
-!   22. PROCESSOR_LEVEL                     =>
-!   23. PROCESSOR_REVISION                  =>
-!   24. ProgramData                         =>
-!   25. ProgramFiles                        =>
-!   26. ProgramFilesx86                     =>
-!   27. ProgramW6432                        =>
-!   28. PROMPT                              =>
-!   29. PSModulePath                        =>
-!   30. PUBLIC                              =>
-!   31. SESSIONNAME                         =>
-!   32. SystemDrive                         =>
-!   33. SystemRoot                          =>
-!   34. TEMP                                =>
-!   35. TMP                                 =>
-!   36. USERDOMAIN                          =>
-!   37. USERDOMAIN_ROAMINGPROFILE           =>
-!   38. USERNAME                            =>
-!   39. USERPROFILE                         =>
-!   40. VBOX_MSI_INSTALL_PATH               =>
-!   41. windir                              =>
-!   42. WSLENV                              =>
-!   43. WT_PROFILE_ID                       =>
-!   44. WT_SESSION                          =>
-!   45. ZES_ENABLE_SYSMAN                   =>
+!   1. ALLUSERSPROFILE                      => Contains program data for all users
+!   2. APPDATA                              => Contains program data for the current user
+!   3. CommonProgramFiles                   => Contains commonly used components across 64-bit programs
+!   4. CommonProgramFilesx86                => Contains commonly used components across 32-bit programs
+!   5. CommonProgramW6432                   => No idea how this is different from %CommonProgramFiles%
+!   6. COMPUTERNAME                         => Contains computer's name
+!   7. ComSpec                              => Points to the command line interpreter
+!   8. DriverData                           => Points to the location of drivers
+!   9. HOMEDRIVE                            => Contains the letter that is connected to user's home directory
+!   10. HOMEPATH                            => Contains path to current user's homefolder
+!   11. LOCALAPPDATA                        => Points to AppData/Local
+!   12. LOGONSERVER                         => No idea what this is... propably just \\%COMPUTERNAME%?
+!   13. NUMBER_OF_PROCESSORS                => Displays number of processors
+!   14. OneDrive                            => Points to current user's OneDrive folder
+!   15. OneDriveConsumer                    => Points to current user's OneDrive folder
+!   16. OS                                  => Shows the current operating system
+!   17. Path                                => Contains search path for executables
+!   18. PATHEXT                             => Contains file extensions that OS considers as executable
+!
+!   20. PROCESSOR_ARCHITECTURE              => Contains processors architecture
+!   21. PROCESSOR_IDENTIFIER                => Processor's description
+!   22. PROCESSOR_LEVEL                     => Contains modal number of the processor
+!   23. PROCESSOR_REVISION                  => Contains revision number of the processor
+!   24. ProgramData                         => Folder for applications to put their data into. C:\ProgramData
+!   25. ProgramFiles                        => 64-bit ProgramFiles. C:\Program Files or C:\Program Files (x86)
+!   26. ProgramFilesx86                     => 32-bit ProgramFiles. C:\Program Files (x86). Only available on a 64-bit OS
+!   27. ProgramW6432                        => Same as %ProgramFiles%. Only available on a 64-bit OS
+!   28. PROMPT                              => Contains the settings for the current command prompt interpreter.
+!   29. PSModulePath                        => Points to %SystemRoot%\system32\WindowsPowerShell\v1.0\Modules\
+!   30. PUBLIC                              => Points to C:\Users\public
 !   
+!   32. SystemDrive                         => Drive letter, where Windows root directory is located at
+!   33. SystemRoot                          => Contains locations of Windows root directory
+!   34. TEMP                                => Point to C:\Users\<user>\AppData\Local\Temp
+!   35. TMP                                 => Point to C:\Users\<user>\AppData\Local\Temp
+!   36. USERDOMAIN                          => Contains the name of the domain that contains the user's account
+!   37. USERDOMAIN_ROAMINGPROFILE           => Contains the user domain for RDS or standard roaming profile paths
+!   38. USERNAME                            => Contains current user's name
+!   39. USERPROFILE                         => Contains the locaion of user's profile
 !   
-!   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-!   Turning command and flags to shell
-!   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-!   
-!   
-!   Environmental variable (Linux)         => About
-!   1.
-!   2.
-!   3.
-!   4.
-!   5.
-!   6.
-!   7.
-!   8.
-!   9.
-!   10.
-!   11.
-!   12.
-!   13.
-!   14.
-!   15.
-!   16.
-!   17.
-!   18.
-!   19.
-!   20.
-!   21.
-!   22.
-!   23.
-!   24.
-!   25.
-!   26.
-!   27.
-!   28.
-!   29.
-!   30.
-!   31.
-!   32.
-!   33.
-!   34.
-!   35.
-!   36.
-!   37.
-!   38.
-!   39.
-!   40.
-!   41.
-!   42.
-!   43.
-!   44.
-!   45.
-!   
-!   %%%%%%%%%%%
-!   Example(s):
-!   %%%%%%%%%%%
-!   
-!   Sources:
-!       SET
-!       printenv
+!   41. windir                              => Same as %SystemRoot%
 !
 !
 !
-!   The environmental for windows can be changed.
-!   This is not recommended but do as you please.
-!   Below the Windows variable will be a linux version
-!   
+!   45. ZES_ENABLE_SYSMAN                   => Enables driver initialization and dependencies for system management
+!   46. TIME                                => Contains system's current time
+!   47. RANDOM                              => Returns a random number between 0 and 32767
+!   48. ERRORLEVEL                          => Contains the error code of the most recent command or program
+!   49. DATE                                => Contains current system's data
+!   50. CMDCMDLINE                          => Contains the exact command that was used when opening the current command line
+!   51. CMDEXTVERSION                       => Contains the version of the Command Processor Extensions
+!   52. CD                                  => Contains current working directory
+!
+!
+! NOTE: Paths should not end in a slash (/)
+! NOTE: Wrap in $() if you want to use a command as a part of the paths:
+!       mkdir -p ./$(uname -s)/test => Will create a ./Linux/test folders
+!
 [VARIABLES]
-!   1.
-!   2.
-!   3.
-!   4.
-!   5.
-!   6.
-!   7.
-!   8.
-!   9.
-!   10.
-!   11.
-!   12.
-!   13.
-!   14.
-!   15.
-!   16.
-!   17.
-!   18.
-!   19.
-!   20.
-!   21.
-!   22.
-!   23.
-!   24.
-!   25.
-!   26.
-!   27.
-!   28.
-!   29.
-!   30.
-!   31.
-!   32.
-!   33.
-!   34.
-!   35.
-!   36.
-!   37.
-!   38.
-!   39.
-!   40.
-!   41.
-!   42.
-!   43.
-!   44.
-!   45.
+ALLUSERSPROFILE=~/.config
+APPDATA=~/.config
+CommonProgramFiles=/usr
+CommonProgramFilesx86=/usr
+CommonProgramW6432=/usr
+COMPUTERNAME=$NAME
+ComSpec=$SHELL
+DriverData=/lib/modules
+! if path is, for example: "%APPDATA%\temp", and you are using
+! --wsl, program will try to make a following path:
+! /mnt/<HOMEDRIVE>/Users/$USER/AppData/Roaming/temp
+! As you can see, it uses the same username as the wsl itself...
+! will be an obvious problem if wsl and windows usernames are different
+%home_drive_lower%=c
+!%home_drive_upper%=C
+HOMEDRIVE=%home_drive_lower%
+HOMEPATH=$HOME
+LOCALAPPDATA=/usr/local
+LOGONSERVER=
+NUMBER_OF_PROCESSORS=$(nproc)
+OneDrive=
+OneDriveConsumer=
+OS=$(uname -s)
+Path=$PATH
+PATHEXT=
+POWERSHELL_DISTRIBUTION_CHANNEL=
+PROCESSOR_ARCHITECTURE=$(uname -p)
+PROCESSOR_IDENTIFIER=$(lscpu | grep "Model name")
+! Don't know if these are the same thing, the number matched for me :)DDD
+PROCESSOR_LEVEL=$(lscpu | grep "CPU family")
+! Not sure what to put here...
+PROCESSOR_REVISION=
+ProgramData=~/.config
+ProgramFiles=/usr
+ProgramFilesx86=/usr
+ProgramW6432=/usr
+! Couldn't find anything equivalent
+PROMPT=
+PSModulePath=
+! Not really equivalent to my knowledge, current user's home will be just used
+PUBLIC=$HOME
+! no idea what to put here...
+SESSIONNAME=$STY
+SystemDrive=%home_drive_lower%
+SystemRoot=/
+TEMP=/tmp
+TMP=/tmp
+! propably not technically the same?
+USERDOMAIN=$(/usr/bin/domainname -a)
+! propably not the same, but i have no idea what this is
+USERDOMAIN_ROAMINGPROFILE=$(/usr/bin/domainname -a)
+USERNAME=$USER
+USERPROFILE=$HOME
+windir=/
+ZES_ENABLE_SYSMAN=
+TIME=$(date +"\%T")
+RANDOM=$RANDOM
+ERRORLEVEL=$?
+DATE=$(date +"\%D")
+! Couldn't find any equivalent commands
+CMDCMDLINE=
+! zero idea what equivalent for this is, just going to stick with this one
+CMDEXTVERSION=$SHELL --version
+CD=$PWD
+

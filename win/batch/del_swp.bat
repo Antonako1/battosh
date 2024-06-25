@@ -1,5 +1,6 @@
 @echo off
 cd /D %~dp0
-cd ..\..\_source
+cd ..\..
 DEL /S /Q *.swp
+DEL /S /Q *.*~
 cd ..

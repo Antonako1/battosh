@@ -50,6 +50,13 @@ enum Variables {
     WT_PROFILE_ID,                      //
     WT_SESSION,                         //
     ZES_ENABLE_SYSMAN,                  //
+    TIME__,
+    RANDOM,
+    ERRORLEVEL,
+    DATE__,
+    CMDCMDLINE,
+    CMDEXTVERSION,
+    CD__,
 };
 
 void variablify(std::string &input, battosh_info *args);

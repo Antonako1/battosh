@@ -1,7 +1,8 @@
 #ifndef battosh_H
 #define battosh_H
 
-
+#include "../extern_dependencies/ATRC/include/ATRC.h"
+// #include "VARIABLES.hxx"
 
 #ifdef DEBUG
     #include <iostream>
@@ -73,5 +74,15 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args);
 void tosh(std::vector<ParsedToken> *tokens, battosh_info *args);
 
 void pathing(std::string &input, battosh_info *args);
+
+void read_key_to_output(
+    std::string block,
+    std::string key,
+    std::string original_value,
+    ATRCFiledata *fd,
+    std::string &cts,
+    std::string &output,
+    bool daw
+    );
 
 #endif // battosh_H

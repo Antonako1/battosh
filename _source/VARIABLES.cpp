@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "VARIABLES.hxx"
+#include "ATRC_VALUES.hxx"
 #include "battosh.hxx"
 #include "./commands/commands.hxx"
 
@@ -10,7 +11,7 @@ std::string VARIABLES[] = {
     "%ALLUSERSPROFILE%",                  std::to_string(ALLUSERSPROFILE),
     "%APPDATA%",                          std::to_string(APPDATA),
     "%CommonProgramFiles%",               std::to_string(CommonProgramFiles),
-    "%CommonProgramFiles(x86)%",            std::to_string(CommonProgramFilesx86),
+    "%CommonProgramFiles(x86)%",          std::to_string(CommonProgramFilesx86),
     "%CommonProgramW6432%",               std::to_string(CommonProgramW6432),
     "%COMPUTERNAME%",                     std::to_string(COMPUTERNAME),
     "%ComSpec%",                          std::to_string(ComSpec),
@@ -32,7 +33,7 @@ std::string VARIABLES[] = {
     "%PROCESSOR_REVISION%",               std::to_string(PROCESSOR_REVISION),
     "%ProgramData%",                      std::to_string(ProgramData),
     "%ProgramFiles%",                     std::to_string(ProgramFiles),
-    "%ProgramFiles(x86)%",                  std::to_string(ProgramFilesx86),
+    "%ProgramFiles(x86)%",                std::to_string(ProgramFilesx86),
     "%ProgramW6432%",                     std::to_string(ProgramW6432),
     "%PROMPT%",                           std::to_string(PROMPT_),
     "%PSModulePath%",                     std::to_string(PSModulePath),
@@ -46,13 +47,29 @@ std::string VARIABLES[] = {
     "%USERDOMAIN_ROAMINGPROFILE%",        std::to_string(USERDOMAIN_ROAMINGPROFILE),
     "%USERNAME%",                         std::to_string(USERNAME),
     "%USERPROFILE%",                      std::to_string(USERPROFILE),
-    "%VBOX_MSI_INSTALL_PATH%",            std::to_string(VBOX_MSI_INSTALL_PATH),
     "%windir%",                           std::to_string(windir),
-    "%WSLENV%",                           std::to_string(WSLENV),
-    "%WT_PROFILE_ID%",                    std::to_string(WT_PROFILE_ID),
-    "%WT_SESSION%",                       std::to_string(WT_SESSION),
-    "%ZES_ENABLE_SYSMAN%",                std::to_string(ZES_ENABLE_SYSMAN),
+	"%TIME%",							  std::to_string(TIME__),
+	"%RANDOM%",					    	  std::to_string(RANDOM),
+	"%ERRORLEVEL%",				     	  std::to_string(ERRORLEVEL),
+	"%DATE%",					    	  std::to_string(DATE__),
+	"%CMDCMDLINE%",				    	  std::to_string(CMDCMDLINE),
+	"%CMDEXTVERSION%",			    	  std::to_string(CMDEXTVERSION),
+	"%CD%",						    	  std::to_string(CD__),
 };
+void clear_previous(std::string &buffer, int match){
+	//buffer = buffer.substr(, (VARIABLES[match-1].size() - 1));
+	buffer = "";
+}
+std::tuple<int, int> check_for_full_var_matches(std::string &buffer){
+	for(int i = 0; i < sizeof(VARIABLES)/sizeof(VARIABLES[0]); i+=2){
+        if(buffer == VARIABLES[i]){
+			std::cout << buffer << " : " << VARIABLES[i] << " : " << i << " : " << std::stoi(VARIABLES[i+1]) << std::endl;
+            return {i, std::stoi(VARIABLES[i+1])};
+        }
+    }
+
+    return {-1, -1};
+}
 
 char look_ahead(size_t index, std::string &line){
     if(index >= line.size()){
@@ -63,10 +80,206 @@ char look_ahead(size_t index, std::string &line){
 
 void variablify(std::string &input, battosh_info *args){
     size_t index = 0;
+	std::string revised_input = "";
     std::string buffer = "";
 	bool buffer_used = false;
     for(index = 0; index < input.size(); index++){
         char ahead = look_ahead(index, input);
-        
+		if(ahead != '%') {
+       		revised_input += ahead;
+			continue;
+		}
+		buffer += ahead;
+		index++;
+		ahead = look_ahead(index, input);
+		if(ahead == '%'){ // look for %%x
+		    buffer += ahead;
+			index++;
+			ahead = look_ahead(index, input);
+			buffer += ahead;
+			//buffer contains %%x
+			buffer_used = true;
+		}
+		
+		if(!buffer_used && ahead == '~'){
+			while(!std::isdigit(ahead)){
+				ahead = look_ahead(index, input);
+				buffer += ahead;
+				index++;
+			}
+			// buffer contains %~(d|p|n|x)<single_digit>
+			buffer_used = true;
+		}
+		// TODO check for percent colon 
+
+		if(!buffer_used){
+			while(index < input.size() - 1){
+				ahead = look_ahead(index, input);
+				buffer += ahead;
+				if(ahead == '%'){
+					break;
+				}
+				index++;
+			}
+			//buffer contains %x%
+
+			const std::tuple results_ = check_for_full_var_matches(buffer);
+			int array_index = std::get<0>(results_);
+			int match = std::get<1>(results_);
+#ifdef DEBUG
+			std::cout << "	MATCH: " << match << " array_index: " << array_index<< std::endl;
+#endif
+			std::string cts1 = "";
+			std::string df_input = "";
+
+			switch(match){
+				case ALLUSERSPROFILE:
+				case APPDATA:
+					df_input = "~/.config";
+					break;
+				case CommonProgramFiles:
+				case CommonProgramFilesx86:
+				case CommonProgramW6432:{
+					df_input = "/usr";
+					break;						
+				}
+				case COMPUTERNAME:
+					 df_input = "$NAME";
+                     break;
+				case ComSpec:
+                    df_input = "$SHELL";
+					break;
+				case DriverData:
+                   df_input = "/lib/modules";
+					break;
+				case HOMEDRIVE:
+                   df_input = "c";
+					break;
+				case HOMEPATH:
+                   df_input = "$HOME";
+					break;
+				case LOCALAPPDATA:
+                   df_input = "/usr/local";
+					break;
+				case LOGONSERVER:
+					break;
+				case NUMBER_OF_PROCESSORS:
+                   df_input = "$(nproc)";
+					break;
+				case OneDrive:
+					break;
+				case OneDriveConsumer:
+					break;
+				case OS:
+                    df_input = "$(uname -s)";
+					break;
+				case Path:
+                   df_input = "$PATH";
+					break;
+				case PATHEXT:
+					break;
+				case POWERSHELL_DISTRIBUTION_CHANNEL:
+					break;
+				case PROCESSOR_ARCHITECTURE:
+                   df_input = "$(uname -p)";
+					break;
+				case PROCESSOR_IDENTIFIER:
+                   df_input = "$(lscpu | grep \"Model name\"";
+					break;
+				case PROCESSOR_LEVEL:
+                   df_input = "$(lscpu | grep \"CPU family\"";
+					break;
+				case PROCESSOR_REVISION:
+					break;
+                case ProgramData:
+					df_input = "~/.config";
+					break;				
+				case ProgramFiles:
+				case ProgramFilesx86:
+				case ProgramW6432:
+                   df_input = "/usr";
+					break;
+				case PROMPT_:
+					break;
+				case PSModulePath:
+					break;
+				case PUBLIC:
+                   df_input = "$HOME";
+					break;
+				case SESSIONNAME:
+                   df_input = "$STY";
+					break;
+				case SystemDrive:
+                   df_input = "c";
+					break;
+				case SystemRoot:
+                   df_input = "/";
+					break;
+				case TEMP:
+				case TMP:
+                   df_input = "/tmp";
+					break;
+				case USERDOMAIN:
+				case USERDOMAIN_ROAMINGPROFILE:
+                   df_input = "$(/usr/bin/domainname -a)";
+					break;
+				case USERNAME:
+                   df_input = "$USER";
+					break;
+				case USERPROFILE:
+                   df_input = "$HOME";
+					break;
+				case windir:
+					break;
+                   df_input = "/";
+				case ZES_ENABLE_SYSMAN	:
+					break;
+				case TIME__:
+                   df_input = "$(date +\"%T\")";
+                   break;
+				case RANDOM:
+                  df_input = "$RANDOM";
+					break;
+				case ERRORLEVEL:
+                   df_input = "$?";
+					break;
+				case DATE__:
+                   df_input = "$(date +\"%D\")";
+					break;
+				case CMDCMDLINE:
+					break;
+				case CMDEXTVERSION:
+                   df_input = "$SHELL --version";
+					break;
+				case CD__:
+                   df_input = "$PWD";
+					break;
+                case -1:
+                default:
+					buffer = "$"+buffer.substr(1, buffer.size() -2);
+					// std::cout << "Not a environmental variable: " << buffer << std::endl;
+					df_input = "";
+					break;
+            }
+			if(df_input != ""){
+				clear_previous(buffer, match);
+				read_key_to_output(
+					"VARIABLES", 
+					VARIABLES[array_index],
+					df_input,	
+					fd_variables.get(), 
+					cts1, 
+					buffer, 
+					args->disable_atrc_warnings
+				);
+			}
+			buffer_used = true;
+		}
+
+		revised_input += buffer;
+		buffer = "";
+		buffer_used = false;
     }
+	input = revised_input;
 }
+
