@@ -9,10 +9,10 @@
 !       on absolute paths or if the path contains an 
 !       environmental variable. 
 !       
-!       If your script contains
-!       paths, it would be best to add them as a local variable
-!       so that you can convert them yourself better. Optionally
-!       you can use process flags (.\PROCESS_FLAGS.atrc) 
+!       If your script contains paths, it would be best to add 
+!       them as a local variable so that you can convert them 
+!       yourself better. Optionally you can use process flags:
+!       (.\PROCESS_FLAGS.atrc) 
 !
 !       When using the --wsl flag, it will add /mnt/<drive>/
 !       to the start of the path. This is much more reliable
