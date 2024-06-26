@@ -13,13 +13,13 @@ set(project_name "battosh")
 project(${project_name} LANGUAGES CXX)
 
 file(GLOB SOURCES 
-  "./_source/*.c"
-  "./_source/*.h"
-  "./_source/*.cpp"
-  "./_source/*.hpp"
-  "./_source/*.hxx"
-  "./_source/commands/*.hxx"
-  "./_source/*.rc"
+  "./source/*.c"
+  "./source/*.h"
+  "./source/*.cpp"
+  "./source/*.hpp"
+  "./source/*.hxx"
+  "./source/commands/*.hxx"
+  "./source/*.rc"
 )
 
 # Set ATRC library directory based on the platform
