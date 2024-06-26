@@ -24,8 +24,8 @@
 !   Converted flag 
 !   (and or command)    => About
 !   1. Not included 
-!   2. declare -i {var=int}     => Value is interpreted as an integer
-!   3. read {question} var => Prompts user for a value
+!   2. declare -i var=int       => Value is interpreted as an integer
+!   3. read -p "[question]" var => Prompts user for a value
 !   
 !   %%%%%%%%%%%
 !   Example(s):
@@ -35,7 +35,7 @@
 !   set "ROOT=C:\"
 !   =>
 !   declare -i num=123
-!   read "Enter a number" answer
+!   read -p "Enter a number" answer
 !   ROOT=C:/
 !   Sources:
 !       set /?
@@ -45,12 +45,12 @@
 ! base command for SET
 ! 0 insert is var name
 ! 1 insert is its value
-command=%*0%=%*1%&
+command=%*0%="%*1%"&
 
 ! for /A
 ! 0 insert is var name
 ! 1 insert is value
-integer=declare -i %*0%=%*1%&
+integer=declare -i %*0%="%*1%"&
 
 ! for /P
 ! 0 insert is for var name

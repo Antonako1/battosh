@@ -344,10 +344,10 @@ struct DIR_FLAG {
 };
 
 struct SET_FLAG {
-    std::string linux_base = "%*0%=%*1% ";
+    std::string linux_base = "%*0%=\"%*1%\" ";
 
     std::string declare_int = "/A";
-    std::string linux_int = "declare -i %*0%=%*1% ";
+    std::string linux_int = "declare -i %*0%=\"%*1%\" ";
     std::string declare_prompt = "/P";
     std::string linux_prompt = "read -p \"%*1%\" %*0% ";
 };

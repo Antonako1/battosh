@@ -276,7 +276,6 @@ void variablify(std::string &input, battosh_info *args){
 					break;
                 case -1:
                 default:
-					std::cout << "BUFFER_____: " << buffer<<std::endl;
 					if(buffer.size() <= 2) {
 						buffer = "$"+buffer.substr(1, buffer.size() -1);
 					}
