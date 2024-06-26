@@ -325,8 +325,63 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case SET: {
+              //aa
+              std::string temp_buffer = "";
+              std::string inner = add_end_values_as_string(parsed_token, args);
+              size_t equ_pos = inner.find_first_of('=');
+              if(equ_pos == std::string::npos){
+                    // TODO error message
+                  std::cout << "Invalid variable declaration\n";
+                  break;
+              }
+              std::string var_name = "";
+              std::string value = "";
 
-                 break;
+              try{
+                var_name = inner.substr(0, equ_pos);
+              } catch(...){
+                var_name = "";
+              }
+
+              try{
+                  value = inner.substr(equ_pos+1);
+                  value = value.substr(0, value.size() - 1);
+              } catch(...){
+                value = "";
+              }
+
+              if(value.size() < 1){
+                value = " ";        
+              }
+              if(var_name.size() < 1){
+                var_name = " ";                
+              }
+
+              
+              if(var_name[0] == '"' && value[value.size()-1] == '"'){
+                var_name = var_name.substr(1, var_name.size()-1);
+                value = value.substr(0, value.size()-1);
+              }
+              std::cout << "'" << value << "' '" << var_name << "'" << std::endl;
+
+              bool flagged = false;
+              std::vector<std::string> inserts__ = {var_name, value};
+              for(const auto &flag : parsed_token.flags){
+                    if(!flagged && flag == set_flag.declare_int){
+                        read_key_to_output("SET", "integer", set_flag.linux_int, fd_set.get(), cts1, temp_buffer, daw);
+                        flagged = true;
+                    } else if (!flagged && flag == set_flag.declare_prompt){
+                        read_key_to_output("SET", "prompt", set_flag.linux_int, fd_set.get(), cts1, temp_buffer, daw);
+                        flagged = true;
+                    }
+              }
+              if(!flagged){
+                read_key_to_output("SET", "command", set_flag.linux_int, fd_set.get(), cts1, temp_buffer, daw);
+              }
+              InsertVar(temp_buffer, inserts__, fd_set.get());
+              std::cout << "TEMPBUFFER: " << temp_buffer << std::endl;
+              output += temp_buffer;
+              break;
               }
             case MOVE: {
                 output += "mv ";

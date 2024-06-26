@@ -102,7 +102,7 @@ void ReadATRC_VALUES(battosh_info *args) {
     
     fd_mkdir = reader("MKDIR.atrc", atrc_path);
     fd_rmdir = reader("RMDIR.atrc", atrc_path);
-    fd_rmdir = reader("SET.atrc", atrc_path);
+    fd_set = reader("SET.atrc", atrc_path);
 }
 
 // void cleanup() {

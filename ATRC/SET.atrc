@@ -39,18 +39,21 @@
 !   ROOT=C:/
 !   Sources:
 !       set /?
-!       declare /?
-!       read /?
+!       declare --help
+!       read --help
 [SET]
 ! base command for SET
-! 0 insert is var name, 1 insert is its value
+! 0 insert is var name
+! 1 insert is its value
 command=%*0%=%*1%&
 
 ! for /A
-! 0 insert is var name, 1 is value
+! 0 insert is var name
+! 1 insert is value
 integer=declare -i %*0%=%*1%&
 
 ! for /P
-! 0 insert is for question if it is provided, 
-! 1 insert is for var name
-prompt=read %*0% %*1%&
+! 0 insert is for var name
+! 1 insert is for question if it is provided, 
+prompt=read -p "%*1%" %*0%&
+
