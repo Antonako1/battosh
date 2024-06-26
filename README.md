@@ -86,7 +86,7 @@ battosh can turn the following commands/statements with their flags into bash
     HELP                    =>              See
     PAUSE                   =>              See
     DIR                     =>              See
-
+    SET                     =>              See ATRC\SET.atrc
 
 ### Known issues
 

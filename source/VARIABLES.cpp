@@ -118,27 +118,31 @@ void variablify(std::string &input, battosh_info *args){
 
 		if(!buffer_used){
 			bool end_found = false;
-			while(index < input.size() - 1){
-				ahead = look_ahead(index, input);
-				buffer += ahead;
-
-				// Bad fix
-				if(ahead == '"') {
+			if(!std::isdigit(ahead)) {
+				while(index < input.size() - 1){
+					ahead = look_ahead(index, input);
 					buffer += ahead;
-					break;
-				};
-				if(ahead == '%'){
-					end_found = true;
-					break;
+
+					// Bad fix
+					if(ahead == '"') {
+						buffer += ahead;
+						break;
+					};
+					if(ahead == '%'){
+						end_found = true;
+						break;
+					}
+					index++;
 				}
-				index++;
+			} else {
+				buffer += ahead;
 			}
 			int array_index, match = 0;
 			if(!end_found || args->no_linux){
 				array_index, match = -1;
 			} 
 			
-			//buffer contains %x%
+			//buffer contains %x% or %<digit>
 			else {
 				const std::tuple results_ = check_for_full_var_matches(buffer);
 				array_index = std::get<0>(results_);
@@ -273,7 +277,12 @@ void variablify(std::string &input, battosh_info *args){
                 case -1:
                 default:
 					std::cout << "BUFFER_____: " << buffer<<std::endl;
-					buffer = "$"+buffer.substr(1, buffer.size() -2);
+					if(buffer.size() <= 2) {
+						buffer = "$"+buffer.substr(1, buffer.size() -1);
+					}
+					else {
+						buffer = "$"+buffer.substr(1, buffer.size() -2);
+					}
 					// std::cout << "Not a environmental variable: " << buffer << std::endl;
 					df_input = "";
 					break;

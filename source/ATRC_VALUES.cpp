@@ -28,6 +28,7 @@ std::unique_ptr<ATRCFiledata> fd_relational_operators = nullptr;
 //
 std::unique_ptr<ATRCFiledata> fd_mkdir = nullptr;
 std::unique_ptr<ATRCFiledata> fd_rmdir = nullptr;
+std::unique_ptr<ATRCFiledata> fd_set = nullptr;
 
 
 
@@ -101,6 +102,7 @@ void ReadATRC_VALUES(battosh_info *args) {
     
     fd_mkdir = reader("MKDIR.atrc", atrc_path);
     fd_rmdir = reader("RMDIR.atrc", atrc_path);
+    fd_rmdir = reader("SET.atrc", atrc_path);
 }
 
 // void cleanup() {

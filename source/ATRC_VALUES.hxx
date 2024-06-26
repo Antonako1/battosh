@@ -26,7 +26,7 @@ extern std::unique_ptr<ATRCFiledata> fd_relational_operators;
 //
 extern std::unique_ptr<ATRCFiledata> fd_mkdir;
 extern std::unique_ptr<ATRCFiledata> fd_rmdir;
-
+extern std::unique_ptr<ATRCFiledata> fd_set;
 
 inline std::string get_home_dir(std::string homePath_arg = "") {
 

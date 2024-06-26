@@ -1,14 +1,16 @@
-!   CMD ATRC FILE
+!   SET ATRC FILE
 !   
 !   About:
-!       ...
+!       SET command modifies, sets, displays or removes
+!       environmental variables  
 !   
 !   Command: <batch:command>
 !   Flags:
 !   
 !   Flag                => About
 !   1. /?               => Displays help message
-!       1. Attribute        => About
+!   2. /A               => Value is interpreted as an integer
+!   3. /P               => Prompts the user for a value
 !   
 !   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !   Turning command and flags to shell
@@ -31,6 +33,6 @@
 !   
 !   Sources:
 !   
-[CMD]
+[SET]
 ! base command
 command=

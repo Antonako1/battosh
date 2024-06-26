@@ -24,17 +24,21 @@ int main(int argc, char *argv[]) {
         if (std::string(argv[i]) == "-h" || std::string(argv[i]) == "--help") {
             std::string err_msg = "Help message";
             message(err_msg, FL_FLAG_BATTOSH, HELP_, true, -1, -1);
-        } else if (std::string(argv[i]) == "--version") {
+        } 
+        else if (std::string(argv[i]) == "--version") {
             std::string err_msg = "battosh version";
             message(err_msg, FL_FLAG_BATTOSH, VERSION_, true, -1, -1);
-        } else if (std::string(argv[i]) == "--wsl") {
+        } 
+        else if (std::string(argv[i]) == "--wsl") {
             // TODO message
             std::cout << "--wsl provided, linux paths automatically turned off\n";
             info->no_linux = true;
             info->wsl = true;
-        } else if (std::string(argv[i]) == "--no-linux") {
+        } 
+        else if (std::string(argv[i]) == "--no-linux") {
             info->no_linux = true;
-        } else if (std::string(argv[i]) == "-o" || std::string(argv[i]) == "--out") {
+        } 
+        else if (std::string(argv[i]) == "-o" || std::string(argv[i]) == "--out") {
             if (i + 1 < argc) {
                 info->OUTPUT_FILE = std::make_unique<std::string>(argv[i + 1]);
                 output_provided = true;
@@ -43,11 +47,14 @@ int main(int argc, char *argv[]) {
                 std::string error = "Output file not provided";
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
             }
-        } else if (std::string(argv[i]) == "--no-whitespace" || std::string(argv[i]) == "-nw"){
+        } 
+        else if (std::string(argv[i]) == "--no-whitespace" || std::string(argv[i]) == "-nw"){
             info->no_whitespace = true;
-        } else if (std::string(argv[i]) == "--no-comments" || std::string(argv[i]) == "-nc"){
+        } 
+        else if (std::string(argv[i]) == "--no-comments" || std::string(argv[i]) == "-nc"){
             info->no_comments = true;
-        }else if (std::string(argv[i]) == "--set-shell"){
+        }
+        else if (std::string(argv[i]) == "--set-shell"){
             if (i + 1 < argc) {
                 info->SHELL = std::make_unique<std::string>(argv[i + 1]);
                 i++;
@@ -56,7 +63,8 @@ int main(int argc, char *argv[]) {
                 std::string error = "Shell not provided";
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
             }
-        } else if(std::string(argv[i]) == "-dr" || std::string(argv[i]) == "--dir-sort"){
+        } 
+        else if(std::string(argv[i]) == "-dr" || std::string(argv[i]) == "--dir-sort"){
             info->dirsort = true;
         }
 
@@ -79,7 +87,8 @@ int main(int argc, char *argv[]) {
         
         else if (std::string(argv[i]) == "--set-mkdirp"){
             info->mkdir_p = true;
-        } else if (std::string(argv[i]) == "-qm" || std::string(argv[i]) == "--quiet-mode"){
+        } 
+        else if (std::string(argv[i]) == "-qm" || std::string(argv[i]) == "--quiet-mode"){
             info->quiet = true;
         } 
         

@@ -22,7 +22,7 @@ MOVE_FLAG move_flag;
 HELP_FLAG help_flag;
 PAUSE_FLAG pause_flag;
 DIR_FLAG dir_flag;
-
+SET_FLAG set_flag;
 
 void send_message(std::string msg, int errnum, bool disable_atrc_warnings){
     if(errnum == ATRC_NOT_FOUND && disable_atrc_warnings){
