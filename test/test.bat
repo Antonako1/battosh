@@ -1,5 +1,27 @@
-@echo off 
-cd /d %~dp0
-cd win
-call build.bat
-call run.bat %*
+@ECHO OFF
+
+if not exist .git (
+    echo .git not found
+    exit
+)
+
+if not exist .gitignore (
+    echo .gitignore not found
+    exit
+)
+
+git add -A
+git commit -m "delgitig COMMIT"
+git clean -xdn
+
+ECHO press y to delete all files from .gitignore (y/n)
+
+set /p delgitig=
+
+if %delgitig%==y (
+    git clean -xdf
+) else (
+    git reset --soft HEAD~1
+    git reset
+    ECHO nothing deleted
+)

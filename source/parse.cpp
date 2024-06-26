@@ -5,15 +5,13 @@
 #include "battosh.hxx"
 #include "./commands/commands.hxx"
 
-// .\build_n_run.bat .\win\test.bat -sw -sc
-
 void parse_to_the_end(int command, std::vector<Token> *tokens, size_t &i, Token &token, std::vector<ParsedToken> *parsed_tokens){
     ParsedToken parsed_token;
     parsed_token.command = command;
     parsed_token.value = token.value;
     parsed_token.line = token.line;
     parsed_token.column = token.column;
-    i++; // Move to the next token
+    i++;
     bool endline = false;
     for(std::string &flag : token.flags){
         std::string temp = flag;
@@ -38,7 +36,7 @@ void parse_to_the_end(int command, std::vector<Token> *tokens, size_t &i, Token 
         } else {
             parsed_token.values.push_back(next_token.value);
         }
-        i++; // Move to the next token
+        i++; 
     }
     if(!endline){
         parsed_tokens->push_back(parsed_token);

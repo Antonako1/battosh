@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
                 output_provided = true;
                 i++;
             } else {
+                // TODO message
                 std::string error = "Output file not provided";
                 message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
             }

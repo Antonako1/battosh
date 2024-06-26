@@ -2,7 +2,6 @@
 #define battosh_H
 
 #include "../extern_dependencies/ATRC/include/ATRC.h"
-// #include "VARIABLES.hxx"
 
 #ifdef DEBUG
     #include <iostream>
@@ -28,8 +27,8 @@ void message(std::string &msg, int flag, int command, bool error, int line, int 
 struct Token{
     int command;
     std::string value;
-    std::vector<std::string> flags;         // example: /Q
-    std::vector<std::string> attributes;    // example: /A:D
+    std::vector<std::string> flags;         
+    std::vector<std::string> attributes;    
     int line;
     int column;
 };
@@ -48,7 +47,7 @@ struct battosh_info {
     bool mkdir_p;
     bool quiet;
     bool dirsort;
-    bool batchtoshell; // turn .bat to .sh
+    bool batchtoshell; // TODO turn .bat to .sh
     std::unique_ptr<std::string> HOME_PATH;
     bool disable_atrc_warnings;
 };
@@ -58,12 +57,8 @@ std::vector<Token>* lexical(battosh_info *args);
 struct ParsedToken{
     int command;
     std::string value;
-
-    // inner values, example: echo "hello world"
     std::vector<std::string> values;
-    // flags, example: /Q
     std::vector<std::string> flags;
-    // attributes, example: /A:D
     std::vector<std::string> attributes;
     int line;
     int column;

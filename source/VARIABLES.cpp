@@ -56,10 +56,7 @@ std::string VARIABLES[] = {
 	"%CMDEXTVERSION%",			    	  std::to_string(CMDEXTVERSION),
 	"%CD%",						    	  std::to_string(CD__),
 };
-// void clear_previous(std::string &buffer, int match){
-// 	//buffer = buffer.substr(, (VARIABLES[match-1].size() - 1));
-// 	buffer = "";
-// }
+
 std::tuple<int, int> check_for_full_var_matches(std::string &buffer){
 	for(int i = 0; i < sizeof(VARIABLES)/sizeof(VARIABLES[0]); i+=2){
         if(buffer == VARIABLES[i]){
@@ -142,7 +139,7 @@ void variablify(std::string &input, battosh_info *args){
 				array_index, match = -1;
 			} 
 			
-			//buffer contains %x% or %<digit>
+			//buffer contains %x% or %[0-9]
 			else {
 				const std::tuple results_ = check_for_full_var_matches(buffer);
 				array_index = std::get<0>(results_);
@@ -282,12 +279,10 @@ void variablify(std::string &input, battosh_info *args){
 					else {
 						buffer = "$"+buffer.substr(1, buffer.size() -2);
 					}
-					// std::cout << "Not a environmental variable: " << buffer << std::endl;
 					df_input = "";
 					break;
             }
 			if(df_input != ""){
-				// clear_previous(buffer, match);
 				buffer = "";
 				read_key_to_output(
 					"VARIABLES", 

@@ -55,18 +55,13 @@ void read_key_to_output
 }
 
 void add_end_values(ParsedToken &parsed_token, std::string &output, battosh_info *args){	
-	// std::string temp_buffer = "";
     std::string temp_output = output;
     for(std::string value : parsed_token.values){
-        // temp_buffer += value + " ";
         temp_output += value + " ";
     }
 	
 	variablify(temp_output, args);
 	pathing(temp_output, args);
-	// variablify(temp_buffer, args);
-	// pathing(temp_buffer, args);
-    // temp_output += temp_buffer;
 	output = temp_output;
 
 }
@@ -110,12 +105,11 @@ void if_statement_workings(
     for(index = i; index < tokens->size(); index++){
         ParsedToken next_token = tokens->at(index);
         switch (next_token.command) {
-        case IF: break; // skip, otherwise will appear in default
+        case IF: break;
         case NOT:
             output += "! ";
             break;
         case EQU:
-            // read_key_to_output(cts1, output, "RELATIONAL_OPERATORS", "EQU", fd_relational_operators.get(), "-eq ", daw);
             read_key_to_output("RELATIONAL_OPERATORS", "EQU", "-eq ", fd_relational_operators.get(), cts1, output, daw);
             break;
         case NEQ:
@@ -159,14 +153,10 @@ void if_statement_workings(
         case ELSE:
             break;
         default:
-            // breaks otherwise
-            // Check for comparison and operators in future
-            // so that: if exist file.txt echo "hello world" is possible
             output += next_token.value + " ";
             bool comparison = check_comparison_in_future(tokens, index);
             bool operators = check_operators_in_future(tokens, index);
             if(
-                // next_token.command == ENDLINE || 
                 next_token.command != UNKNOWN &&
                 !comparison &&
                 !operators
@@ -196,7 +186,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     std::string cts1, cts2 = ""; // buffer contents for atrc file reading
     ReadATRC_VALUES(args);    
     {
-        // Prevent crashing
+        // Prevents crashing
         ParsedToken parsed_token;
         parsed_token.command = ENDLINE;
         tokens->push_back(parsed_token);        
@@ -264,14 +254,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case CALL:{
-                // TODO PATH CHECK
                 read_key_to_output("CALL", "command", "source ", fd_call.get(), cts1, output, daw);
                 add_end_values(parsed_token, output, args);
                 break;
             }
             case TYPE: {
                 read_key_to_output("TYPE", "command", "cat ", fd_type.get(), cts1, output, daw);
-                // TODO PATH CHECK
                 add_end_values(parsed_token, output, args);
                 break;
             }
@@ -372,7 +360,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             }
             case MOVE: {
                 output += "mv ";
-                // TODO PATH CHECK
                 for(const auto &flag : parsed_token.flags){
                     if(flag == move_flag.GET_HELP){
                         output += move_flag.LINUX_GET_HELP + " ";
@@ -401,7 +388,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             case REN:
             case RENAME: {
                 output += "mv ";
-                // TODO PATH CHECK
                 for(const auto &flag : parsed_token.flags){
                     if(flag == rename_flag.GET_HELP){
                         output += rename_flag.LINUX_GET_HELP + " ";
@@ -419,9 +405,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         // TODO: Note to user: Linux does not have a no interrupt flag
                         
                     } 
-                    // else if (flag == timeout_flag.TIMEOUT){
-                    //     output += timeout_flag.LINUX_TIMEOUT + " ";
-                    // }
                 }
                 add_end_values(parsed_token, output, args);
                 break;
@@ -517,7 +500,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             }
             case MD:
             case MKDIR: {
-                // TODO PATH CHECK
                 read_key_to_output("MKDIR", "command", "mkdir ", fd_mkdir.get(), cts1, output, daw);
                 if(args->mkdir_p){
                     read_key_to_output("MKDIR", "mkdir_p", "mkdir -p ", fd_mkdir.get(), cts1, output, daw);
@@ -551,7 +533,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     }
 
                 }
-                // TODO PATH CHECK
                 add_end_values(parsed_token, output, args);
                 break;
             }

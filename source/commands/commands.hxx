@@ -1,39 +1,7 @@
 #pragma once
 #include <string>
 // https://tldp.org/LDP/abs/html/dosbatch.html
-/*
-@echo off
-if exist data (
-    if not exist "ququ" (
-        echo w
-    ) else (
-        echo q
-    )
-) else if exist "haha" (
-    echo Hi from the other side
-) else (
-    echo data exists
-)
 
-
-ver
-cls
-call haha
-type test.txt
-:: TEST
-echo Hi
-cd "C:\temp"
-exit /B 10
-
-cmake --build . --target test
-
-if not exist data (
-    echo data does not exist
-) else (
-    echo data exists
-)
-if "A" == "A" echo test
- */
 enum batch_commands{
     // FILE COMMANDS
     VER,            // -- (ver) - show version | $SHELL --version      
@@ -249,8 +217,6 @@ struct RMDIR_FLAG{
     std::string REMOVE_DIR_TREE = "/S";
     std::string REMOVE_DIR_TREE_EXPECT_VALUE = "NONE";
     
-    // std::string LINUX_QUIET_MODE = "2> /dev/null";
-    // std::string LINUX_QUIET_MODE = "";
     std::string QUIET_MODE = "/Q";
 
 };

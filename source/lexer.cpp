@@ -235,64 +235,6 @@ std::vector<Token>* lexical(battosh_info *args) {
                     }
                 }
                     break;
-                /*
-                
-                case '%':{
-                    //check for forvar
-                    index++;
-                    char ahead = look_ahead(index, line)[0];
-                    if(ahead == '%'){
-                        buffer += "%";
-                        while(true){
-                            ahead = look_ahead(index, line)[0];
-                            if(ahead == ' ' || ahead == '\t' || ahead == '\0'){
-                                break;
-                            }
-                            buffer += ahead;
-                            index++;
-                        }
-                        index--;
-                        add_token(tokens, buffer, line_num, column_num, FORVAR);
-                    }
-
-                    //check for %0...9, %*
-                    else if(std::isdigit(ahead) || ahead == '*'){
-                        buffer += "%";
-                        buffer += ahead;
-                        add_token(tokens, buffer, line_num, column_num, VARARG);
-                    }
-                    //check for %~...<num>
-                    else if(ahead == '~'){
-                        buffer += "%";
-                        while(true){
-                            ahead = look_ahead(index, line)[0];
-                            if(ahead == ' ' || ahead == '\t' || ahead == '\0'){
-                                break;
-                            }
-                            buffer += ahead;
-                            index++;
-                        }
-                        index--;
-                        add_token(tokens, buffer, line_num, column_num, TILDEARG);
-                    }
-                    else{
-                        buffer += "%";
-                        while(true){
-                            ahead = look_ahead(index, line)[0];
-                            if(ahead == ' ' || ahead == '\t' || ahead == '%' || ahead == '\0'){
-                                break;
-                            }
-                            buffer += ahead;
-                            index++;
-                        }
-                        buffer += "%";
-                        std::cout << "buf: '" << buffer << "'" << std::endl;
-                        add_token(tokens, buffer, line_num, column_num, VAR);
-                    }
-                }
-                    break;
-                */
-
                 // TODO NOTE WIP
                 case '^': {
                     index++;
@@ -301,14 +243,6 @@ std::vector<Token>* lexical(battosh_info *args) {
                     break;
                 }
                 case '"': {
-                        /*+++
-                    //   TODO:
-                    //   1. Make a whole string buffer
-                    //   2. Check if it is a string ("...")
-                    //   3. Add string buffer to tokens
-                    //   4||5. Continue
-                    //   4||5. Re-loop the string buffer
-                        ---*/
                         buffer += ahead;
                         index++;
                         while (index < line.size()) {
@@ -323,7 +257,6 @@ std::vector<Token>* lexical(battosh_info *args) {
                     }
                     break;
                 case ':':{
-                    //chck comment
                     bool is_comment = false;
                     index++;
                     if(look_ahead(index, line) == ":"){
@@ -354,8 +287,6 @@ std::vector<Token>* lexical(battosh_info *args) {
                         for (size_t i = index; i < line.size(); i++) {
                             rem += std::toupper(line[i]);
                             if (rem == "@REM") {
-                                // We know it is @rem, so we can skip @.
-                                // it will turn it after this to rem comment
                                 buffer.clear();
                                 skip = true;
                                 break;
@@ -369,7 +300,7 @@ std::vector<Token>* lexical(battosh_info *args) {
                                 break;
                             }
                         }
-                    // test. allow everything to start with @
+                    // NOTE: test. allow everything to start with @
                     if(!skip){
                         buffer = buffer.substr(0, buffer.size() - 1);
                     }
@@ -391,7 +322,7 @@ std::vector<Token>* lexical(battosh_info *args) {
                                 ahead == "\r" || ahead == "\t" || ahead == ":" || ahead == "-") {
                                 flag_found = true;
                                 tokens->at(tokens->size() - 1).flags.push_back(flag);
-                                // check if attribute is present
+                                // TODO NOTE: /AD /A:D and /A-D all work
                                 if(ahead == ":" || ahead == "-"){
                                     flag_index++;
                                     ahead = look_ahead(flag_index, line);
