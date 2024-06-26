@@ -39,6 +39,6 @@ Example file:
     ! username placed at first Insert
     greeting=Hello %*% from %greeter%\!
     
-    ! Example for numeral inserts.
-    ! 0 insert is variable name, 1 insert is flag, 2 insert is question
-    command=read %*1% %*2% %*3%
+    ! Example for numeral inserts using linux read command.
+    ! 0 insert is variable name, 1 insert is question
+    command=read -p "%*1%" %*0%
