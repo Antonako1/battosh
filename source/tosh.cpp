@@ -297,7 +297,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 buffer = "";
                 read_key_to_output("CD", "command", "cd %*% ", fd_cd.get(), cts1, buffer, daw);
                 std::vector<std::string> temp = {add_end_values_as_string(parsed_token, args)};
-                InsertVar(buffer, temp);
+                InsertVar(buffer, temp, fd_cd.get());
                 output += buffer;
                 break;
             }
@@ -324,6 +324,10 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 output += pause_flag.LINUX_PAUSE;
                 break;
             }
+            case SET: {
+
+                 break;
+              }
             case MOVE: {
                 output += "mv ";
                 // TODO PATH CHECK

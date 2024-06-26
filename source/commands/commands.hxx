@@ -342,3 +342,8 @@ struct DIR_FLAG {
     std::string ATTRIBUTES_PREFIX_NOT           = ":-"; // example: dir /A:d-s -> show all directories exluding system directories
     std::string ATTRIBUTES_EXPECT_VALUE = "STRING";
 };
+
+struct SET_FLAG {
+
+};
+

@@ -89,6 +89,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             case RENAME:
             case TIMEOUT:
             case ECHOOFF:
+            case SET:
             case MOVE:
             case EXIT:
             case HELP:

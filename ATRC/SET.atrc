@@ -3,7 +3,9 @@
 !   About:
 !       SET command modifies, sets, displays or removes
 !       environmental variables  
-!   
+!
+!       NOTE: /A and /P CANNOT be used at the same time
+!
 !   Command: <batch:command>
 !   Flags:
 !   
@@ -16,23 +18,39 @@
 !   Turning command and flags to shell
 !   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !   
-!   <pih> = <path inserted here>
-!   
-!   Command: <shell_command>
+!   Command: -, read, declare
 !   Flags:
 !   
 !   Converted flag 
 !   (and or command)    => About
-!   1. Not included
-!       Converted attribute
-!       (and or command)    => About
+!   1. Not included 
+!   2. declare -i {var=int}     => Value is interpreted as an integer
+!   3. read {question} var => Prompts user for a value
 !   
 !   %%%%%%%%%%%
 !   Example(s):
 !   %%%%%%%%%%%
-!   
+!   set /A "num=123"
+!   set /P "answer=Enter a number"
+!   set "ROOT=C:\"
+!   =>
+!   declare -i num=123
+!   read "Enter a number" answer
+!   ROOT=C:/
 !   Sources:
-!   
+!       set /?
+!       declare /?
+!       read /?
 [SET]
-! base command
-command=
+! base command for SET
+! 0 insert is var name, 1 insert is its value
+command=%*0%=%*1%&
+
+! for /A
+! 0 insert is var name, 1 is value
+integer=declare -i %*0%=%*1%&
+
+! for /P
+! 0 insert is for question if it is provided, 
+! 1 insert is for var name
+prompt=read %*0% %*1%&

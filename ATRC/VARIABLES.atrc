@@ -22,7 +22,6 @@
 !   %~(d|p|n|x){arg}                        => Get Drive, Path, Name, eXtension of the file
 !   %*                                      => All arguments given to the batch file
 !   %0...9                                  => Argument given to the batch file. 0 is the batch file
-!   %*                                      => 
 !   
 !   Environmental variables:
 !   

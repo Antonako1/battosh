@@ -126,7 +126,15 @@ int main(int argc, char *argv[]) {
 
     std::vector<ParsedToken> *parsed_tokens = parse(tokens, info.get());
 
-    tosh(parsed_tokens, info.get());
-
+    try {
+        tosh(parsed_tokens, info.get());
+        delete tokens;
+        delete parsed_tokens;
+    } catch (...) {
+        delete tokens;
+        delete parsed_tokens;
+        throw;
+    }
+    
     return 0;
 }
