@@ -139,16 +139,6 @@ void if_statement_workings(
         case OR:
             output += "|| ";
             break;
-        // TODO: WIP
-        // case XOR:
-        //     output += "^ ";
-        //     break;
-        // case SHL:
-        //     output += "<< ";
-        //     break;
-        // case SHR:
-        //     output += ">> ";
-        //     break;
         case EXIST:
             output += "-e ";
             // expect a file

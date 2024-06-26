@@ -92,7 +92,7 @@ battosh can turn the following commands/statements with their flags into bash
 
 - --save-whitespace and comment ignoring leaves empty rows there, where the comments were
 - If statement intending is broken sometimes
-
+- If comment is trailing a statement, it will become part of it
 
 ## Developing
 

@@ -1,7 +1,6 @@
 #!/bin/bash
-declare -i NUM=123 
-TEST=a $NUM 
-read -p "Enter your name" username 
-
-echo $TEST, $TEST2 
-
+set +x
+cd %~dp0  
+cd win  
+source build.bat 
+source run.bat $*

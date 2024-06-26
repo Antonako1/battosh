@@ -81,11 +81,11 @@
 !
 ! NOTE: Paths should not end in a slash (/)
 ! NOTE: Wrap in $() if you want to use a command as a part of the paths:
-!       mkdir -p ./$(uname -s)/test => Will create a ./Linux/test folders
+!       mkdir -p ./$(uname -s)/test => Will create a ./Linux/test folder
 !
 [VARIABLES]
 ALLUSERSPROFILE=~/.config
-APPDATA=~/.config
+APPDATA=/usr
 CommonProgramFiles=/usr
 CommonProgramFilesx86=/usr
 CommonProgramW6432=/usr

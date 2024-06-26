@@ -1,5 +1,5 @@
-set /A "NUM=123"
-set "TEST=a %NUM%"
-set /P "username=Enter your name"
-
-echo %TEST%, %TEST2%
+@echo off 
+cd /d %~dp0
+cd win
+call build.bat
+call run.bat %*

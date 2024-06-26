@@ -93,7 +93,7 @@ enum batch_commands{
     FC,             // (fc) - compare two files | fc
     DISKPART,       // (diskpart) - manage disk partitions | diskpart
     TITLE,          // (title) - set the window title for a CMD.EXE session | title
-    SET,            // (set) - display, set, or remove CMD environment variables | set
+    SET,            // -- (set) - display, set, or remove CMD environment variables | set
     
     // CONTROL COMMANDS
     IF,             // -- (if) - perform conditional processing in batch programs | if
@@ -195,7 +195,7 @@ enum batch_commands{
     MOD,            // %
 
     EXIST,          // -- (exist) - check if file exists | -e
-
+    // DEFINED,        //
     
     /*
     // TODO
