@@ -487,7 +487,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     
                     // trickery trickery
                     for(size_t i = 0; i < end_with_unset.size(); i++){
-                        std::cout << end_with_unset[i] << if_statement_intend << " HAHA\n";
                         if(end_with_unset[i] == if_statement_intend % if_statement_intend_const){
                             end_with_unset.pop_back();
                             output += std::string(if_statement_intend, ' ');
@@ -610,10 +609,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
 
                 // trickery trickery
                 for(size_t i = 0; i < end_with_unset.size(); i++){
-                    if(end_with_unset[i] == 0){
+                    if(end_with_unset[i] == if_statement_intend % if_statement_intend_const){
+                        end_with_unset.pop_back();
                         output += std::string(if_statement_intend, ' ');
                         read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
                         output += "\n";
+                    } else {
+                        end_with_unset[i]--;
                     }
                 }
 
