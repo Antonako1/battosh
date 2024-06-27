@@ -217,6 +217,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     bool if_end = false;
     int short_hand_if_statement = 0; // 0 = false, 1 = true, 2 = first pass, 3 = second pass, 4 = end if statement
     int if_statement_intend = 0;
+    const int if_statement_intend_const = 4;
     bool daw = args->disable_atrc_warnings;
     for(size_t i = 0; i < tokens->size(); i++){
         ParsedToken parsed_token = tokens->at(i);
@@ -232,9 +233,9 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             std::cout << "  Attribute: '" << attribute << "'" << std::endl;
         }
 #endif
-        if(inside_if || short_hand_if_statement != 0){
-            output += std::string(if_statement_intend, ' ');
-        }
+        // if(inside_if || short_hand_if_statement != 0){
+        output += std::string(if_statement_intend, ' ');
+        // }
         cts1 = ""; cts2 = "";
         switch(parsed_token.command){
             case ECHO: {                
@@ -395,7 +396,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case IF: {
-                if_statement_intend += 4;
+                if_statement_intend += if_statement_intend_const;
                 bool ignore_case = false;
                 for(const auto& flag : parsed_token.flags){
                     if(flag == if_flag.IGNORE_CASE){
@@ -438,32 +439,34 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             case RPAREN: {
                 if(tokens->size() > i + 1 && tokens->at(i + 1).command == ELSE){
                     if(tokens->size() > i + 2 && tokens->at(i + 2).command == IF){
-                        if(if_statement_intend > 4){
-                            output = output.substr(0, output.size() - 4);
+                        if(if_statement_intend > if_statement_intend_const){
+                            output = output.substr(0, output.size() - if_statement_intend_const);
                         }
                         output += "elif [ ";
                         if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement,daw);
                     } else {
-                        // output += output[output.size() - 1] == '\n' ? "" : "\n";
-                        output = output.substr(0, output.size() - if_statement_intend);
-                        if_statement_intend = if_statement_intend-4<0?0:if_statement_intend-4;
-                        output += std::string(if_statement_intend, ' ');
-                        if_statement_intend += 4;
+                        output += output[output.size() - 1] == '\n' ? "" : "\n";
+                        output = output.substr(0, output.size() - 1 - if_statement_intend_const);
+                        if_statement_intend = if_statement_intend-if_statement_intend_const<0?0:if_statement_intend-if_statement_intend_const;
+                        if_statement_intend += if_statement_intend_const;
                         output += "else";
                     }
                 } else {
-                    // output += output[output.size() - 1] == '\n' ? "" : "\n";
-                    if_statement_intend = if_statement_intend - 4 < 0 ? 0 : if_statement_intend - 4;
-                    output = output.substr(0, output.size() - if_statement_intend);
-
-                    if(if_statement_intend != 0){
-                        output += std::string(if_statement_intend, ' ');
+                    // bad x4444
+                    if(if_statement_intend >= if_statement_intend_const) {
+                        output = output.substr(0, output.size() - if_statement_intend);
                     }
-                    output += "\n"; // !temporary fix
+                    if_statement_intend = if_statement_intend - if_statement_intend_const > 0 ? if_statement_intend-if_statement_intend_const:0;
+                    output += std::string(if_statement_intend, ' ');
+                    if(if_statement_intend > 4){
+                        if_statement_intend += if_statement_intend_const;
+                    }
+
                     output += "fi\n";
-                    
+                    output += std::string(if_statement_intend, ' ');
                     read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), cts1, output, daw);
                     output += "This is a temporary fix. it turns off case ignoring in if statements\n";
+                    output += std::string(if_statement_intend, ' ');
                     read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
                     output += "\n";
                     inside_if = false;
@@ -568,11 +571,22 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             short_hand_if_statement++;
             if(short_hand_if_statement == 4 || short_hand_if_statement == 3 && tokens->size() == i + 1){
                 output += output[output.size() - 1] == '\n' ? "" : "\n";
+                
+                // bad x4444
+                
+                if_statement_intend = if_statement_intend - if_statement_intend_const > 0 ? if_statement_intend-if_statement_intend_const:0;
+                output += std::string(if_statement_intend, ' ');
+
                 output += "fi\n";
+                output += std::string(if_statement_intend, ' ');
                 read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), cts1, output, daw);
                 output += "This is a temporary fix. it turns off case ignoring in if statements\n";
+                output += std::string(if_statement_intend, ' ');
                 read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
                 output += "\n";
+                if(if_statement_intend > 0){
+                    if_statement_intend += if_statement_intend_const;
+                }
                 short_hand_if_statement = 0;
                 if_statement_intend = if_statement_intend - 4 < 0 ? 0 : if_statement_intend - 4;
             }
