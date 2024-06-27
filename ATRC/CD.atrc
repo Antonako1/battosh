@@ -12,12 +12,6 @@
 !     Since linux has all of the drives under /mnt/, this flag is not needed
 !     and thus will not be included. 
 ! 
-!     The program includes a few flags used to automatically change paths included
-!     in the scripts, some of these flags are --wsl and --linux.
-!     --wsl tries to change the paths to work with WSL
-!     --linux tries to change the paths to the corresponding ones on linux
-!     See example section to see how these work
-! 
 !     The CD.. command (greatest shortcut known to mankind) is parsed (partly due to faulty a lexer) as "CD.."
 !     which would be treated as an unknown token.
 !     All occurances of "CD.." will be turned to "cd .."
@@ -46,7 +40,7 @@
 ! %%%%%%%%%%%
 ! @REM --wsl is turned on for this command 
 ! chdir C:\Program Files\battosh\
-! @REM --linux is turned on for this command
+!
 ! cd "C:\Users\%USERNAME%\Downloads"
 ! cd..
 ! =>

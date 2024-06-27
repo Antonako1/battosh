@@ -31,6 +31,12 @@ void send_message(std::string msg, int errnum, bool disable_atrc_warnings){
     message(msg, FL_FLAG_TOSH, 
     errnum, false, -1,-1);
 }
+
+
+std::vector<int> end_with_unset = {};
+int if_statement_intend = 0;
+const int if_statement_intend_const = 4;
+
 void read_key_to_output
     (
     std::string block, 
@@ -148,9 +154,13 @@ void if_statement_workings(
             break;
         case LPAREN:
             if(ignore_case){
-                output += " ]]; then";
+                read_key_to_output("IF", "command_ignore_case_end", " ]]; then", fd_if.get(), cts1, output, daw);
+                output += "\n";
+                output += std::string(if_statement_intend, ' ');
+                read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                end_with_unset.push_back(if_statement_intend % if_statement_intend_const);
             } else {
-                output += " ]; then";
+                read_key_to_output("IF", "command_end", " ]; then", fd_if.get(), cts1, output, daw);
             }
             if (tokens->at(index + 1).command != ENDLINE) {
                 output += "\n";
@@ -178,9 +188,14 @@ void if_statement_workings(
                 }
 
                 if(ignore_case){
-                    output += " ]]; then\n";
+                    read_key_to_output("IF", "command_ignore_case_end", " ]]; then", fd_if.get(), cts1, output, daw);
+                    output += "\n";
+                    output += std::string(if_statement_intend, ' ');
+                    read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                    output += "\n";
                 } else {
-                    output += " ]; then\n";
+                    read_key_to_output("IF", "command_end", " ]; then", fd_if.get(), cts1, output, daw);
+                    output += "\n";
                 }
                 break_statemnt = true;
                 short_hand_if_statement = 1;
@@ -216,8 +231,6 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     bool inside_if = false;
     bool if_end = false;
     int short_hand_if_statement = 0; // 0 = false, 1 = true, 2 = first pass, 3 = second pass, 4 = end if statement
-    int if_statement_intend = 0;
-    const int if_statement_intend_const = 4;
     bool daw = args->disable_atrc_warnings;
     for(size_t i = 0; i < tokens->size(); i++){
         ParsedToken parsed_token = tokens->at(i);
@@ -402,12 +415,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     if(flag == if_flag.IGNORE_CASE){
                         read_key_to_output("IF", "set_ignore_case", "shopt -s nocasematch", fd_if.get(), cts1, output, daw);
                         output += "\n";
-                        output += "if [[ ";
+                        read_key_to_output("IF", "command_ignore_case", "if [[ ", fd_if.get(), cts1, output, daw);
                         ignore_case = true;       
                     }
                 }
                 if(!ignore_case){
-                    output += "if [ ";
+                    read_key_to_output("IF", "command", "if [ ", fd_if.get(), cts1, output, daw);
                 }
                 if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement, daw);
                 break;
@@ -442,14 +455,22 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         if(if_statement_intend > if_statement_intend_const){
                             output = output.substr(0, output.size() - if_statement_intend_const);
                         }
-                        output += "elif [ ";
+                        bool nocando = false;
+                        for(const auto& flag : tokens->at(i + 2).flags){
+                            if(flag == if_flag.IGNORE_CASE) nocando = true;
+                        }
+                        if(nocando){
+                            read_key_to_output("IF", "elseif_ignore_case", "elif [[ ", fd_if.get(), cts1, output, daw);
+                        }else{
+                            read_key_to_output("IF", "elseif", "elif [ ", fd_if.get(), cts1, output, daw);
+                        }
                         if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement,daw);
                     } else {
                         output += output[output.size() - 1] == '\n' ? "" : "\n";
                         output = output.substr(0, output.size() - 1 - if_statement_intend_const);
                         if_statement_intend = if_statement_intend-if_statement_intend_const<0?0:if_statement_intend-if_statement_intend_const;
                         if_statement_intend += if_statement_intend_const;
-                        output += "else";
+                        read_key_to_output("IF", "else", "else", fd_if.get(), cts1, output, daw);
                     }
                 } else {
                     // bad x4444
@@ -461,14 +482,22 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     if(if_statement_intend > 4){
                         if_statement_intend += if_statement_intend_const;
                     }
-
-                    output += "fi\n";
-                    output += std::string(if_statement_intend, ' ');
-                    read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), cts1, output, daw);
-                    output += "This is a temporary fix. it turns off case ignoring in if statements\n";
-                    output += std::string(if_statement_intend, ' ');
-                    read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                    read_key_to_output("IF", "if_statement_end", "fi", fd_if.get(), cts1, output, daw);
                     output += "\n";
+                    
+                    // trickery trickery
+                    for(size_t i = 0; i < end_with_unset.size(); i++){
+                        std::cout << end_with_unset[i] << if_statement_intend << " HAHA\n";
+                        if(end_with_unset[i] == if_statement_intend % if_statement_intend_const){
+                            end_with_unset.pop_back();
+                            output += std::string(if_statement_intend, ' ');
+                            read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                            output += "\n";
+                        } else {
+                            end_with_unset[i]--;
+                        }
+                    }
+
                     inside_if = false;
                 }
                 break;
@@ -576,14 +605,18 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 
                 if_statement_intend = if_statement_intend - if_statement_intend_const > 0 ? if_statement_intend-if_statement_intend_const:0;
                 output += std::string(if_statement_intend, ' ');
-
-                output += "fi\n";
-                output += std::string(if_statement_intend, ' ');
-                read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), cts1, output, daw);
-                output += "This is a temporary fix. it turns off case ignoring in if statements\n";
-                output += std::string(if_statement_intend, ' ');
-                read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                read_key_to_output("IF", "if_statement_end", "fi", fd_if.get(), cts1, output, daw);
                 output += "\n";
+
+                // trickery trickery
+                for(size_t i = 0; i < end_with_unset.size(); i++){
+                    if(end_with_unset[i] == 0){
+                        output += std::string(if_statement_intend, ' ');
+                        read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                        output += "\n";
+                    }
+                }
+
                 if(if_statement_intend > 0){
                     if_statement_intend += if_statement_intend_const;
                 }

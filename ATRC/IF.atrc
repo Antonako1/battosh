@@ -56,6 +56,21 @@
 !       IF /?
 !       shopt --help
 [IF]
-! Not much can be changed here for now, only the case ignoring flags
+command=if [&
+command_end=&]; then
+
+! if /I flag is given, these will be used instead of the normal commands
+command_ignore_case=if [[&
+command_ignore_case_end=&]]; then
+
+else=else
+
+elseif=elif [&
+elseif_ignore_case=elif [[&
+
+if_statement_end=fi
+
+! if /I flag is given, this will be placed above the if statement
 set_ignore_case=shopt -s nocasematch
+! if /I flag is given, this will be placed below and at the end of the if statement's scope
 unset_ignore_case=shopt -u nocasematch

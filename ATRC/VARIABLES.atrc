@@ -3,11 +3,6 @@
 !   About:
 !       On Windows you can see these by typing SET.
 !       On Linux you can see these by typing printenv.
-!
-!       When turning from Windows to Linux using --linux,
-!       the converted path will be used. This only works
-!       on absolute paths or if the path contains an 
-!       environmental variable. 
 !       
 !       If your script contains paths, it would be best to add 
 !       them as a local variable so that you can convert them 
