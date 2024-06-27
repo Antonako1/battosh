@@ -310,8 +310,8 @@ std::vector<Token>* lexical(battosh_info *args) {
                         std::string flag = "/";
                         std::string attribute = ":";
                         size_t flag_index = index + 1;
-                        char previous = line[flag_index - 2];
-                        if (previous != '/' && previous != ' ') {
+                        char previous = line[flag_index - 3];
+                        if (line[flag_index - 3] != '/' && line[flag_index -2] != ' ') {
                             buffer += "/";
                             break;
                         }

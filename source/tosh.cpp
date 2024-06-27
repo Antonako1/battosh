@@ -96,16 +96,24 @@ void if_statement_workings(
     bool &inside_if,
     int &short_hand_if_statement,
     bool daw
-    ){
+    )
+{
     bool break_statemnt = false;
     bool if_initialized = false;
+    bool ignore_case = false;
     std::string statement = "";
     size_t index = 0;
     std::string cts1= "";
     for(index = i; index < tokens->size(); index++){
         ParsedToken next_token = tokens->at(index);
         switch (next_token.command) {
-        case IF: break;
+        case IF: 
+            for(const auto& flag : next_token.flags){
+                if(flag == if_flag.IGNORE_CASE){
+                    ignore_case = true;
+                }
+            }
+            break;
         case NOT:
             output += "! ";
             break;
@@ -135,13 +143,15 @@ void if_statement_workings(
             break;
         case EXIST:
             output += "-e ";
-            // expect a file
-            // TODO PATH CHECK
             index++;
             output += tokens->at(index).value;
             break;
         case LPAREN:
-            output += " ]; then";
+            if(ignore_case){
+                output += " ]]; then";
+            } else {
+                output += " ]; then";
+            }
             if (tokens->at(index + 1).command != ENDLINE) {
                 output += "\n";
             }
@@ -166,7 +176,12 @@ void if_statement_workings(
                     index--;
                     output = output.substr(0, output.size() - next_token.value.size() - 1);
                 }
-                output += "]; then\n";
+
+                if(ignore_case){
+                    output += " ]]; then\n";
+                } else {
+                    output += " ]; then\n";
+                }
                 break_statemnt = true;
                 short_hand_if_statement = 1;
             }
@@ -381,7 +396,18 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             }
             case IF: {
                 if_statement_intend += 4;
-                output += "if [ ";
+                bool ignore_case = false;
+                for(const auto& flag : parsed_token.flags){
+                    if(flag == if_flag.IGNORE_CASE){
+                        read_key_to_output("IF", "set_ignore_case", "shopt -s nocasematch", fd_if.get(), cts1, output, daw);
+                        output += "\n";
+                        output += "if [[ ";
+                        ignore_case = true;       
+                    }
+                }
+                if(!ignore_case){
+                    output += "if [ ";
+                }
                 if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement, daw);
                 break;
             }
@@ -435,6 +461,11 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     }
                     output += "\n"; // !temporary fix
                     output += "fi\n";
+                    
+                    read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), cts1, output, daw);
+                    output += "This is a temporary fix. it turns off case ignoring in if statements\n";
+                    read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                    output += "\n";
                     inside_if = false;
                 }
                 break;
@@ -481,12 +512,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     }
                 }
                 if(!updated_command){
-                    if(cts1 == ""){
-                        send_message("[RMDIR] command not found", ATRC_NOT_FOUND, daw);
-                        output += "rmdir ";
-                    } else {
-                        output += cts1;
-                    }   
+                    read_key_to_output("RMDIR", "command", "rmdir ", fd_rmdir.get(), cts1, output, daw);
                 } else if(add_quiet_mode && add_force_mode){
                     read_key_to_output("RMDIR", "remove_dir_tree_force", rmdir_flag.LINUX_REMOVE_DIR_TREE_FORCE + " ", fd_rmdir.get(), cts1, output, daw);
                 } else if (!add_quiet_mode && add_force_mode){
@@ -543,6 +569,10 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             if(short_hand_if_statement == 4 || short_hand_if_statement == 3 && tokens->size() == i + 1){
                 output += output[output.size() - 1] == '\n' ? "" : "\n";
                 output += "fi\n";
+                read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), cts1, output, daw);
+                output += "This is a temporary fix. it turns off case ignoring in if statements\n";
+                read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                output += "\n";
                 short_hand_if_statement = 0;
                 if_statement_intend = if_statement_intend - 4 < 0 ? 0 : if_statement_intend - 4;
             }

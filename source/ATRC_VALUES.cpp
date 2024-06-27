@@ -25,7 +25,8 @@ std::unique_ptr<ATRCFiledata> fd_relational_operators = nullptr;
 //
 //
 //
-//
+
+std::unique_ptr<ATRCFiledata> fd_if = nullptr;
 std::unique_ptr<ATRCFiledata> fd_mkdir = nullptr;
 std::unique_ptr<ATRCFiledata> fd_rmdir = nullptr;
 std::unique_ptr<ATRCFiledata> fd_set = nullptr;
@@ -91,6 +92,7 @@ void ReadATRC_VALUES(battosh_info *args) {
     fd_exit = reader("EXIT.atrc", atrc_path);
     fd_relational_operators = reader("RELATIONAL_OPERATORS.atrc", atrc_path);
     
+    fd_if = reader("IF.atrc", atrc_path);
     fd_mkdir = reader("MKDIR.atrc", atrc_path);
     fd_rmdir = reader("RMDIR.atrc", atrc_path);
     fd_set = reader("SET.atrc", atrc_path);

@@ -77,7 +77,7 @@ battosh can turn the following commands/statements with their flags into bash
     Bitwise operators       =>              See
     Arithmetic operators    =>              See
     String operators        =>              See
-    IF, ELSE(ELSE IF)       =>              See
+    IF, ELSE(ELSE IF)       =>              See ATRC\IF.atrc
     MKDIR, MD               =>              See ATRC\MKDIR.atrc
     RMDIR, RD               =>              See ATRC\RMDIR.atrc
     REN, RENAME             =>              See

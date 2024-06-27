@@ -1,34 +1,18 @@
 #!/bin/bash
-set +x
+Testdirpath="$HOME/testdir123" 
+if [ ! -e $Testdirpath ]; then
+    mkdir $Testdirpath     
+fi
+# This is a temporary fix. it turns off case ignoring in if statements
+shopt -u nocasematch
+read -p "Delete directory '$Testdirpath'?" QUESTION 
 
-if [ ! -e .git ]; then    
-    echo .git not found     
-    exit     
+
+shopt -s nocasematch
+if [[ "$QUESTION" == "y"  ]]; then    
+    rmdidsr $Testdirpath     
     
 fi
-
-
-if [ ! -e .gitignore ]; then    
-    echo .gitignore not found     
-    exit     
-    
-fi
-
-
-git add -A 
-git commit -m "delgitig COMMIT" 
-git clean -xdn 
-
-echo press y to delete all files from .gitignore (y/n) 
-
-read -p " " delgitig 
-
-if [ $delgitig==y  ]; then    
-    git     clean     -xdf     
-else            
-    git     reset     --soft     HEAD~1     
-    git     reset     
-    echo nothing deleted     
-    
-fi
+# This is a temporary fix. it turns off case ignoring in if statements
+shopt -u nocasematch
 

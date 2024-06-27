@@ -23,7 +23,7 @@ extern std::unique_ptr<ATRCFiledata> fd_relational_operators;
 //
 //
 //
-//
+extern std::unique_ptr<ATRCFiledata> fd_if;
 extern std::unique_ptr<ATRCFiledata> fd_mkdir;
 extern std::unique_ptr<ATRCFiledata> fd_rmdir;
 extern std::unique_ptr<ATRCFiledata> fd_set;

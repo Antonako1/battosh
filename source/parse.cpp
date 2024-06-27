@@ -49,7 +49,13 @@ void add_single_token(Token &token, int command, std::vector<ParsedToken> *parse
     parsed_token.value = token.value;
     parsed_token.line = token.line;
     parsed_token.column = token.column;
-    // parsed_token.flags = token.flags;
+    for(std::string &flag : token.flags){
+        std::string temp = flag;
+        for(char &c : temp){
+            c = toupper(c);
+        }
+        parsed_token.flags.push_back(temp);
+    }
     parsed_tokens->push_back(parsed_token);
     i++;
 }
@@ -100,7 +106,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             case VER:
             case ECHO_emptyline:
             case ENDLINE:
-            case IF:        // TODO, NOTE: /I will not propably work, add_single_token should add flags
+            case IF:
             case ELSE:
             case ELSEIF:
             case VAR:

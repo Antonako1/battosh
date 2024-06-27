@@ -8,8 +8,7 @@
 !     "::"
 !     All of these will be turned into "#"
 ! 
-!     The program has a flag for preserving the comments from batch to shell:
-!     -sc, --save-comments. This is not on by default!
+!     The program has a flag to not save commands: "-nc" or "--no-comments"
 ! 
 ! Command: REM
 ! Flags:
@@ -28,9 +27,9 @@
 ! %%%%%%%%%%%
 ! Example(s):
 ! %%%%%%%%%%%
-! @REM this is a comment, if -sc flag is given, it will be preserved
+! @REM this is a comment, if -nc flag is given, it will not be preserved
 ! =>
-! # this is a comment, if -sc flag is given, it will be preserved
+! # this is a comment, if -nc flag is given, it will not be preserved
 ! 
 ! Sources:
 !     rem /?

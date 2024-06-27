@@ -1,0 +1,61 @@
+!   IF ATRC FILE
+!   
+!   About:
+!       Compares values such as string and numbers
+!       executing a given piece of code if comparison
+!       is true.
+!   
+!   Command: IF
+!   Flags:
+!   
+!   Flag                => About
+!   1. /?               => Displays help message
+!   2. /I               => Ignores case when comparing
+!   
+!   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!   Turning command and flags to shell
+!   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!   
+!   
+!   Command: <shell_command>
+!   Flags:
+!   
+!   Converted flag 
+!   (and or command)    => About
+!   1. Not included
+!   2. shopt -s nocasematch, shopt -u nocasematch   => Turns off case matching. After if statement it turns it back on. See examples
+!   
+!   %%%%%%%%%%%
+!   Example(s):
+!   %%%%%%%%%%%
+!   @REM Simple program that asks user if he wants to delete his root directory
+!   set /P "QUESTION=Delete directory '%SystemRoot%'?"
+!
+!   if /I "%QUESTION%" == "y" (
+!       RMDIR /S/Q %SystemRoot%
+!   )
+!
+!   @REM Second example is pretty self explanatory
+!   if not exist .\build mkdir .\build
+!   =>
+!   # Simple program that asks user if he wants to delete his root directory
+!   read -p "Delete directory '/'?" QUESTION 
+!   
+!   shopt -s nocasematch
+!   if [[ "$QUESTION" = "y"  ]]; then    
+!       rm -rf /     
+!   fi
+!   shopt -u nocasematch
+!
+!   # Second example is pretty self explanatory
+!   if [ ! -e ./build ]; then
+!       mkdir ./build     
+!   fi
+!
+!   Sources:
+!       IF /?
+!       shopt --help
+[IF]
+! Not much can be changed here for now, only the case ignoring flags
+set_ignore_case=shopt -s nocasematch
+unset_ignore_case=shopt -u nocasematch
