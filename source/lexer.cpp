@@ -263,6 +263,11 @@ std::vector<Token>* lexical(battosh_info *args) {
                         if (!buffer.empty()) {
                             add_token(tokens, buffer, line_num, column_num, -1);
                         }
+                        
+                        // badbadbadx444444444444444444444
+                        buffer = "";
+                        add_token(tokens, buffer, line_num, column_num, ENDLINE);
+
                         buffer = "::";
                         add_token(tokens, buffer, line_num, column_num, REM);
                         skip = true;
