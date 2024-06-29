@@ -57,6 +57,12 @@ std::string VARIABLES[] = {
 	"%CD%",						    	  std::to_string(CD__),
 };
 
+void quicker_read(std::string key, std::string original_value, std::vector<std::string> inserts, std::string &output, battosh_info *fd){
+	std::string cts="";
+	read_key_to_output("VARIABLES", key, original_value, fd_variables.get(), cts, output, fd->disable_atrc_warnings);
+	InsertVar(output, inserts, fd_variables.get());
+};
+
 std::tuple<int, int> check_for_full_var_matches(std::string &buffer){
 	for(int i = 0; i < sizeof(VARIABLES)/sizeof(VARIABLES[0]); i+=2){
         if(buffer == VARIABLES[i]){
@@ -80,6 +86,8 @@ void variablify(std::string &input, battosh_info *args){
 	std::string revised_input = "";
     std::string buffer = "";
 	bool buffer_used = false;
+
+
     for(index = 0; index < input.size(); index++){
         char ahead = look_ahead(index, input);
 		if(ahead != '%') {
@@ -99,17 +107,49 @@ void variablify(std::string &input, battosh_info *args){
 		}
 		
 		if(!buffer_used && ahead == '~'){
+			bool ptd = false;
+			bool ptp = false;
+			bool ptn = false;
+			bool ptx = false;
 			while(!std::isdigit(ahead)){
 				ahead = look_ahead(index, input);
 				buffer += ahead;
+				if(ahead == 'd') ptd = true;
+				if(ahead == 'p') ptp = true;
+				if(ahead == 'n') ptn = true;
+				if(ahead == 'x') ptx = true;
 				index++;
 			}
 			ahead = look_ahead(index, input);
-			// buffer contains %~(d|p|n|x)<single_digit>
-			buffer_used = true;
-
-			// after processing, add the ahead
 			buffer += ahead;
+			// buffer contains %~(d|p|n|x)<single_digit>
+			std::string num = "$" + buffer.substr(buffer.size() - 2, 1);
+			std::string temp_buffer = "";
+			std::vector<std::string> inserts = {num};
+			std::string common_dpnx = "";
+			read_variable_to_output("common_dpnx", "$(dirname %*0%)/$(basename %*0%)", fd_variables.get(), common_dpnx, args->disable_atrc_warnings);
+			
+			if		(ptd) quicker_read("cd_d", "$(dirname %*%)", inserts, temp_buffer, args);
+			else if	(ptp) quicker_read("cd_p", "$(dirname %*%)", inserts, temp_buffer, args);
+			else if	(ptn) quicker_read("cd_n", "$(filename %*%)", inserts, temp_buffer, args);
+			else if	(ptx) quicker_read("cd_x", "", inserts, temp_buffer, args);
+			else if	(ptd && ptp) quicker_read("cd_dp", "$(dirname %*%)", inserts, temp_buffer, args);
+			else if	(ptd && ptn) quicker_read("cd_dn", common_dpnx, inserts, temp_buffer, args);
+			else if	(ptd && ptx) quicker_read("cd_dx", "", inserts, temp_buffer, args);
+			else if	(ptp && ptn) quicker_read("cd_pn", common_dpnx, inserts, temp_buffer, args);
+			else if	(ptp && ptx) quicker_read("cd_px", "", inserts, temp_buffer, args);
+			else if	(ptn && ptx) quicker_read("cd_nx", common_dpnx, inserts, temp_buffer, args);
+			else if	(ptd && ptp & ptn) quicker_read("cd_dpn", common_dpnx, inserts, temp_buffer, args);
+			else if	(ptd && ptn & ptx) quicker_read("cd_dnx", common_dpnx, inserts, temp_buffer, args);
+			else if	(ptd && ptp & ptx) quicker_read("cd_dpx", "", inserts, temp_buffer, args);
+			else if	(ptn && ptp & ptx) quicker_read("cd_npx", common_dpnx, inserts, temp_buffer, args);
+			else if (ptn && ptp && ptn && ptx) quicker_read("cd_dpnx", common_dpnx, inserts, temp_buffer, args);
+			else {
+				// TODO ERROR MESSAGE
+				std::cout << "Error with percent tilde" << std::endl;
+			}
+			buffer_used = true;
+			buffer = temp_buffer;
 		}
 		// TODO check for percent colon 
 

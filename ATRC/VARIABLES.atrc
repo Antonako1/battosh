@@ -79,6 +79,41 @@
 !       mkdir -p ./$(uname -s)/test => Will create a ./Linux/test folder
 !
 [VARIABLES]
+! Following variables are all for the percent tilde
+! path is inserted at every insert
+
+!drive
+cd_d=$(dirname %*%)
+
+!path
+cd_p=$(dirname %*%)
+
+!name
+cd_n=$(filename %*%)
+
+!extension
+cd_x=
+
+! Their combinations
+%common_dpnx%=$(dirname %*0%)/$(basename %*0%)
+cd_dp=$(dirname %*%)
+cd_dn=%common_dpnx%
+cd_dx=
+cd_pn=%common_dpnx%
+cd_px=
+cd_nx=$(basename %*0%)
+
+cd_dpn=%common_dpnx%
+cd_dnx=%common_dpnx%
+cd_dpx=
+cd_npx=%common_dpnx%
+
+cd_dpnx=%common_dpnx%
+
+
+
+
+! Windows Environmental Variables
 ALLUSERSPROFILE=~/.config
 APPDATA=/usr
 CommonProgramFiles=/usr

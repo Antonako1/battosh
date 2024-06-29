@@ -60,6 +60,27 @@ void read_key_to_output
     }   
 }
 
+void read_variable_to_output
+    (
+    std::string varname,
+    std::string original_value,
+    ATRCFiledata *fd,
+    std::string &output, 
+    bool daw
+    )
+{
+    std::string cts = "";    
+    ReadVariable(fd, varname, cts);
+    if(cts == ""){
+        if(!DoesExistVariable(fd, varname)){
+            send_message("variable: "+varname+" not found", ATRC_NOT_FOUND, daw);
+        }
+        output += original_value;
+    } else {
+        output += cts;
+    }
+}
+
 void add_end_values(ParsedToken &parsed_token, std::string &output, battosh_info *args){	
     std::string temp_output = output;
     for(std::string value : parsed_token.values){

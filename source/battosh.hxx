@@ -71,13 +71,22 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args);
 void pathing(std::string &input, battosh_info *args);
 
 void read_key_to_output(
-    std::string block,
-    std::string key,
-    std::string original_value,
-    ATRCFiledata *fd,
-    std::string &cts,
-    std::string &output,
-    bool daw
-    );
+std::string block,
+std::string key,
+std::string original_value,
+ATRCFiledata *fd,
+std::string &cts,
+std::string &output,
+bool daw
+);
+
+void read_variable_to_output
+(
+std::string varname,
+std::string original_value,
+ATRCFiledata *fd,
+std::string &output, 
+bool daw
+);
 
 #endif // battosh_H
