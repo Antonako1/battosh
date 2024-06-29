@@ -94,10 +94,12 @@ void variablify(std::string &input, battosh_info *args){
        		revised_input += ahead;
 			continue;
 		}
+		write_to_output_log("Variable found.");
 		buffer += ahead;
 		index++;
 		ahead = look_ahead(index, input);
 		if(ahead == '%'){ // look for %%x
+			write_to_output_log("Recognized as %%x");
 		    buffer += ahead;
 			index++;
 			ahead = look_ahead(index, input);
@@ -107,6 +109,7 @@ void variablify(std::string &input, battosh_info *args){
 		}
 		
 		if(!buffer_used && ahead == '~'){
+			write_to_output_log("Recognized as percent tilde, %~x");
 			bool ptd = false;
 			bool ptp = false;
 			bool ptn = false;
@@ -151,9 +154,10 @@ void variablify(std::string &input, battosh_info *args){
 			buffer_used = true;
 			buffer = temp_buffer;
 		}
-		// TODO check for percent colon 
+		// TODO check for percent colon and output
 
 		if(!buffer_used){
+			write_to_output_log("Recognized as 	%x% or %[0-9]");
 			bool end_found = false;
 			if(!std::isdigit(ahead)) {
 				while(index < input.size() - 1){
@@ -338,6 +342,7 @@ void variablify(std::string &input, battosh_info *args){
 		}
 
 		revised_input += buffer;
+		write_to_output_log("Tinkered variable: " + buffer);
 		buffer = "";
 		buffer_used = false;
     }

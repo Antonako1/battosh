@@ -1,5 +1,5 @@
-#ifndef battosh_H
-#define battosh_H
+#ifndef BATTOSH_H
+#define BATTOSH_H
 
 #include "../extern_dependencies/ATRC/include/ATRC.h"
 
@@ -22,6 +22,7 @@
 #define ATRC_NOT_FOUND      3
 
 void message(std::string &msg, int flag, int command, bool error, int line, int column);
+
 
 
 struct Token{
@@ -48,7 +49,7 @@ struct battosh_info {
     bool quiet;
     bool dirsort;
     bool batchtoshell; // TODO turn .bat to .sh
-    std::unique_ptr<std::string> HOME_PATH;
+    std::unique_ptr<std::string> HOME_PATH; // Path to user's home folder. WIN: %HOMEPATH% LINUX: ~/.config
     bool disable_atrc_warnings;
 };
 
@@ -89,4 +90,8 @@ std::string &output,
 bool daw
 );
 
-#endif // battosh_H
+void start_output_log(battosh_info *args);
+void write_to_output_log(std::string log);
+void save_output_log();
+#endif // BATTOSH_H
+

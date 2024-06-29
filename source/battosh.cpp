@@ -121,21 +121,78 @@ int main(int argc, char *argv[]) {
         }
         info->HOME_PATH = std::make_unique<std::string>(home_path);
     }
+    start_output_log(info.get());
+    write_to_output_log("========================================");
+    write_to_output_log("Work started. Given info:");
+    write_to_output_log("Input file: " + *info->INPUT_FILE);
+    write_to_output_log("Output file: " + *info->OUTPUT_FILE);
+    write_to_output_log("WSL paths: " + std::to_string(info->wsl));
+    write_to_output_log("No linux paths: " + std::to_string(info->no_linux));
+    write_to_output_log("No whitespace: " + std::to_string(info->no_whitespace));
+    write_to_output_log("No comments: " + std::to_string(info->no_comments));
+    write_to_output_log("Shell used: " + *info->SHELL);
+    write_to_output_log("-p to mkdir: " + std::to_string(info->mkdir_p));
+    write_to_output_log("Output to null: " + std::to_string(info->quiet));
+    write_to_output_log("Sort directories: " + std::to_string(info->dirsort));
+    write_to_output_log("Batch to Shell conversion: " + std::to_string(info->batchtoshell));
+    write_to_output_log("Path to home: " + *info->HOME_PATH);
+    write_to_output_log("Disable ATRC Warnings: " + std::to_string(info->disable_atrc_warnings));
+    write_to_output_log("========================================");
 
-    
+
+    write_to_output_log("Starting tokenization.");
     std::vector<Token> *tokens = lexical(info.get());
-
+    write_to_output_log("Tokenization finished.");
+    write_to_output_log("Created tokens:");
+    for(const auto& token : *tokens){
+        write_to_output_log("----Enum command: " + std::to_string(token.command));
+        write_to_output_log("----Parsed value: " + token.value);
+        write_to_output_log("----At line: " + std::to_string(token.line));
+        write_to_output_log("----At column: " + std::to_string(token.column));
+        write_to_output_log("----Collected flags and attributes:");
+        for(const auto& flag: token.flags){
+            write_to_output_log("--------Flag: " + flag);
+        }
+        for(const auto& attrib: token.attributes){
+            write_to_output_log("--------Attribute: " + attrib);
+        }
+        write_to_output_log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    }
+    write_to_output_log("\n=========================================\n");
+    write_to_output_log("Starting parsing.");
     std::vector<ParsedToken> *parsed_tokens = parse(tokens, info.get());
-
+    write_to_output_log("Parsing finished.");
+    write_to_output_log("Created Parse tokens:");
+    for(const auto& token : *parsed_tokens){
+        write_to_output_log("----Enum command: " + std::to_string(token.command));
+        write_to_output_log("----Parsed value: " + token.value);
+        write_to_output_log("----At line: " + std::to_string(token.line));
+        write_to_output_log("----At column: " + std::to_string(token.column));
+        write_to_output_log("----Collected values, flags and attributes:");
+        for(const auto& flag: token.flags){
+            write_to_output_log("--------Flag: " + flag);
+        }
+        for(const auto& attrib: token.attributes){
+            write_to_output_log("--------Attribute: " + attrib);
+        }
+        for(const auto& value: token.values){
+            write_to_output_log("--------Value: " + value);
+        }
+        write_to_output_log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    }
     try {
+        write_to_output_log("Turning tokens into shell commands");
         tosh(parsed_tokens, info.get());
+        write_to_output_log("Tokens turned into shell commands");
         delete tokens;
         delete parsed_tokens;
+        save_output_log();
     } catch (...) {
         delete tokens;
         delete parsed_tokens;
+        save_output_log();
         throw;
     }
-    
+
     return 0;
 }

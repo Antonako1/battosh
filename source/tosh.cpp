@@ -52,7 +52,7 @@ void read_key_to_output
     ReadKey(fd, block, key, cts);
     if(cts == ""){
         if(!DoesExistKey(fd, block, key)){
-            send_message("block: ["+block+"] key: <"+key+"> not found", ATRC_NOT_FOUND, daw);
+            send_message("block: ["+block+"] key: <"+key+"> not found from " + fd->Filename, ATRC_NOT_FOUND, daw);
         }
         output += original_value;
     } else {
@@ -73,7 +73,7 @@ void read_variable_to_output
     ReadVariable(fd, varname, cts);
     if(cts == ""){
         if(!DoesExistVariable(fd, varname)){
-            send_message("variable: "+varname+" not found", ATRC_NOT_FOUND, daw);
+            send_message("variable: %"+varname+"% not found from " + fd->Filename, ATRC_NOT_FOUND, daw);
         }
         output += original_value;
     } else {
@@ -86,7 +86,7 @@ void add_end_values(ParsedToken &parsed_token, std::string &output, battosh_info
     for(std::string value : parsed_token.values){
         temp_output += value + " ";
     }
-	
+
 	variablify(temp_output, args);
 	pathing(temp_output, args);
 	output = temp_output;
@@ -651,7 +651,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
 
 
     std::ofstream file(*args->OUTPUT_FILE);
+    write_to_output_log("Attempting to create output file.");
     if (!file.is_open()) {
+        write_to_output_log("Error saving contents to the file.");
+        write_to_output_log("Saved output will will be saved automatically.");
+        write_to_output_log(output);
+
         std::cerr << "ERROR OPENING FILE: " << *args->OUTPUT_FILE << std::endl;
         while (true) {
             std::cout << "Print the generated script into console? (y/n): ";
@@ -668,7 +673,11 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
         }
         exit(1);
     }
+    write_to_output_log("Output file created.");
+    write_to_output_log("Appending output to the file.");
     file << output;
+    write_to_output_log("Appended output to the file.");
+    write_to_output_log("Closing file.");
     file.close();
     // create message()
     std::cout << "File created: " << *args->OUTPUT_FILE << std::endl;
@@ -685,7 +694,4 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     if(args->batchtoshell)std::cout << "batchtoshell" << std::endl;
     if(args->HOME_PATH)std::cout << "home path" << std::endl;
     if(args->disable_atrc_warnings)std::cout << "disable atrc warnings" << std::endl;
-
-    // Clean up
-    // cleanup();
 }

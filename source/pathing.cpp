@@ -7,6 +7,7 @@
 
 // NOTE Paths need to end in /
 void pathing(std::string &input, battosh_info *args){
+	// TODO NOTE UNEFFICIENT... LOOPS THROUGH ENTIRE FILE EVERY TIME
 	std::string output = "";
 	for(char &c : input){
 	    if(c == '\\'){

@@ -1,0 +1,7 @@
+[GENERAL]
+
+! Wil lbe added to the start of the file
+file_start=#/bin/bash
+
+! Will be added to the ending of a file
+file_end=

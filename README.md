@@ -15,6 +15,13 @@ Linux: ```~/.config/battosh/ATRC```
 
 Windows: ```C:\Users\%USERNAME%\battosh\ATRC```
 
+
+Every run will create logs at:
+
+Linux: ```~/.config/battosh/logs```
+
+Windows: ```C:\Users\%USERNAME%\battosh\logs```
+
 ## Download
 
 See [releases](https://github.com/Antonako1/battosh/releases)
