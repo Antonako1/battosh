@@ -1,7 +1,5 @@
 Notes:
     "Not included" means that the given flag will not be translated to shell
-
-    Above everything will have a comment explaining what it does
     
     Not everything can be modified, these instances will be also
     told in the .atrc files
@@ -29,7 +27,7 @@ ATRC syntax:
     [...]       => Block
     key=val     => Key
     !           => Comment
-    %*[int]%         => Insert symbol
+    %*[int]%    => Insert symbol
     &           => Whitespace symbol
     \           => Prefix symbol
 

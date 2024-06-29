@@ -2,8 +2,6 @@
 #include "ATRC_VALUES.hxx"
 #include <iostream>
 #include <string>
-#include <vector>
-#include <memory>
 #include <fstream>
 #include <filesystem>
 #include <ctime>

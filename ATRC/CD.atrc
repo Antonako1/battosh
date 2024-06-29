@@ -12,9 +12,6 @@
 !     Since linux has all of the drives under /mnt/, this flag is not needed
 !     and thus will not be included. 
 ! 
-!     The CD.. command (greatest shortcut known to mankind) is parsed (partly due to faulty a lexer) as "CD.."
-!     which would be treated as an unknown token.
-!     All occurances of "CD.." will be turned to "cd .."
 ! 
 ! Command: CH | CHDIR
 ! Flags:
