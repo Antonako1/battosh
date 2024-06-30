@@ -92,19 +92,23 @@ cd_p=$(dirname %*%)
 cd_n=$(filename %*%)
 
 !extension
+!TODO
 cd_x=
 
 ! Their combinations
 %common_dpnx%=$(dirname %*0%)/$(basename %*0%)
 cd_dp=$(dirname %*%)
 cd_dn=%common_dpnx%
+!TODO
 cd_dx=
 cd_pn=%common_dpnx%
+!TODO
 cd_px=
 cd_nx=$(basename %*0%)
 
 cd_dpn=%common_dpnx%
 cd_dnx=%common_dpnx%
+!TODO
 cd_dpx=
 cd_npx=%common_dpnx%
 

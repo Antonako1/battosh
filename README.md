@@ -67,7 +67,7 @@ Linux:
 see file processing flags to inject and modify code during compile `ATRC\PROCESS_FLAGS.atrc`
 
 battosh can turn the following commands/statements with their flags into bash
-
+    
     Variables               =>              See ATRC\VARIABLES.atrc
     ECHO                    =>              See ATRC\ECHO.atrc
     @ECHO (on/off)          =>              See ATRC\ECHO.atrc
@@ -79,21 +79,22 @@ battosh can turn the following commands/statements with their flags into bash
     CD, CHDIR, CD..         =>              See ATRC\CD.atrc
     EXIT                    =>              See ATRC\EXIT.atrc
     Relational operators    =>              See ATRC\RELATIONAL_OPERATORS.atrc
-    Logical operators       =>              See 
-    Assignment operators    =>              See
-    Bitwise operators       =>              See
-    Arithmetic operators    =>              See
-    String operators        =>              See
+    Logical operators       =>              See ATRC\LOGICAL_OPERATORS.atrc 
+    Assignment operators    =>              See ATRC\ASSIGNMENT_OPERATORS.atrc
+    Bitwise operators       =>              See ATRC\BITWISE_OPERATORS.atrc
+    Arithmetic operators    =>              See ATRC\ARITHMETIC_OPERATORS.atrc
+    String operators        =>              See ATRC\STRING_OPERATORS.atrc
     IF, ELSE(ELSE IF)       =>              See ATRC\IF.atrc
     MKDIR, MD               =>              See ATRC\MKDIR.atrc
     RMDIR, RD               =>              See ATRC\RMDIR.atrc
-    REN, RENAME             =>              See
-    TIMEOUT                 =>              See
-    MOVE                    =>              See
-    HELP                    =>              See
-    PAUSE                   =>              See
-    DIR                     =>              See
+    REN, RENAME             =>              See ATRC\RENAME.atrc
+    TIMEOUT                 =>              See ATRC\TIMEOUT.atrc
+    MOVE                    =>              See ATRC\MOVE.atrc
+    HELP                    =>              See ATRC\HELP.atrc
+    PAUSE                   =>              See ATRC\PAUSE.atrc
+    DIR                     =>              See ATRC\DIR.atrc
     SET                     =>              See ATRC\SET.atrc
+    COPY                    =>              See ATRC\COPY.atrc
 
 ### Known issues
 

@@ -1,0 +1,21 @@
+!   PROCESS FLAGS ATRC FILE
+!   
+!   About:
+!       Process flags allow you to inject shell
+!       code to the file during file's processing
+!   
+!   Command: ::#<FLAG>
+!   Flags:
+!   
+!   Flag                => About
+!   
+!
+!   %%%%%%%%%%%
+!   Example(s):
+!   %%%%%%%%%%%
+!   
+!   Sources:
+!   
+[CMD]
+! program will take this as the inject symbol
+inject=::#
