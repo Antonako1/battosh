@@ -60,7 +60,6 @@ Linux:
         examples:
             battosh file.bat                    -> outputs file.sh
             battosh file.bat -o test.sh         -> outputs test.sh
-            battosh file.bat -sw --wsl          -> changes paths to work on wsl, saves whitespaces
 
 see file processing flags to inject and modify code during compile `ATRC\PROCESS_FLAGS.atrc`
 

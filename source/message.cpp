@@ -34,7 +34,6 @@ Usage:
     examples:
         battosh file.bat                    -> outputs file.sh
         battosh file.bat -o test.sh         -> outputs test.sh
-        battosh file.bat -sw --wsl          -> changes paths to work on wsl, saves whitespaces
 )battosh";
         break;
     case VERSION_:
