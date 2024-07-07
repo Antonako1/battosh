@@ -1,21 +1,16 @@
 #!/bin/bash
-set +x
-cd $(dirname $0) 
-# HI 
-source ./batch/globals.bat 
-cd ..  
-cd ../build  
-copy ../test/test.bat ./win/test.bat 
-copy ../extern_dependencies/ATRC/libs/win/* ./win/ 
+# rmdir 
+# rmdir test 
+# rmdir test 
+# rmdir test 
+# rmdir test 
 
-ATRC_PATH="C:/Users/$USER/battosh/ATRC" 
-if [ ! -e $ATRC_PATH ]; then
-    mkdir $ATRC_PATH     
+if [ 1 -le 1 ]; then
+    mkdir test     
 fi
-copy ../ATRC/* $ATRC_PATH 
-echo "" 
-echo "" 
-./win/$PROJECTNAME.exe $*
-echo $? 
-copy ./win/*.sh ../test 
-cd ..  
+
+clear
+cd ..
+cd test  
+
+ls 

@@ -85,5 +85,5 @@
 !     man find
 [DIR]
 ! base command
-command=dir&
+command=ls&
 %command_alternative%=find&

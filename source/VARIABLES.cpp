@@ -59,7 +59,7 @@ std::string VARIABLES[] = {
 
 void quicker_read(std::string key, std::string original_value, std::vector<std::string> inserts, std::string &output, battosh_info *fd){
 	std::string cts="";
-	read_key_to_output("VARIABLES", key, original_value, fd_variables.get(), cts, output, fd->disable_atrc_warnings);
+	read_key_to_output("VARIABLES", key, original_value, fd_variables.get(), output, fd->disable_atrc_warnings);
 	InsertVar(output, inserts, fd_variables.get());
 };
 
@@ -190,7 +190,6 @@ void variablify(std::string &input, battosh_info *args){
 				match = std::get<1>(results_);
 			}
 
-			std::string cts1 = "";
 			std::string df_input = "";
 
 			switch(match){
@@ -333,7 +332,6 @@ void variablify(std::string &input, battosh_info *args){
 					VARIABLES[array_index].substr(1, VARIABLES[array_index].size() -2),
 					df_input,	
 					fd_variables.get(), 
-					cts1, 
 					buffer, 
 					args->disable_atrc_warnings
 				);

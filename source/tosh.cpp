@@ -43,12 +43,11 @@ void read_key_to_output
     std::string key,
     std::string original_value,
     ATRCFiledata *fd,
-    std::string &cts, 
     std::string &output, 
     bool daw
     )
 {
-    cts = "";    
+    std::string cts = "";    
     ReadKey(fd, block, key, cts);
     if(cts == ""){
         if(!DoesExistKey(fd, block, key)){
@@ -145,22 +144,22 @@ void if_statement_workings(
             output += "! ";
             break;
         case EQU:
-            read_key_to_output("RELATIONAL_OPERATORS", "EQU", "-eq ", fd_relational_operators.get(), cts1, output, daw);
+            read_key_to_output("RELATIONAL_OPERATORS", "EQU", "-eq ", fd_relational_operators.get(), output, daw);
             break;
         case NEQ:
-            read_key_to_output("RELATIONAL_OPERATORS", "NEQ", "-ne ", fd_relational_operators.get(), cts1, output, daw);
+            read_key_to_output("RELATIONAL_OPERATORS", "NEQ", "-ne ", fd_relational_operators.get(), output, daw);
             break;
         case LSS:
-            read_key_to_output("RELATIONAL_OPERATORS", "LSS", "-lt ", fd_relational_operators.get(), cts1, output, daw);
+            read_key_to_output("RELATIONAL_OPERATORS", "LSS", "-lt ", fd_relational_operators.get(), output, daw);
             break;
         case LEQ:
-            read_key_to_output("RELATIONAL_OPERATORS", "LEQ", "-le ", fd_relational_operators.get(), cts1, output, daw);
+            read_key_to_output("RELATIONAL_OPERATORS", "LEQ", "-le ", fd_relational_operators.get(), output, daw);
             break;
         case GTR:
-            read_key_to_output("RELATIONAL_OPERATORS", "GTR", "-gt ", fd_relational_operators.get(), cts1, output, daw);
+            read_key_to_output("RELATIONAL_OPERATORS", "GTR", "-gt ", fd_relational_operators.get(), output, daw);
             break;
         case GEQ:
-            read_key_to_output("RELATIONAL_OPERATORS", "GEQ", "-ge ", fd_relational_operators.get(), cts1, output, daw);
+            read_key_to_output("RELATIONAL_OPERATORS", "GEQ", "-ge ", fd_relational_operators.get(), output, daw);
             break;
         case AND:
             output += "&& ";
@@ -175,13 +174,13 @@ void if_statement_workings(
             break;
         case LPAREN:
             if(ignore_case){
-                read_key_to_output("IF", "command_ignore_case_end", " ]]; then", fd_if.get(), cts1, output, daw);
+                read_key_to_output("IF", "command_ignore_case_end", " ]]; then", fd_if.get(), output, daw);
                 output += "\n";
                 output += std::string(if_statement_intend, ' ');
-                read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), output, daw);
                 end_with_unset.push_back(if_statement_intend % if_statement_intend_const);
             } else {
-                read_key_to_output("IF", "command_end", " ]; then", fd_if.get(), cts1, output, daw);
+                read_key_to_output("IF", "command_end", " ]; then", fd_if.get(), output, daw);
             }
             if (tokens->at(index + 1).command != ENDLINE) {
                 output += "\n";
@@ -209,13 +208,13 @@ void if_statement_workings(
                 }
 
                 if(ignore_case){
-                    read_key_to_output("IF", "command_ignore_case_end", " ]]; then", fd_if.get(), cts1, output, daw);
+                    read_key_to_output("IF", "command_ignore_case_end", " ]]; then", fd_if.get(), output, daw);
                     output += "\n";
                     output += std::string(if_statement_intend, ' ');
-                    read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                    read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), output, daw);
                     output += "\n";
                 } else {
-                    read_key_to_output("IF", "command_end", " ]; then", fd_if.get(), cts1, output, daw);
+                    read_key_to_output("IF", "command_end", " ]; then", fd_if.get(), output, daw);
                     output += "\n";
                 }
                 break_statemnt = true;
@@ -290,40 +289,40 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     output += flag + " ";
                 }
                 if(!updated_path){
-                    read_key_to_output("ECHO", "command", "echo ", fd_echo.get(), cts1, output, daw);
+                    read_key_to_output("ECHO", "command", "echo ", fd_echo.get(), output, daw);
                 }
                 add_end_values(parsed_token, output, args);
                 break;
             }
             case CLS: {
-                read_key_to_output("CLS", "command", "clear", fd_cls.get(), cts1, output, daw);
+                read_key_to_output("CLS", "command", "clear", fd_cls.get(), output, daw);
                 break;
             }
             case VER: {
-                read_key_to_output("VER", "command", "uname -r", fd_ver.get(), cts1, output, daw);
+                read_key_to_output("VER", "command", "uname -r", fd_ver.get(), output, daw);
                 break;
             }
             case CALL:{
-                read_key_to_output("CALL", "command", "source ", fd_call.get(), cts1, output, daw);
+                read_key_to_output("CALL", "command", "source ", fd_call.get(), output, daw);
                 add_end_values(parsed_token, output, args);
                 break;
             }
             case TYPE: {
-                read_key_to_output("TYPE", "command", "cat ", fd_type.get(), cts1, output, daw);
+                read_key_to_output("TYPE", "command", "cat ", fd_type.get(), output, daw);
                 add_end_values(parsed_token, output, args);
                 break;
             }
             case CDBACK:
-                read_key_to_output("CD", "back", "cd ..", fd_cd.get(), cts1, output, daw);
+                read_key_to_output("CD", "back", "cd ..", fd_cd.get(), output, daw);
                 break;
             case ECHO_emptyline:
-                read_key_to_output("ECHO", "command", "echo ", fd_echo.get(), cts1, output, daw);
-                read_key_to_output("ECHO", "blank_line", echo_flag.LINUX_NEWLINE + " ", fd_echo.get(), cts2, output, daw);
+                read_key_to_output("ECHO", "command", "echo ", fd_echo.get(), output, daw);
+                read_key_to_output("ECHO", "blank_line", echo_flag.LINUX_NEWLINE + " ", fd_echo.get(), output, daw);
                 break;
             case CHDIR:
             case CD: {
                 buffer = "";
-                read_key_to_output("CD", "command", "cd %*% ", fd_cd.get(), cts1, buffer, daw);
+                read_key_to_output("CD", "command", "cd %*% ", fd_cd.get(), buffer, daw);
                 std::vector<std::string> temp = {add_end_values_as_string(parsed_token, args)};
                 InsertVar(buffer, temp, fd_cd.get());
                 output += buffer;
@@ -333,9 +332,9 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 std::string temp = parsed_token.values[0];
                 std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
                 if(temp == "off"){
-                    read_key_to_output("ECHO", "off", "set +x", fd_echo.get(), cts1, output, daw);
+                    read_key_to_output("ECHO", "off", "set +x", fd_echo.get(), output, daw);
                 } else {
-                    read_key_to_output("ECHO", "on", "set -x", fd_echo.get(), cts1, output, daw);
+                    read_key_to_output("ECHO", "on", "set -x", fd_echo.get(), output, daw);
                 }
                 break;
             }
@@ -394,15 +393,15 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 std::vector<std::string> inserts__ = {var_name, value};
                 for(const auto &flag : parsed_token.flags){
                     if(!flagged && flag == set_flag.declare_int){
-                        read_key_to_output("SET", "integer", set_flag.linux_int, fd_set.get(), cts1, temp_buffer, daw);
+                        read_key_to_output("SET", "integer", set_flag.linux_int, fd_set.get(), temp_buffer, daw);
                         flagged = true;
                     } else if (!flagged && flag == set_flag.declare_prompt){
-                        read_key_to_output("SET", "prompt", set_flag.linux_int, fd_set.get(), cts1, temp_buffer, daw);
+                        read_key_to_output("SET", "prompt", set_flag.linux_int, fd_set.get(), temp_buffer, daw);
                         flagged = true;
                     }
                 }
                 if(!flagged){
-                    read_key_to_output("SET", "command", set_flag.linux_int, fd_set.get(), cts1, temp_buffer, daw);
+                    read_key_to_output("SET", "command", set_flag.linux_int, fd_set.get(), temp_buffer, daw);
                 }
                 InsertVar(temp_buffer, inserts__, fd_set.get());
                 output += temp_buffer;
@@ -425,7 +424,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case REM: {
-                read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), cts1, output, daw);
+                read_key_to_output("COMMENT", "command", "# ", fd_comment.get(), output, daw);
                 add_end_values(parsed_token, output, args);
                 break;
             }
@@ -434,14 +433,14 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 bool ignore_case = false;
                 for(const auto& flag : parsed_token.flags){
                     if(flag == if_flag.IGNORE_CASE){
-                        read_key_to_output("IF", "set_ignore_case", "shopt -s nocasematch", fd_if.get(), cts1, output, daw);
+                        read_key_to_output("IF", "set_ignore_case", "shopt -s nocasematch", fd_if.get(), output, daw);
                         output += "\n";
-                        read_key_to_output("IF", "command_ignore_case", "if [[ ", fd_if.get(), cts1, output, daw);
+                        read_key_to_output("IF", "command_ignore_case", "if [[ ", fd_if.get(), output, daw);
                         ignore_case = true;       
                     }
                 }
                 if(!ignore_case){
-                    read_key_to_output("IF", "command", "if [ ", fd_if.get(), cts1, output, daw);
+                    read_key_to_output("IF", "command", "if [ ", fd_if.get(), output, daw);
                 }
                 if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement, daw);
                 break;
@@ -481,9 +480,9 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                             if(flag == if_flag.IGNORE_CASE) nocando = true;
                         }
                         if(nocando){
-                            read_key_to_output("IF", "elseif_ignore_case", "elif [[ ", fd_if.get(), cts1, output, daw);
+                            read_key_to_output("IF", "elseif_ignore_case", "elif [[ ", fd_if.get(), output, daw);
                         }else{
-                            read_key_to_output("IF", "elseif", "elif [ ", fd_if.get(), cts1, output, daw);
+                            read_key_to_output("IF", "elseif", "elif [ ", fd_if.get(), output, daw);
                         }
                         if_statement_workings(tokens, i, output, inside_if, short_hand_if_statement,daw);
                     } else {
@@ -491,7 +490,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         output = output.substr(0, output.size() - 1 - if_statement_intend_const);
                         if_statement_intend = if_statement_intend-if_statement_intend_const<0?0:if_statement_intend-if_statement_intend_const;
                         if_statement_intend += if_statement_intend_const;
-                        read_key_to_output("IF", "else", "else", fd_if.get(), cts1, output, daw);
+                        read_key_to_output("IF", "else", "else", fd_if.get(), output, daw);
                     }
                 } else {
                     // bad x4444
@@ -503,7 +502,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     if(if_statement_intend > 4){
                         if_statement_intend += if_statement_intend_const;
                     }
-                    read_key_to_output("IF", "if_statement_end", "fi", fd_if.get(), cts1, output, daw);
+                    read_key_to_output("IF", "if_statement_end", "fi", fd_if.get(), output, daw);
                     output += "\n";
                     
                     // trickery trickery
@@ -511,7 +510,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         if(end_with_unset[i] == if_statement_intend % if_statement_intend_const){
                             end_with_unset.pop_back();
                             output += std::string(if_statement_intend, ' ');
-                            read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                            read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), output, daw);
                             output += "\n";
                         } else {
                             end_with_unset[i]--;
@@ -523,16 +522,16 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 break;
             }
             case EXIT: {
-                read_key_to_output("EXIT", "command", "exit ", fd_exit.get(), cts1, output, daw);
+                read_key_to_output("EXIT", "command", "exit ", fd_exit.get(), output, daw);
                 bool num_provided = false;
                 for(const auto &flag : parsed_token.flags){
                     if(flag == exit_flag.EXIT_CURRENT_BATCH){
-                        read_key_to_output("EXIT", "errcode", exit_flag.LINUX_EXIT_CURRENT_BATCH, fd_exit.get(), cts1, output, daw);
+                        read_key_to_output("EXIT", "errcode", exit_flag.LINUX_EXIT_CURRENT_BATCH, fd_exit.get(), output, daw);
                         output += parsed_token.values.at(0);
                         num_provided = true;
                     }
                     else if(flag == exit_flag.GET_HELP){
-                        read_key_to_output("EXIT", "get_help", exit_flag.LINUX_GET_HELP + " ", fd_exit.get(), cts1, output, daw);
+                        read_key_to_output("EXIT", "get_help", exit_flag.LINUX_GET_HELP + " ", fd_exit.get(), output, daw);
                     }
                 }
                 if(!num_provided){
@@ -547,13 +546,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 bool add_force_mode = false;
                 for(const auto &flag : parsed_token.flags){
                     if(flag == rmdir_flag.GET_HELP){
-                        read_key_to_output("RMDIR", "command", "rmdir ", fd_rmdir.get(), cts1, output, daw);
-                        read_key_to_output("RMDIR", "get_help", rmdir_flag.LINUX_GET_HELP + " ", fd_rmdir.get(), cts1, output, daw);
+                        read_key_to_output("RMDIR", "command", "rmdir ", fd_rmdir.get(), output, daw);
+                        read_key_to_output("RMDIR", "get_help", rmdir_flag.LINUX_GET_HELP + " ", fd_rmdir.get(), output, daw);
                         updated_command = true;
                         continue;
                     } else if(flag == rmdir_flag.REMOVE_DIR_TREE){
                         if(!updated_command) {
-                            read_key_to_output("RMDIR", "modified_command", "rmdir ", fd_rmdir.get(), cts1, output, daw);
+                            read_key_to_output("RMDIR", "modified_command", "rmdir ", fd_rmdir.get(), output, daw);
                             updated_command = true;
                             add_force_mode = true;
                         }
@@ -564,11 +563,11 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     }
                 }
                 if(!updated_command){
-                    read_key_to_output("RMDIR", "command", "rmdir ", fd_rmdir.get(), cts1, output, daw);
+                    read_key_to_output("RMDIR", "command", "rmdir ", fd_rmdir.get(), output, daw);
                 } else if(add_quiet_mode && add_force_mode){
-                    read_key_to_output("RMDIR", "remove_dir_tree_force", rmdir_flag.LINUX_REMOVE_DIR_TREE_FORCE + " ", fd_rmdir.get(), cts1, output, daw);
+                    read_key_to_output("RMDIR", "remove_dir_tree_force", rmdir_flag.LINUX_REMOVE_DIR_TREE_FORCE + " ", fd_rmdir.get(), output, daw);
                 } else if (!add_quiet_mode && add_force_mode){
-                    read_key_to_output("RMDIR", "remove_dir_tree", rmdir_flag.LINUX_REMOVE_DIR_TREE + " ", fd_rmdir.get(), cts1, output, daw);
+                    read_key_to_output("RMDIR", "remove_dir_tree", rmdir_flag.LINUX_REMOVE_DIR_TREE + " ", fd_rmdir.get(), output, daw);
                 }
                 add_end_values(parsed_token, output, args);
                 if(add_quiet_mode){
@@ -578,13 +577,13 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             }
             case MD:
             case MKDIR: {
-                read_key_to_output("MKDIR", "command", "mkdir ", fd_mkdir.get(), cts1, output, daw);
+                read_key_to_output("MKDIR", "command", "mkdir ", fd_mkdir.get(), output, daw);
                 if(args->mkdir_p){
-                    read_key_to_output("MKDIR", "mkdir_p", "mkdir -p ", fd_mkdir.get(), cts1, output, daw);
+                    read_key_to_output("MKDIR", "mkdir_p", "mkdir -p ", fd_mkdir.get(), output, daw);
                 }
                 for(const auto &flag : parsed_token.flags){
                     if(flag == mkdir_flag.GET_HELP){
-                        read_key_to_output("MKDIR", "get_help", mkdir_flag.LINUX_GET_HELP + " ", fd_mkdir.get(), cts1, output, daw);
+                        read_key_to_output("MKDIR", "get_help", mkdir_flag.LINUX_GET_HELP + " ", fd_mkdir.get(), output, daw);
                     }
                 }
                 add_end_values(parsed_token, output, args);
@@ -596,6 +595,11 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 add_end_values(parsed_token, output, args);
                 break;
             }
+            case COPY: {
+                output += "cp ";
+                add_end_values(parsed_token, output, args);
+                break;
+            }
             case ENDLINE: {
                 output += "\n";
                 break;
@@ -603,8 +607,8 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
 
             // TODO WIP
             case DIR: {
-                output += "ls ";
-
+                read_key_to_output("DIR", "command", "ls ", fd_dir.get(), output, daw);
+                // output += "ls ";
                 for(const auto &flag : parsed_token.flags){
                     if(flag == dir_flag.GET_HELP){
                         output += dir_flag.LINUX_GET_HELP + " ";
@@ -625,7 +629,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 
                 if_statement_intend = if_statement_intend - if_statement_intend_const > 0 ? if_statement_intend-if_statement_intend_const:0;
                 output += std::string(if_statement_intend, ' ');
-                read_key_to_output("IF", "if_statement_end", "fi", fd_if.get(), cts1, output, daw);
+                read_key_to_output("IF", "if_statement_end", "fi", fd_if.get(), output, daw);
                 output += "\n";
 
                 // trickery trickery
@@ -633,7 +637,7 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                     if(end_with_unset[i] == if_statement_intend % if_statement_intend_const){
                         end_with_unset.pop_back();
                         output += std::string(if_statement_intend, ' ');
-                        read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), cts1, output, daw);
+                        read_key_to_output("IF", "unset_ignore_case", "shopt -u nocasematch", fd_if.get(), output, daw);
                         output += "\n";
                     } else {
                         end_with_unset[i]--;

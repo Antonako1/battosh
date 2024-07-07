@@ -1,7 +1,7 @@
 [GENERAL]
 
-! Wil lbe added to the start of the file
+! Will be added to the start of the file.
 file_start=#/bin/bash
 
-! Will be added to the ending of a file
+! Will be added to the end of the file
 file_end=

@@ -8,7 +8,7 @@
     const bool not___defined___ = bool( std::cout << "%%%DEBUG MODE%%%" << std::endl );
 #endif
 
-#define VERSION             "0.0.2"
+#define VERSION             "1.0.0"
 
 #include <string>
 #include <vector>
@@ -76,7 +76,6 @@ std::string block,
 std::string key,
 std::string original_value,
 ATRCFiledata *fd,
-std::string &cts,
 std::string &output,
 bool daw
 );

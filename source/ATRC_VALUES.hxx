@@ -9,6 +9,8 @@
 void ReadATRC_VALUES(battosh_info *args);
 
 
+extern std::unique_ptr<ATRCFiledata> fd_battosh;
+
 extern std::unique_ptr<ATRCFiledata> fd_variables;
 extern std::unique_ptr<ATRCFiledata> fd_echo;
 extern std::unique_ptr<ATRCFiledata> fd_comment;
@@ -19,14 +21,23 @@ extern std::unique_ptr<ATRCFiledata> fd_type;
 extern std::unique_ptr<ATRCFiledata> fd_cd;
 extern std::unique_ptr<ATRCFiledata> fd_exit;
 extern std::unique_ptr<ATRCFiledata> fd_relational_operators;
-//
-//
-//
-//
 extern std::unique_ptr<ATRCFiledata> fd_if;
 extern std::unique_ptr<ATRCFiledata> fd_mkdir;
 extern std::unique_ptr<ATRCFiledata> fd_rmdir;
+extern std::unique_ptr<ATRCFiledata> fd_dir;
 extern std::unique_ptr<ATRCFiledata> fd_set;
+extern std::unique_ptr<ATRCFiledata> fd_copy;
+extern std::unique_ptr<ATRCFiledata> fd_help;
+extern std::unique_ptr<ATRCFiledata> fd_move;
+extern std::unique_ptr<ATRCFiledata> fd_pause;
+extern std::unique_ptr<ATRCFiledata> fd_rename;
+extern std::unique_ptr<ATRCFiledata> fd_timeout;
+extern std::unique_ptr<ATRCFiledata> fd_string_operators;
+extern std::unique_ptr<ATRCFiledata> fd_process_flags;
+extern std::unique_ptr<ATRCFiledata> fd_logical_operators;
+extern std::unique_ptr<ATRCFiledata> fd_arithmetic_operators;
+extern std::unique_ptr<ATRCFiledata> fd_assignment_operators;
+extern std::unique_ptr<ATRCFiledata> fd_bitwise_operators;
 
 inline std::string get_home_dir(std::string homePath_arg = "") {
 

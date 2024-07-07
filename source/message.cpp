@@ -25,7 +25,6 @@ Usage:
                 --no-linux                  Program does not turn some paths from windows to linux
         -nc,    --no-comments               Program does not save comments
                 --disable-atrc-warnings     Disable warning messages from ATRC
-                --set-shell {shell}         Default: /bin/bash. Program will change bash to whatever shell you have provided
                 --set-mkdirp                Sets all MKDIR commands to have -p as it is the Windows default
         -qm,    --set-quietmode             CMD flag /Q will be turned to 2> /dev/null
         -ds,    --dir-sort                  When dir is translated to ls, add -l flag to ls (ls -l) 
@@ -36,7 +35,6 @@ Usage:
         battosh file.bat                    -> outputs file.sh
         battosh file.bat -o test.sh         -> outputs test.sh
         battosh file.bat -sw --wsl          -> changes paths to work on wsl, saves whitespaces
-        battosh file.bat --set-shell zsh    -> turns /bin/bash to /bin/zsh
 )battosh";
         break;
     case VERSION_:

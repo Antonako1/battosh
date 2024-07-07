@@ -10,6 +10,7 @@
 #include <stdexcept>
 
 namespace fs = std::filesystem;
+std::unique_ptr<ATRCFiledata> fd_battosh = nullptr;
 
 std::unique_ptr<ATRCFiledata> fd_variables = nullptr;
 std::unique_ptr<ATRCFiledata> fd_echo = nullptr;
@@ -21,16 +22,23 @@ std::unique_ptr<ATRCFiledata> fd_type = nullptr;
 std::unique_ptr<ATRCFiledata> fd_cd = nullptr;
 std::unique_ptr<ATRCFiledata> fd_exit = nullptr;
 std::unique_ptr<ATRCFiledata> fd_relational_operators = nullptr;
-//
-//
-//
-//
-
 std::unique_ptr<ATRCFiledata> fd_if = nullptr;
 std::unique_ptr<ATRCFiledata> fd_mkdir = nullptr;
 std::unique_ptr<ATRCFiledata> fd_rmdir = nullptr;
+std::unique_ptr<ATRCFiledata> fd_dir = nullptr;
 std::unique_ptr<ATRCFiledata> fd_set = nullptr;
-
+std::unique_ptr<ATRCFiledata> fd_copy = nullptr;
+std::unique_ptr<ATRCFiledata> fd_help = nullptr;
+std::unique_ptr<ATRCFiledata> fd_move = nullptr;
+std::unique_ptr<ATRCFiledata> fd_pause = nullptr;
+std::unique_ptr<ATRCFiledata> fd_rename = nullptr;
+std::unique_ptr<ATRCFiledata> fd_timeout = nullptr;
+std::unique_ptr<ATRCFiledata> fd_string_operators = nullptr;
+std::unique_ptr<ATRCFiledata> fd_process_flags = nullptr;
+std::unique_ptr<ATRCFiledata> fd_logical_operators = nullptr;
+std::unique_ptr<ATRCFiledata> fd_arithmetic_operators = nullptr;
+std::unique_ptr<ATRCFiledata> fd_assignment_operators = nullptr;
+std::unique_ptr<ATRCFiledata> fd_bitwise_operators = nullptr;
 
 
 void snw(const std::string& file, std::string& nw, const std::string& path) {
@@ -80,7 +88,8 @@ void ReadATRC_VALUES(battosh_info *args) {
 #endif
 
     std::string now_reading = "";
-
+    fd_battosh = reader("battosh.atrc", atrc_path);
+    
     fd_variables = reader("VARIABLES.atrc", atrc_path),
     fd_echo = reader("ECHO.atrc", atrc_path);
     fd_comment = reader("COMMENTS.atrc", atrc_path);
@@ -91,9 +100,21 @@ void ReadATRC_VALUES(battosh_info *args) {
     fd_cd = reader("CD.atrc", atrc_path);
     fd_exit = reader("EXIT.atrc", atrc_path);
     fd_relational_operators = reader("RELATIONAL_OPERATORS.atrc", atrc_path);
-    
     fd_if = reader("IF.atrc", atrc_path);
     fd_mkdir = reader("MKDIR.atrc", atrc_path);
     fd_rmdir = reader("RMDIR.atrc", atrc_path);
+    fd_dir = reader("DIR.atrc", atrc_path);
     fd_set = reader("SET.atrc", atrc_path);
+    fd_copy = reader("COPY.atrc", atrc_path);
+    fd_help = reader("HELP.atrc", atrc_path);
+    fd_move = reader("MOVE.atrc", atrc_path);
+    fd_pause = reader("PAUSE.atrc", atrc_path);
+    fd_rename = reader("RENAME.atrc", atrc_path);
+    fd_timeout = reader("TIMEOUT.atrc", atrc_path);
+    fd_string_operators = reader("STRING_OPERATORS.atrc", atrc_path);
+    fd_process_flags = reader("PROCESS_FLAGS.atrc", atrc_path);
+    fd_logical_operators = reader("LOGICAL_OPERATORS.atrc", atrc_path);
+    fd_arithmetic_operators = reader("ARITHMETIC_OPERATORS.atrc", atrc_path);
+    fd_assignment_operators = reader("ASSIGNMENT_OPERATORS.atrc", atrc_path);
+    fd_bitwise_operators = reader("BITWISE_OPERATORS.atrc", atrc_path);
 }

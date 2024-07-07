@@ -2,9 +2,7 @@
 !
 ! About:
 !     Writes text to screen
-!     
-!     The command is pretty simple to turn to shell :)
-! 
+
 !     Note: Due to "echo --help" echoing the ask for help to the screen, it must be passed straight to the binary
 !     
 !     Echo blank lines with:
@@ -70,8 +68,7 @@
 !     echo /?
 !     /bin/echo --help
 [ECHO]
-! This is the base command you can change it to your
-! souls liking if you have a better alternative :)
+! base command
 command=echo&
 
 ! for help command => ECHO /?

@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     // TODO check if file is .bat or .cmd
     info->INPUT_FILE = std::make_unique<std::string>(argv[1]);
     bool output_provided = false;
-    bool shell_provided = false;
+    // bool shell_provided = false;
     bool home_provided = false;
     for (int i = 1; i < argc; i++) {
         if (std::string(argv[i]) == "-h" || std::string(argv[i]) == "--help") {
@@ -55,16 +55,16 @@ int main(int argc, char *argv[]) {
         else if (std::string(argv[i]) == "--no-comments" || std::string(argv[i]) == "-nc"){
             info->no_comments = true;
         }
-        else if (std::string(argv[i]) == "--set-shell"){
-            if (i + 1 < argc) {
-                info->SHELL = std::make_unique<std::string>(argv[i + 1]);
-                i++;
-                shell_provided = true;
-            } else {
-                std::string error = "Shell not provided";
-                message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
-            }
-        } 
+        // else if (std::string(argv[i]) == "--set-shell"){
+        //     if (i + 1 < argc) {
+        //         info->SHELL = std::make_unique<std::string>(argv[i + 1]);
+        //         i++;
+        //         shell_provided = true;
+        //     } else {
+        //         std::string error = "Shell not provided";
+        //         message(error, FL_FLAG_BATTOSH, HELP_, true, -3, -3);
+        //     }
+        // } 
         else if(std::string(argv[i]) == "-dr" || std::string(argv[i]) == "--dir-sort"){
             info->dirsort = true;
         }
@@ -108,10 +108,13 @@ int main(int argc, char *argv[]) {
         info->OUTPUT_FILE = std::make_unique<std::string>(output_file);
     }
 
-    if (!shell_provided) {
-        info->SHELL = std::make_unique<std::string>("bash");
-    }
-    
+    // if (!shell_provided) {
+    //     info->SHELL = std::make_unique<std::string>("bash");
+    // }
+    std::string temp = "";
+    read_key_to_output("GENERAL", "file_start", "#/bin/bash", fd_battosh.get(), temp, false);
+    info->SHELL = std::make_unique<std::string>(temp);
+
     if(!home_provided){
         info->HOME_PATH = std::make_unique<std::string>(get_home_dir(""));
     } else {
