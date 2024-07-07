@@ -119,6 +119,7 @@ std::string commands[] = {
 "&&",           std::to_string(AND),
 "||",           std::to_string(OR),
 "!",            std::to_string(NOT),
+"::#INJ ",            std::to_string(PF_INJ),
 };
 
 std::string look_ahead(size_t &index, const std::string &line) {
@@ -151,6 +152,7 @@ void add_token(std::vector<Token> *tokens, std::string &buffer, int line, int co
         std::string newstr = buffer;
         std::transform(newstr.begin(), newstr.end(), newstr.begin(), ::toupper);
         _token.command = get_command(newstr);
+        // std::cout  << "'" << newstr << "'" << _token.command  << std::endl;
         if (_token.command == -1) {
             _token.command = UNKNOWN;
         }
@@ -217,7 +219,6 @@ std::vector<Token>* lexical(battosh_info *args) {
 #ifdef _WIN32
                 case '\n':
                 case '\r':
-                    // std::cout << "line endings" << std::endl;
                     if (!buffer.empty()) {
                         if(!add_echo_new_line(tokens, buffer, line_num, column_num))
                             add_token(tokens, buffer, line_num, column_num, -1);
@@ -268,8 +269,21 @@ std::vector<Token>* lexical(battosh_info *args) {
                         buffer = "";
                         add_token(tokens, buffer, line_num, column_num, ENDLINE);
 
+                        // look for ::#
                         buffer = "::";
-                        add_token(tokens, buffer, line_num, column_num, REM);
+                        index++;
+                        if(look_ahead(index, line) == "#"){
+                            std::string nextchar = "\0";
+                            while(nextchar != " "){
+                                nextchar = look_ahead(index, line);
+                                index++;
+                                buffer += nextchar; 
+                            }
+                            index--;
+                            add_token(tokens, buffer, line_num, column_num, -1);
+                        } else {
+                            add_token(tokens, buffer, line_num, column_num, REM);
+                        }
                         skip = true;
                         is_comment = true;
                         break;

@@ -163,7 +163,11 @@ enum batch_commands{
     MOD,            // %
 
     EXIST,          // -- (exist) - check if file exists | -e
-    // DEFINED,        //
+    //TODO DEFINED,        //
+
+
+    // PROCESS FLAGS
+    PF_INJ,
     
     /*
     // TODO

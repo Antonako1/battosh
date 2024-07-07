@@ -35,4 +35,4 @@
 !
 [COPY]
 ! base command
-command=cp
+command=cp&

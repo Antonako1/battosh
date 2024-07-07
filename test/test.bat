@@ -1,1 +1,3 @@
-copy test test2
+set "PATHING=..\test"
+copy %PATHING% test2
+::#inj export PATHING

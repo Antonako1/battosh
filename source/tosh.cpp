@@ -47,7 +47,7 @@ void read_key_to_output
     bool daw
     )
 {
-    std::string cts = "";    
+    std::string cts = "";
     ReadKey(fd, block, key, cts);
     if(cts == ""){
         if(!DoesExistKey(fd, block, key)){
@@ -247,7 +247,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     if(args->quiet){
         QUIET_MODE = "2> /dev/null";
     }
-    output += "#!/bin/" + *args->SHELL + "\n";
+    // output += "#!/bin/" + *args->SHELL + "\n";
+    read_key_to_output("GENERAL", "file_start", "#/bin/bash", fd_battosh.get(), cts1, false);
+    args->SHELL = std::make_unique<std::string>(cts1);
+
+    write_to_output_log("File start: " + *args->SHELL);
+
     bool inside_if = false;
     bool if_end = false;
     int short_hand_if_statement = 0; // 0 = false, 1 = true, 2 = first pass, 3 = second pass, 4 = end if statement
@@ -618,6 +623,9 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                 add_end_values(parsed_token, output, args);
                 break;
             }
+
+            case PF_INJ:
+                add_end_values(parsed_token, output, args);
         }
 
         if(short_hand_if_statement != 0){

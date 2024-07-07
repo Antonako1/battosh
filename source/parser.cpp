@@ -78,6 +78,7 @@ std::vector<ParsedToken>* parse(std::vector<Token> *tokens, battosh_info *args){
             }
 
             // parse to the end stack
+            case PF_INJ:
             case DIR:
             case ECHO:
             case CALL:

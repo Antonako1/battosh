@@ -108,12 +108,11 @@ int main(int argc, char *argv[]) {
         info->OUTPUT_FILE = std::make_unique<std::string>(output_file);
     }
 
+    // moved to tosh
     // if (!shell_provided) {
     //     info->SHELL = std::make_unique<std::string>("bash");
     // }
     std::string temp = "";
-    read_key_to_output("GENERAL", "file_start", "#/bin/bash", fd_battosh.get(), temp, false);
-    info->SHELL = std::make_unique<std::string>(temp);
 
     if(!home_provided){
         info->HOME_PATH = std::make_unique<std::string>(get_home_dir(""));
@@ -133,7 +132,6 @@ int main(int argc, char *argv[]) {
     write_to_output_log("No linux paths: " + std::to_string(info->no_linux));
     write_to_output_log("No whitespace: " + std::to_string(info->no_whitespace));
     write_to_output_log("No comments: " + std::to_string(info->no_comments));
-    write_to_output_log("Shell used: " + *info->SHELL);
     write_to_output_log("-p to mkdir: " + std::to_string(info->mkdir_p));
     write_to_output_log("Output to null: " + std::to_string(info->quiet));
     write_to_output_log("Sort directories: " + std::to_string(info->dirsort));

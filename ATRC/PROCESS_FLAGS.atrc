@@ -4,18 +4,19 @@
 !       Process flags allow you to inject shell
 !       code to the file during file's processing
 !   
-!   Command: ::#<FLAG>
+!   Command: ::#{FLAG} {CODE}
 !   Flags:
 !   
 !   Flag                => About
-!   
+!   inj                 => Inject shell script line
 !
 !   %%%%%%%%%%%
 !   Example(s):
 !   %%%%%%%%%%%
-!   
-!   Sources:
-!   
-[CMD]
-! program will take this as the inject symbol
-inject=::#
+!   REM Inject line to export the variables
+!   set "VARIABLE=Hello world"
+!   ::#inj export VARIABLE
+!   =>
+!   VARIABLE=Hello world
+!   export VARIABLE
+!
