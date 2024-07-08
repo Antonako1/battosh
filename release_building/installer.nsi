@@ -5,7 +5,7 @@ unicode True
 !define HWND_BROADCAST 0xFFFF
 !define WM_SETTINGCHANGE 0x001A
 
-!define VERSION "0.0.2"
+!define VERSION "0.1.0"
 !define PROJECTNAME "battosh"
 
 Outfile "${PROJECTNAME}-win-installer-v${VERSION}.exe"

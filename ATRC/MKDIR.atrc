@@ -1,1 +1,43 @@
- 
+!   MKDIR ATRC FILE
+!   
+!   About:
+!       Creates a directory
+!       flag --set-mkdirp gives -p flag for all mkdir
+!       commands when translated
+!   
+!   Command: MKDIR
+!   Flags:
+!   
+!   Flag                => About
+!   1. /?               => Displays help message
+!   
+!   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!   Turning command and flags to shell
+!   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!   
+!   Command: mkdir
+!   Flags:
+!   
+!   Converted flag 
+!   (and or command)    => About
+!   1. --help           => Displays help message
+!   
+!   %%%%%%%%%%%
+!   Example(s):
+!   %%%%%%%%%%%
+!   MKDIR .\temp\
+!   @REM --set-mkdirp turned on
+!   MKDIR .\assets\svg\
+!   =>
+!   mdkir ./temp/
+!   mkdir -p ./assets/svg/
+!
+!   Sources:
+!   MKDIR /?
+!   mkdir --help
+!   
+[MKDIR]
+! base command
+command=mkdir&
+get_help=mkdir --help&
+mkdir_p= mkdir -p&

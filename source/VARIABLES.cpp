@@ -66,7 +66,7 @@ void quicker_read(std::string key, std::string original_value, std::vector<std::
 std::tuple<int, int> check_for_full_var_matches(std::string &buffer){
 	for(int i = 0; i < sizeof(VARIABLES)/sizeof(VARIABLES[0]); i+=2){
         if(buffer == VARIABLES[i]){
-			std::cout << buffer << " : " << VARIABLES[i] << " : " << i << " : " << std::stoi(VARIABLES[i+1]) << std::endl;
+			// std::cout << buffer << " : " << VARIABLES[i] << " : " << i << " : " << std::stoi(VARIABLES[i+1]) << std::endl;
             return {i, std::stoi(VARIABLES[i+1])};
         }
     }

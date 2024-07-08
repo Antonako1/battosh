@@ -8,7 +8,7 @@
     const bool not___defined___ = bool( std::cout << "%%%DEBUG MODE%%%" << std::endl );
 #endif
 
-#define VERSION             "1.0.0"
+#define VERSION             "0.1.0"
 
 #include <string>
 #include <vector>

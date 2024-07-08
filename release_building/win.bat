@@ -1,4 +1,6 @@
 @echo off
+set "_VERSION_=0.1.0"
+set "ARCH=x86_64"
 setlocal
 cd /d %~dp0
 call ..\win\batch\globals.bat
@@ -19,7 +21,7 @@ COPY ..\LICENSE %BUILD_DIR%
 COPY ..\README.md %BUILD_DIR%
 COPY /Y/B ..\build\win\%PROJECTNAME%.exe %BUILD_DIR%
 COPY /Y/B ..\extern_dependencies\ATRC\libs\win\*.dll %BUILD_DIR%
-"C:\Program Files\7-Zip\7z.exe" a -tzip %BUILD_DIR%\%PROJECTNAME%-win-standalone.zip %BUILD_DIR%\%PROJECTNAME%.exe %BUILD_DIR%\ATRC\ %BUILD_DIR%\LICENSE %BUILD_DIR%\README.md %BUILD_DIR%\*.dll
+"C:\Program Files\7-Zip\7z.exe" a -tzip %BUILD_DIR%\%PROJECTNAME%-ver_%_VERSION_%-win-%ARCH%-standalone.zip %BUILD_DIR%\%PROJECTNAME%.exe %BUILD_DIR%\ATRC\ %BUILD_DIR%\LICENSE %BUILD_DIR%\README.md %BUILD_DIR%\*.dll
 
 REM INSTALLER BUILDING
 if not exist %BUILD_DIR%\nsis mkdir %BUILD_DIR%\nsis
@@ -39,6 +41,7 @@ cd %BUILD_DIR%\nsis
 makensis installer.nsi
 cd ..
 MOVE .\nsis\*.exe .
+REN *.exe %PROJECTNAME%-ver_%_VERSION_%-win-%ARCH%-installer.exe
 DEL %PROJECTNAME%.exe
 MOVE * ..
 endlocal

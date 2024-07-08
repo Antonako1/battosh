@@ -250,9 +250,8 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
     // output += "#!/bin/" + *args->SHELL + "\n";
     read_key_to_output("GENERAL", "file_start", "#/bin/bash", fd_battosh.get(), cts1, false);
     args->SHELL = std::make_unique<std::string>(cts1);
-
     write_to_output_log("File start: " + *args->SHELL);
-
+    output += cts1 + "\n";
     bool inside_if = false;
     bool if_end = false;
     int short_hand_if_statement = 0; // 0 = false, 1 = true, 2 = first pass, 3 = second pass, 4 = end if statement
@@ -582,9 +581,10 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
             }
             case MD:
             case MKDIR: {
-                read_key_to_output("MKDIR", "command", "mkdir ", fd_mkdir.get(), output, daw);
                 if(args->mkdir_p){
                     read_key_to_output("MKDIR", "mkdir_p", "mkdir -p ", fd_mkdir.get(), output, daw);
+                } else {
+                    read_key_to_output("MKDIR", "command", "mkdir ", fd_mkdir.get(), output, daw);
                 }
                 for(const auto &flag : parsed_token.flags){
                     if(flag == mkdir_flag.GET_HELP){

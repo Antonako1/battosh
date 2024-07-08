@@ -61,5 +61,5 @@ void start_output_log(battosh_info *args){
     filename += std::to_string(tm.tm_min)         + "";
     filename += std::to_string(tm.tm_sec);
     filename += ".txt";
-    std::cout << filename << std::endl;
+    std::cout << "Log file created at: " << filename << std::endl;
 }
