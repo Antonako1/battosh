@@ -400,12 +400,12 @@ void tosh(std::vector<ParsedToken> *tokens, battosh_info *args){
                         read_key_to_output("SET", "integer", set_flag.linux_int, fd_set.get(), temp_buffer, daw);
                         flagged = true;
                     } else if (!flagged && flag == set_flag.declare_prompt){
-                        read_key_to_output("SET", "prompt", set_flag.linux_int, fd_set.get(), temp_buffer, daw);
+                        read_key_to_output("SET", "prompt", set_flag.linux_prompt, fd_set.get(), temp_buffer, daw);
                         flagged = true;
                     }
                 }
                 if(!flagged){
-                    read_key_to_output("SET", "command", set_flag.linux_int, fd_set.get(), temp_buffer, daw);
+                    read_key_to_output("SET", "command", set_flag.linux_base, fd_set.get(), temp_buffer, daw);
                 }
                 InsertVar(temp_buffer, inserts__, fd_set.get());
                 output += temp_buffer;
